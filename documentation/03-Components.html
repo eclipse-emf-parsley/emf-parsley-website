@@ -8,13 +8,8 @@
 		Documentation
 		</li>
 		<li class="separator"><div class="separator">
-		<img src="triangle.gif" style="height:12px; margin-right: 2px; "  /><img src="triangle-90.gif" style="display:none; margin-right: 2px" height="12px" />
+		<img src="triangle.gif" style="height:12px; margin-right: 2px; display:none"  /><img src="triangle-90.gif" style="display:none; margin-right: 2px" height="12px" />
 		<a href="01-Introduction.php">Introduction</a></div>
-		<ul style="display: none;" id="subToc_01-Introduction.html">
-		<li id="01-Introduction.html#reflectiveComponents.html" ><a href="01-Introduction.php#reflectiveComponents.php" >Reflective Components</a></li>
-		<li id="01-Introduction.html#easyToCustomize.html" ><a href="01-Introduction.php#easyToCustomize.php" >Easy to Customize</a></li>
-		<li id="01-Introduction.html#architecture.html" ><a href="01-Introduction.php#architecture.php" >Architecture</a></li>
-		</ul>
 		</li>
 		<li class="separator"><div class="separator">
 		<img src="triangle.gif" style="height:12px; margin-right: 2px; "  /><img src="triangle-90.gif" style="display:none; margin-right: 2px" height="12px" />
@@ -83,6 +78,13 @@
 		</li>
 		<li class="separator"><div class="separator">
 		<img src="triangle.gif" style="height:12px; margin-right: 2px; "  /><img src="triangle-90.gif" style="display:none; margin-right: 2px" height="12px" />
+		<a href="Downloads.php">EMF Parsley - Downloads</a></div>
+		<ul style="display: none;" id="subToc_Downloads.html">
+		<li id="Downloads.html#Installing.html" ><a href="Downloads.php#Installing.php" >Last Stable Release:  0.1.0.v20130704-1430</a></li>
+		</ul>
+		</li>
+		<li class="separator"><div class="separator">
+		<img src="triangle.gif" style="height:12px; margin-right: 2px; "  /><img src="triangle-90.gif" style="display:none; margin-right: 2px" height="12px" />
 		<a href="samples.php">Xdoc Samples</a></div>
 		<ul style="display: none;" id="subToc_samples.html">
 		<li id="samples.html#Links.html" ><a href="samples.php#Links.php" >References</a></li>
@@ -145,14 +147,14 @@
 			  </ul>
 			</div>
 			<p>
-			The <em>Form Component</em> can be used to rapresent an <a class="jdoc" href="http://download.eclipse.org/modeling/emf/emf/javadoc/2.6.0/org/eclipse/emf/ecore/EObject.html" title="org.eclipse.emf.ecore.EObject">EObject</abbr></a> <a class="srcLink" href="https://github.com/eclipse/emf/blob/R2_8_0/plugins/org.eclipse.emf.ecore/src/org/eclipse/emf/ecore/EObject.java" title="View Source Code" >(src)</a> in a row-oriented form,
+			The <em>Form Component</em> can be used to rapresent an <a class="jdoc" href="http://download.eclipse.org/modeling/emf/emf/javadoc/2.9.0/org/eclipse/emf/ecore/EObject.html" title="org.eclipse.emf.ecore.EObject">EObject</abbr></a> <a class="srcLink" href="https://github.com/eclipse/emf/blob/R2_8_0/plugins/org.eclipse.emf.ecore/src/org/eclipse/emf/ecore/EObject.java" title="View Source Code" >(src)</a> in a row-oriented form,
 			like in the image above.
 			</p>
 			<p>
 			<div class="image" >
 			<a class="gallery" rel="prettyPhoto[all]" title="" href="images/03-components-form.png">
 				<img src="images/03-components-form.png" 
-					width="600px"
+					
 				/>
 			</a>
 			<div class="caption">
@@ -160,7 +162,7 @@
 			</div>
 			</p>
 			<p>
-			For each <a class="jdoc" href="http://download.eclipse.org/modeling/emf/emf/javadoc/2.6.0/org/eclipse/emf/ecore/EStructuralFeature.html" title="org.eclipse.emf.ecore.EStructuralFeature">EStructuralFeature</abbr></a> <a class="srcLink" href="https://github.com/eclipse/emf/blob/R2_8_0/plugins/org.eclipse.emf.ecore/src/org/eclipse/emf/ecore/EStructuralFeature.java" title="View Source Code" >(src)</a> defined for the <a class="jdoc" href="http://download.eclipse.org/modeling/emf/emf/javadoc/2.6.0/org/eclipse/emf/ecore/EClass.html" title="org.eclipse.emf.ecore.EClass">EClass</abbr></a> <a class="srcLink" href="https://github.com/eclipse/emf/blob/R2_8_0/plugins/org.eclipse.emf.ecore/src/org/eclipse/emf/ecore/EClass.java" title="View Source Code" >(src)</a>
+			For each <a class="jdoc" href="http://download.eclipse.org/modeling/emf/emf/javadoc/2.9.0/org/eclipse/emf/ecore/EStructuralFeature.html" title="org.eclipse.emf.ecore.EStructuralFeature">EStructuralFeature</abbr></a> <a class="srcLink" href="https://github.com/eclipse/emf/blob/R2_8_0/plugins/org.eclipse.emf.ecore/src/org/eclipse/emf/ecore/EStructuralFeature.java" title="View Source Code" >(src)</a> defined for the <a class="jdoc" href="http://download.eclipse.org/modeling/emf/emf/javadoc/2.9.0/org/eclipse/emf/ecore/EClass.html" title="org.eclipse.emf.ecore.EClass">EClass</abbr></a> <a class="srcLink" href="https://github.com/eclipse/emf/blob/R2_8_0/plugins/org.eclipse.emf.ecore/src/org/eclipse/emf/ecore/EClass.java" title="View Source Code" >(src)</a>
 			(that is the type of the object to rapresent), the component builds a row with a 
 			<em>label</em> with the name of the feature and a <em>control</em> to access the data. It can be used the factory
 			to create such a component, like in the code below.
@@ -215,7 +217,7 @@
 			<div class="image" >
 			<a class="gallery" rel="prettyPhoto[all]" title="" href="images/03-components-tree.png">
 				<img src="images/03-components-tree.png" 
-					width="600px"
+					
 				/>
 			</a>
 			<div class="caption">
@@ -259,7 +261,7 @@
 			<div class="image" >
 			<a class="gallery" rel="prettyPhoto[all]" title="" href="images/03-components-treeform.png">
 				<img src="images/03-components-treeform.png" 
-					width="600px"
+					
 				/>
 			</a>
 			<div class="caption">

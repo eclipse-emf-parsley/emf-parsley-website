@@ -8,13 +8,8 @@
 		Documentation
 		</li>
 		<li class="separator"><div class="separator">
-		<img src="triangle.gif" style="height:12px; margin-right: 2px; "  /><img src="triangle-90.gif" style="display:none; margin-right: 2px" height="12px" />
+		<img src="triangle.gif" style="height:12px; margin-right: 2px; display:none"  /><img src="triangle-90.gif" style="display:none; margin-right: 2px" height="12px" />
 		<a href="01-Introduction.php">Introduction</a></div>
-		<ul style="display: none;" id="subToc_01-Introduction.html">
-		<li id="01-Introduction.html#reflectiveComponents.html" ><a href="01-Introduction.php#reflectiveComponents.php" >Reflective Components</a></li>
-		<li id="01-Introduction.html#easyToCustomize.html" ><a href="01-Introduction.php#easyToCustomize.php" >Easy to Customize</a></li>
-		<li id="01-Introduction.html#architecture.html" ><a href="01-Introduction.php#architecture.php" >Architecture</a></li>
-		</ul>
 		</li>
 		<li class="separator"><div class="separator">
 		<img src="triangle.gif" style="height:12px; margin-right: 2px; "  /><img src="triangle-90.gif" style="display:none; margin-right: 2px" height="12px" />
@@ -83,6 +78,13 @@
 		</li>
 		<li class="separator"><div class="separator">
 		<img src="triangle.gif" style="height:12px; margin-right: 2px; "  /><img src="triangle-90.gif" style="display:none; margin-right: 2px" height="12px" />
+		<a href="Downloads.php">EMF Parsley - Downloads</a></div>
+		<ul style="display: none;" id="subToc_Downloads.html">
+		<li id="Downloads.html#Installing.html" ><a href="Downloads.php#Installing.php" >Last Stable Release:  0.1.0.v20130704-1430</a></li>
+		</ul>
+		</li>
+		<li class="separator"><div class="separator">
+		<img src="triangle.gif" style="height:12px; margin-right: 2px; "  /><img src="triangle-90.gif" style="display:none; margin-right: 2px" height="12px" />
 		<a href="samples.php">Xdoc Samples</a></div>
 		<ul style="display: none;" id="subToc_samples.html">
 		<li id="samples.html#Links.html" ><a href="samples.php#Links.php" >References</a></li>
@@ -107,19 +109,12 @@
 				</div>
 				
 		<p>
-		To get started, you should first download &quot;Eclipse Modeling Tools&quot; from <a href="http://www.eclipse.org/downloads/" >Eclipse
-		Downloads</a>
-		<div class="image" >
-		<a class="gallery" rel="prettyPhoto[all]" title="" href="images/eclipseModelingTools.png">
-			<img src="images/eclipseModelingTools.png" 
-				width="600px"
-			/>
-		</a>
-		<div class="caption">
-		</div>
-		</div>
-		
-		This will ensure you have EMF and related Tools installed and ready to go.
+		To get started, you may download &quot;Eclipse Modeling Tools&quot; or &quot;Eclipse IDE for Java and DSL Developers&quot; from <a href="http://www.eclipse.org/downloads/" >Eclipse
+		Downloads</a>.
+		</p>
+		<p>
+		This will ensure you have EMF and related Tools installed and ready to go (you may as well use any other Eclipse package, provided that you have installed
+		also EMF and its tools).
 		</p>
 		<a name="Installation" ></a>
 		<span style="float:left; border-top: 1px dotted #d4d4dd; margin-left: 0; margin-top: 5px;
@@ -128,17 +123,17 @@
 			<br style="clear:both"></br>
 			<h1>Installation</h1>
 			<p>
-			Now select &quot;Help&quot; -&gt; &quot;Install New Software...&quot; and in the &quot;Work with:&quot; field insert the EMF Components update
-			site <a href="http://www.rcp-vision.com/emf-components/updates/" >http://www.rcp-vision.com/emf-components/updates/</a>
+			Now select &quot;Help&quot; -&gt; &quot;Install New Software...&quot; and in the &quot;Work with:&quot; field insert the EMF Parsley update
+			site <a href="http://download.eclipse.org/emf-parsley/updates" >http://download.eclipse.org/emf-parsley/updates</a>
 			and install all features.
-			Although sources are not strictly required, it might help when using EMF Components
+			Although sources are not strictly required, it might help when using EMF Parsley
 			to have a look at its sources.
 			</p>
 			<p>
 			<div class="image" >
-			<a class="gallery" rel="prettyPhoto[all]" title="" href="images/emf-components-update-site.png">
-				<img src="images/emf-components-update-site.png" 
-					width="600px"
+			<a class="gallery" rel="prettyPhoto[all]" title="" href="images/emf-parsley-update-site.png">
+				<img src="images/emf-parsley-update-site.png" 
+					
 				/>
 			</a>
 			<div class="caption">
@@ -153,7 +148,7 @@
 			<h1>First Example</h1>
 			<p>
 			The purpose of this first example is to make use of the classical EMF Library Model example and
-			create a view for editing such models using an EMF Components enabled plug-in.
+			create a view for editing such models using an EMF Parsley enabled plug-in.
 			</p>
 			<p>
 			So let's start by creating the model plug-in with
@@ -176,7 +171,8 @@
 			</ul>
 			</p>
 			<p>
-			We only need the first plugin, so you might want to remove the .edit and .editor plugins.
+			Please consider that here we are starting from this well known EMF model taken out-of-the-box from Eclipse,
+			but you can start from your EMF model (in that case you may probably omit the &quot;.edit&quot; and &quot;.editor&quot; plugins, depending on your model).
 			</p>
 			<p>
 			Now you can create your first example with the appropriate wizard.
@@ -367,7 +363,7 @@
 			In this second Eclipse instance you can show the View in this way:
 			<ol>
 			  <li><em>Window -&gt; Show View -&gt; Other...</em></li>
-			  <li>from Category &quot;Emf Parsley&quot;, select &quot;My Library Tree Form&quot;</li>
+			  <li>from Category &quot;Other&quot;, select &quot;My Library Tree Form&quot;</li>
 			  <li>press <em>OK</em></li>
 			</ol>
 			</p>
@@ -375,7 +371,7 @@
 			<div class="image" >
 			<a class="gallery" rel="prettyPhoto[all]" title="" href="images/first-example-run.png">
 				<img src="images/first-example-run.png" 
-					width="600px"
+					
 				/>
 			</a>
 			<div class="caption">
@@ -404,7 +400,7 @@
 			<div class="image" >
 			<a class="gallery" rel="prettyPhoto[all]" title="" href="images/createWriter.png">
 				<img src="images/createWriter.png" 
-					width="600px"
+					
 				/>
 			</a>
 			<div class="caption">
@@ -536,7 +532,7 @@
 			<div class="image" >
 			<a class="gallery" rel="prettyPhoto[all]" title="" href="images/labelCustomization.png">
 				<img src="images/labelCustomization.png" 
-					width="600px"
+					
 				/>
 			</a>
 			<div class="caption">
