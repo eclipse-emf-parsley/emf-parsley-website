@@ -60,7 +60,7 @@
 		<li id="07-Eclipse4.html#GetFirstExample.html" ><a href="07-Eclipse4.php#GetFirstExample.php" >First Example Setup</a></li>
 		<li id="07-Eclipse4.html#PrepareForEclipse4Application.html" ><a href="07-Eclipse4.php#PrepareForEclipse4Application.php" >Preparing for a pure Eclipse 4 Application</a></li>
 		<li id="07-Eclipse4.html#CreateEclipse4Application.html" ><a href="07-Eclipse4.php#CreateEclipse4Application.php" >Create an Eclipse 4 Application</a></li>
-		<li id="07-Eclipse4.html#Eclipse4ApplicationAndEMFComponents.html" ><a href="07-Eclipse4.php#Eclipse4ApplicationAndEMFComponents.php" >Using an EMF Parsley TreeComposite into an Eclipse 4 Part</a></li>
+		<li id="07-Eclipse4.html#Eclipse4ApplicationAndEMFParsley.html" ><a href="07-Eclipse4.php#Eclipse4ApplicationAndEMFParsley.php" >Using an EMF Parsley TreeComposite into an Eclipse 4 Part</a></li>
 		<li id="07-Eclipse4.html#Eclipse4Save.html" ><a href="07-Eclipse4.php#Eclipse4Save.php" >Adding the dirty state and Save command</a></li>
 		</ul>
 		</li>
@@ -68,13 +68,8 @@
 		Appendix
 		</li>
 		<li class="separator"><div class="separator">
-		<img src="triangle.gif" style="height:12px; margin-right: 2px; "  /><img src="triangle-90.gif" style="display:none; margin-right: 2px" height="12px" />
+		<img src="triangle.gif" style="height:12px; margin-right: 2px; display:none"  /><img src="triangle-90.gif" style="display:none; margin-right: 2px" height="12px" />
 		<a href="GettingSources.php">Getting Sources</a></div>
-		<ul style="display: none;" id="subToc_GettingSources.html">
-		<li id="GettingSources.html#InstallBuckminster.html" ><a href="GettingSources.php#InstallBuckminster.php" >Install Buckminster in the IDE</a></li>
-		<li id="GettingSources.html#PrepareTP.html" ><a href="GettingSources.php#PrepareTP.php" >Prepare an empty target platform</a></li>
-		<li id="GettingSources.html#MaterializeWP.html" ><a href="GettingSources.php#MaterializeWP.php" >Materialize the Workspace</a></li>
-		</ul>
 		</li>
 		<li class="separator"><div class="separator">
 		<img src="triangle.gif" style="height:12px; margin-right: 2px; display:none"  /><img src="triangle-90.gif" style="display:none; margin-right: 2px" height="12px" />
@@ -85,13 +80,6 @@
 	<div id="midcolumn">
 		<a name="GettingSources" ></a>
 		<h1>Getting Sources</h1>
-				<div class="toc">
-				  <ul>
-				    <li><a href="GettingSources.php#InstallBuckminster.php" >Install Buckminster in the IDE</a></li>
-				    <li><a href="GettingSources.php#PrepareTP.php" >Prepare an empty target platform</a></li>
-				    <li><a href="GettingSources.php#MaterializeWP.php" >Materialize the Workspace</a></li>
-				  </ul>
-				</div>
 				
 		<p>
 		If you want to get the sources of EMF Parsley,
@@ -99,211 +87,113 @@
 		via Git.
 		</p>
 		<p>
+		Note that you need two different workspaces (and two different target platforms)
+		if you want to materialize also the workspace for developing the <a href="http://eclipse.org/rap/" >RAP</a>
+		version of Emf Parsley (see below).
+		</p>
+		<p>
+		In both cases, you need a <a href="http://www.eclipse.org/Xtext/download.html" >"Full eclipse"</a> 
+		from Xtext website or use the <a href="http://www.eclipse.org/downloads/" >eclipse DSL Package</a>
+		(we use Xtend for many source files, and we do not put the generated files
+		in the repository).
+		</p>
+		<p>
 		We use <a href="http://www.eclipse.org/buckminster/" >Buckminster</a> as the
-		building and materialization infrastructure; this will let you
-		automatically materialize the sources in the workspace and setup
+		building and materialization infrastructure.
+		We provide an <a href="http://git.eclipse.org/c/emf-parsley/org.eclipse.emf-parsley.git/plain/devtools/org.eclipse.emf.parsley.contributor/workspace.ant" >ant script</a> which installs and runs Buckminster. 
+		This will automatically materialize the sources in the workspace and setup
 		the target platform, so that you will have everything that is necessary
 		to have a working workspace with EMF Parsley sources.
 		</p>
 		<p>
-		For <a href="http://eclipse.org/rap/" >RAP</a> related project sources
-		you will have to use a different workspace (and the materialized target
-		platform will be different).  The procedure is the same, you will just
-		need to use a different URL for the materialization (as explained in the
-		following).
+		What this ant script will do in detail:
 		</p>
 		<p>
-		Some projects will be common to both RCP environment
-		and RAP environment.
+		<ul>
+		  <li>installs Buckminster headless if not found;
+		  	default path: <em>${user.home}/buckminster.parsley</em>.
+		  	It can be changed by passing a path for the variable
+		  	<em>buckminster.home</em>.</li>
+		  <li>creates an eclipse workspace; 
+		  	default: <em>${user.home}/workspaces/emf-parsley-sources</em>
+		  	or <em>${user.home}/workspaces/emf-parsley-rap-sources</em>
+		  	for target <em>materialize.workspace.rap</em>.
+		  	It can be changed by passing a path for the 
+		  	variable <em>WORKSPACE</em></li>
+		  <li>clones the Emf Parsley git repository;
+		  	default: <em>${user.home}/git/org.eclipse.emf-parsley</em>.
+		  	It can be changed by passing a full path for the
+		  	variable <em>git.clone.dest</em>.  Note that the repository will
+		  	be cloned only if it is not found in the given path.</li>
+		  <li>creates and sets a target platform</li>
+		  <li>imports necessary projects in the created workspace</li>
+		  <li>runs the MWE2 workflow for generating Xtext language infrastructure for the DSL 
+		  	(in this phase, you should ignore possible Java compilation errors you see in the
+		  	console)</li>
+		  <li>sets some important workspace settings</li>
+		</ul>
 		</p>
-		<a name="InstallBuckminster" ></a>
-		<span style="float:left; border-top: 1px dotted #d4d4dd; margin-left: 0; margin-top: 5px;
-			padding: 5px 0;
-			padding-top: 5px;"></span><a style="float: right" href="#">Top</a>
-			<br style="clear:both"></br>
-			<h1>Install Buckminster in the IDE</h1>
-			<p>
-			First of all, you need to install Buckminster in your Eclipse;
-			you can do that using the update site
-			</p>
-			<p>
-			<em>http://download.eclipse.org/tools/buckminster/updates-4.2</em>
-			</p>
-			<p>
-			You need to install the core, git and pde features.
-			</p>
-			<p>
-			<div class="image" >
-			<a class="gallery" rel="prettyPhoto[all]" title="Install Buckminster features" href="images/install-buckminster.png">
-				<img src="images/install-buckminster.png" 
-					width="600px"
-					style="width:90%" 
-				/>
-			</a>
-			<div class="caption">
-				Install Buckminster features
+		<p>
+		Especially the first time (for cloning and materializing the target platform)
+		the script might take several minutes.  (Target platform materialization
+		might also fail due to network problems; in that case, try and run the
+		script again).
+		</p>
+		<p>
+		Run the ant script located <a href="http://git.eclipse.org/c/emf-parsley/org.eclipse.emf-parsley.git/plain/devtools/org.eclipse.emf.parsley.contributor/workspace.ant" >here</a>. 
+		In unix you can use following command: 
+		</p>
+		<p>
+		<div class="literallayout">
+			<div class="incode">
+				<p class="code">
+					wget&nbsp;-N&nbsp;http:<span class="comment">//git.eclipse.org/c/emf-parsley/org.eclipse.emf-parsley.git/plain/devtools/org.eclipse.emf.parsley.contributor/workspace.ant</span>
+				</p>
 			</div>
+		</div>
+		</p>
+		<p>
+		and then run the script:
+		</p>
+		<p>
+		<div class="literallayout">
+			<div class="incode">
+				<p class="code">
+					ant&nbsp;-f&nbsp;workspace.ant
+				</p>
 			</div>
-			</p>
-		<a name="PrepareTP" ></a>
-		<span style="float:left; border-top: 1px dotted #d4d4dd; margin-left: 0; margin-top: 5px;
-			padding: 5px 0;
-			padding-top: 5px;"></span><a style="float: right" href="#">Top</a>
-			<br style="clear:both"></br>
-			<h1>Prepare an empty target platform</h1>
-			<p>
-			It is better to start with an empty target platform in your IDE
-			(then Buckminster will materialize the required features and
-			bundles starting from that empty target);
-			you then need to create an empty target platform manually that contains 
-			one single and empty directory and set this target platform active.
-			A subsequent resolution/materialization will use that platform.
-			Here are the detailed steps:
-			</p>
-			<p>
-			<ol>
-			  <li>Create a new general project named TP 
-			  	(or some name of your preference)</li>
-			  <li>Open &quot;Window&quot; =&gt; &quot;Preferences&quot; and expand &quot;Plug-in Development&quot;</li>
-			  <li>Select &quot;Target Platform&quot;</li>
-			  <li>Click &quot;Add...&quot;</li>
-			  <li>Click &quot;Next&gt;&quot; (i.e. start with nothing)</li>
-			  <li>Enter TP in the Name: field</li>
-			  <li>Click &quot;Add...&quot;</li>
-			  <li>Select &quot;Directory&quot; and click &quot;Next&quot;</li>
-			  <li>Click on &quot;Variables...&quot;</li>
-			  <li>Scroll down and select &quot;workspace_loc&quot; and then type TP in the Argument: field.</li>
-			  <li>Click &quot;OK&quot; and then &quot;Finish&quot; and then &quot;Finish&quot; again.</li>
-			  <li>Set your new target definition active by checking it in the list of Target definitions: and click &quot;OK&quot;</li>
-			</ol>
-			</p>
-		<a name="MaterializeWP" ></a>
-		<span style="float:left; border-top: 1px dotted #d4d4dd; margin-left: 0; margin-top: 5px;
-			padding: 5px 0;
-			padding-top: 5px;"></span><a style="float: right" href="#">Top</a>
-			<br style="clear:both"></br>
-			<h1>Materialize the Workspace</h1>
-			<div class="toc">
-			  <ul>
-			    <li><a href="GettingSources.php#CustomizeProperties.php" >(Optional) Customize some Properties</a></li>
-			    <li><a href="GettingSources.php#StartMaterialization.php" >Start Materialization</a></li>
-			  </ul>
+		</div>
+		</p>
+		<p>
+		If you want the workspace for RAP version of Emf Parsley, run the script as
+		follows:
+		</p>
+		<p>
+		<div class="literallayout">
+			<div class="incode">
+				<p class="code">
+					ant&nbsp;-f&nbsp;workspace.ant&nbsp;materialize.workspace.rap
+				</p>
 			</div>
-			<p>
-			From the File menu choose <em>Open a Component Query...</em> and
-			use this URL
-			</p>
-			<p>
-			<a href="http://git.eclipse.org/c/emf-parsley/org.eclipse.emf-parsley.git/plain/releng/org.eclipse.emf.parsley.buckminster/build.cquery" >http://git.eclipse.org/c/emf-parsley/org.eclipse.emf-parsley.git/plain/releng/org.eclipse.emf.parsley.buckminster/build.cquery</a>
-			</p>
-			<p>
-			If you want to materialize a workspace with EMF Parsley RAP
-			related projects use this URL instead
-			</p>
-			<p>
-			<a href="http://git.eclipse.org/c/emf-parsley/org.eclipse.emf-parsley.git/plain/releng/org.eclipse.emf.parsley.rap.buckminster/build.cquery" >http://git.eclipse.org/c/emf-parsley/org.eclipse.emf-parsley.git/plain/releng/org.eclipse.emf.parsley.rap.buckminster/build.cquery</a>
-			</p>
-			<p>
-			<div class="image" >
-			<a class="gallery" rel="prettyPhoto[all]" title="The component query opened" href="images/open-cquery.png">
-				<img src="images/open-cquery.png" 
-					width="600px"
-					style="width:90%" 
-				/>
-			</a>
-			<div class="caption">
-				The component query opened
+		</div>
+		</p>
+		<p>
+		You can pass custom path using the variables defined above; for instance
+		</p>
+		<p>
+		<div class="literallayout">
+			<div class="incode">
+				<p class="code">
+					ant&nbsp;-Dgit.clone.dest=/myrepos/emf-parsley&nbsp;-DWORKSPACE=/myworkspaces/parsley&nbsp;-f&nbsp;workspace.ant
+				</p>
 			</div>
-			</div>
-			</p>
-			<a name="CustomizeProperties" ></a>
-			<h2>(Optional) Customize some Properties</h2>
-			<p>
-			Before starting the materialization, you might want to customize
-			some properties; you can do that in the <em>Properties</em> tab of
-			the opened component query:
-			</p>
-			<p>
-			<div class="image" >
-			<a class="gallery" rel="prettyPhoto[all]" title="The properties tab" href="images/open-cquery1.png">
-				<img src="images/open-cquery1.png" 
-					width="600px"
-					style="width:90%" 
-				/>
-			</a>
-			<div class="caption">
-				The properties tab
-			</div>
-			</div>
-			</p>
-			<p>
-			You can add a property by pressing
-			the <em>New</em> button.
-			</p>
-			<p>
-			For instance, you can customize the path in your system where
-			the git repository will be cloned, which defaults to
-			<em>${user.home}/git/emf-components</em>); for instance, you can change it
-			to something else
-			</p>
-			<p>
-			<div class="image" >
-			<a class="gallery" rel="prettyPhoto[all]" title="Property customization" href="images/open-cquery-new-property1.png">
-				<img src="images/open-cquery-new-property1.png" 
-					width="600px"
-					style="width:50%" 
-				/>
-			</a>
-			<div class="caption">
-				Property customization
-			</div>
-			</div>
-			</p>
-			<a name="StartMaterialization" ></a>
-			<h2>Start Materialization</h2>
-			<p>
-			You can now press the button in the opened query <em>Resolve and Materialize</em>.
-			This will start the materialization process which will consist of
-			cloning the git repository, materialize the target platform and importing
-			all the projects into the workspace.
-			</p>
-			<p>
-			<div class="image" >
-			<a class="gallery" rel="prettyPhoto[all]" title="Materialization..." href="images/resolving-cquery.png">
-				<img src="images/resolving-cquery.png" 
-					width="600px"
-					style="width:70%" 
-				/>
-			</a>
-			<div class="caption">
-				Materialization...
-			</div>
-			</div>
-			</p>
-			<p>
-			Materializing the target platform may take sometime (depending on your
-			network connection), so you might want to go and get a coffee 
-			in the meantime ;)
-			</p>
-			<p>
-			When the whole process terminates, you will have a working
-			workspace with EMF Parsley projects and the needed target platform
-			(thus, you should have no error!).
-			</p>
-			<p>
-			<div class="image" >
-			<a class="gallery" rel="prettyPhoto[all]" title="The final materialized workspace" href="images/materialized.png">
-				<img src="images/materialized.png" 
-					width="600px"
-					style="width:90%" 
-				/>
-			</a>
-			<div class="caption">
-				The final materialized workspace
-			</div>
-			</div>
-			
-			</p>
+		</div>
+		</p>
+		<p>
+		After the script terminates successfully, you can open the materialized
+		workspace with Eclipse (an automatic build will also start for compiling
+		Xtend files).  The workspace is already setup with the correct target platform.
+		</p>
 		<div id="disqus_thread"></div>
 		<script type="text/javascript" src="documentationRoot.js"></script>
 		<script type="text/javascript">

@@ -44,7 +44,7 @@
 		</li>
 		<li class="separator"><div class="separator">
 		<img src="triangle.gif" style="height:12px; margin-right: 2px; "  /><img src="triangle-90.gif" style="display:none; margin-right: 2px" height="12px" />
-		<a href="05-DSL.php">EMF Components DSL</a></div>
+		<a href="05-DSL.php">EMF Parsley DSL</a></div>
 		<ul style="display: none;" id="subToc_05-DSL.html">
 		<li id="05-DSL.html#xbase.html" ><a href="05-DSL.php#xbase.php" >Xbase features</a></li>
 		</ul>
@@ -60,7 +60,7 @@
 		<li id="07-Eclipse4.html#GetFirstExample.html" ><a href="07-Eclipse4.php#GetFirstExample.php" >First Example Setup</a></li>
 		<li id="07-Eclipse4.html#PrepareForEclipse4Application.html" ><a href="07-Eclipse4.php#PrepareForEclipse4Application.php" >Preparing for a pure Eclipse 4 Application</a></li>
 		<li id="07-Eclipse4.html#CreateEclipse4Application.html" ><a href="07-Eclipse4.php#CreateEclipse4Application.php" >Create an Eclipse 4 Application</a></li>
-		<li id="07-Eclipse4.html#Eclipse4ApplicationAndEMFComponents.html" ><a href="07-Eclipse4.php#Eclipse4ApplicationAndEMFComponents.php" >Using an EMF Parsley TreeComposite into an Eclipse 4 Part</a></li>
+		<li id="07-Eclipse4.html#Eclipse4ApplicationAndEMFParsley.html" ><a href="07-Eclipse4.php#Eclipse4ApplicationAndEMFParsley.php" >Using an EMF Parsley TreeComposite into an Eclipse 4 Part</a></li>
 		<li id="07-Eclipse4.html#Eclipse4Save.html" ><a href="07-Eclipse4.php#Eclipse4Save.php" >Adding the dirty state and Save command</a></li>
 		</ul>
 		</li>
@@ -68,13 +68,8 @@
 		Appendix
 		</li>
 		<li class="separator"><div class="separator">
-		<img src="triangle.gif" style="height:12px; margin-right: 2px; "  /><img src="triangle-90.gif" style="display:none; margin-right: 2px" height="12px" />
+		<img src="triangle.gif" style="height:12px; margin-right: 2px; display:none"  /><img src="triangle-90.gif" style="display:none; margin-right: 2px" height="12px" />
 		<a href="GettingSources.php">Getting Sources</a></div>
-		<ul style="display: none;" id="subToc_GettingSources.html">
-		<li id="GettingSources.html#InstallBuckminster.html" ><a href="GettingSources.php#InstallBuckminster.php" >Install Buckminster in the IDE</a></li>
-		<li id="GettingSources.html#PrepareTP.html" ><a href="GettingSources.php#PrepareTP.php" >Prepare an empty target platform</a></li>
-		<li id="GettingSources.html#MaterializeWP.html" ><a href="GettingSources.php#MaterializeWP.php" >Materialize the Workspace</a></li>
-		</ul>
 		</li>
 		<li class="separator"><div class="separator">
 		<img src="triangle.gif" style="height:12px; margin-right: 2px; display:none"  /><img src="triangle-90.gif" style="display:none; margin-right: 2px" height="12px" />
@@ -139,7 +134,7 @@
 			<div class="image" >
 			<a class="gallery" rel="prettyPhoto[all]" title="" href="images/03-components-form.png">
 				<img src="images/03-components-form.png" 
-					
+					width="600px"
 				/>
 			</a>
 			<div class="caption">
@@ -156,9 +151,8 @@
 			<div class="literallayout">
 				<div class="incode">
 					<p class="code">
-						formComposite&nbsp;=&nbsp;formFactory.createFormDetailComposite(parent,&nbsp;SWT.NONE);
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;formComposite.init(eObject);
+						formComposite&nbsp;=&nbsp;formFactory.createFormDetailComposite(parent,&nbsp;SWT.NONE);<br/>
+						formComposite.init(eObject);
 					</p>
 				</div>
 			</div>
@@ -175,7 +169,7 @@
 			<ul>
 			  <li>The <em>list fo feature</em> displayed on the form can be customized via the <a href="04-Customization.php#FeaturesProvider.php" title="Go to &quot;Features Provider&quot;">Feature
 			  	Provider</a> to select the features or the order.</li>
-			  <li>The description on the left side of the form caan be customizzed via the <a href="04-Customization.php#PropertyDescriptionProvider.php" title="Go to &quot;Property Description Provider&quot;">Property
+			  <li>The description on the left side of the form caan be customizzed via the <a href="04-Customization.php#PropertyDescriptionProvider.php" title="Go to &quot;Feature Caption Provider&quot;">Property
 			  	Description Provider</a>.</li>
 			  <li>Otherwise to customize the controls on the right, you can use the <a href="04-Customization.php#FormControlFactory.php" title="Go to &quot;Form Control Factory&quot;">Form Control Factory</a>.
 			  </li>
@@ -202,7 +196,7 @@
 			<div class="image" >
 			<a class="gallery" rel="prettyPhoto[all]" title="" href="images/03-components-tree.png">
 				<img src="images/03-components-tree.png" 
-					
+					width="600px"
 				/>
 			</a>
 			<div class="caption">
@@ -212,7 +206,7 @@
 			<a name="Tree_Customizations" ></a>
 			<h2>Tree Customizations</h2>
 			<p>
-			The <em>Tree Component</em>can be customized in several way via the standard EMF Edit facilities or with the EMF Components 
+			The <em>Tree Component</em>can be customized in several way via the standard EMF Edit facilities or with the EMF Parsley 
 			codeinjection based mechanism. If you are familiar with Jface APIs, you can easily use the basic class with some facilties to define the specific implementation. 
 			See the corrisponding sections for more details.
 			</p>
@@ -246,7 +240,7 @@
 			<div class="image" >
 			<a class="gallery" rel="prettyPhoto[all]" title="" href="images/03-components-treeform.png">
 				<img src="images/03-components-treeform.png" 
-					
+					width="600px"
 				/>
 			</a>
 			<div class="caption">

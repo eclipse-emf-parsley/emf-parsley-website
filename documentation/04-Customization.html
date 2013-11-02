@@ -44,7 +44,7 @@
 		</li>
 		<li class="separator"><div class="separator">
 		<img src="triangle.gif" style="height:12px; margin-right: 2px; "  /><img src="triangle-90.gif" style="display:none; margin-right: 2px" height="12px" />
-		<a href="05-DSL.php">EMF Components DSL</a></div>
+		<a href="05-DSL.php">EMF Parsley DSL</a></div>
 		<ul style="display: none;" id="subToc_05-DSL.html">
 		<li id="05-DSL.html#xbase.html" ><a href="05-DSL.php#xbase.php" >Xbase features</a></li>
 		</ul>
@@ -60,7 +60,7 @@
 		<li id="07-Eclipse4.html#GetFirstExample.html" ><a href="07-Eclipse4.php#GetFirstExample.php" >First Example Setup</a></li>
 		<li id="07-Eclipse4.html#PrepareForEclipse4Application.html" ><a href="07-Eclipse4.php#PrepareForEclipse4Application.php" >Preparing for a pure Eclipse 4 Application</a></li>
 		<li id="07-Eclipse4.html#CreateEclipse4Application.html" ><a href="07-Eclipse4.php#CreateEclipse4Application.php" >Create an Eclipse 4 Application</a></li>
-		<li id="07-Eclipse4.html#Eclipse4ApplicationAndEMFComponents.html" ><a href="07-Eclipse4.php#Eclipse4ApplicationAndEMFComponents.php" >Using an EMF Parsley TreeComposite into an Eclipse 4 Part</a></li>
+		<li id="07-Eclipse4.html#Eclipse4ApplicationAndEMFParsley.html" ><a href="07-Eclipse4.php#Eclipse4ApplicationAndEMFParsley.php" >Using an EMF Parsley TreeComposite into an Eclipse 4 Part</a></li>
 		<li id="07-Eclipse4.html#Eclipse4Save.html" ><a href="07-Eclipse4.php#Eclipse4Save.php" >Adding the dirty state and Save command</a></li>
 		</ul>
 		</li>
@@ -68,13 +68,8 @@
 		Appendix
 		</li>
 		<li class="separator"><div class="separator">
-		<img src="triangle.gif" style="height:12px; margin-right: 2px; "  /><img src="triangle-90.gif" style="display:none; margin-right: 2px" height="12px" />
+		<img src="triangle.gif" style="height:12px; margin-right: 2px; display:none"  /><img src="triangle-90.gif" style="display:none; margin-right: 2px" height="12px" />
 		<a href="GettingSources.php">Getting Sources</a></div>
-		<ul style="display: none;" id="subToc_GettingSources.html">
-		<li id="GettingSources.html#InstallBuckminster.html" ><a href="GettingSources.php#InstallBuckminster.php" >Install Buckminster in the IDE</a></li>
-		<li id="GettingSources.html#PrepareTP.html" ><a href="GettingSources.php#PrepareTP.php" >Prepare an empty target platform</a></li>
-		<li id="GettingSources.html#MaterializeWP.html" ><a href="GettingSources.php#MaterializeWP.php" >Materialize the Workspace</a></li>
-		</ul>
 		</li>
 		<li class="separator"><div class="separator">
 		<img src="triangle.gif" style="height:12px; margin-right: 2px; display:none"  /><img src="triangle-90.gif" style="display:none; margin-right: 2px" height="12px" />
@@ -148,40 +143,25 @@
 			<div class="literallayout">
 				<div class="incode">
 					<p class="code">
-						<span class="keyword">public</span>&nbsp;<span class="keyword">class</span>&nbsp;ValidateResourceSaveManager&nbsp;<span class="keyword">extends</span>&nbsp;ResourceSaveManager&nbsp;{
+						<span class="keyword">public</span>&nbsp;<span class="keyword">class</span>&nbsp;ValidateResourceSaveManager&nbsp;<span class="keyword">extends</span>&nbsp;ResourceSaveManager&nbsp;{<br/>
 						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;@Override
+						&nbsp;&nbsp;&nbsp;&nbsp;@Override<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">protected</span>&nbsp;<span class="keyword">boolean</span>&nbsp;precondition(Resource&nbsp;resource)&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;<span class="keyword">super</span>.precondition(resource)&nbsp;&amp;&amp;&nbsp;validateModel(resource);<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
 						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">protected</span>&nbsp;<span class="keyword">boolean</span>&nbsp;precondition(Resource&nbsp;resource)&nbsp;{
-						<br/>
-						<span class="keyword">return</span>&nbsp;<span class="keyword">super</span>.precondition(resource)&nbsp;&amp;&amp;&nbsp;validateModel(resource);
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;}
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">protected</span>&nbsp;<span class="keyword">boolean</span>&nbsp;validateModel(Resource&nbsp;resource)&nbsp;{
-						<br/>
-						<span class="keyword">for</span>&nbsp;(EObject&nbsp;eObject&nbsp;:&nbsp;resource.getContents())&nbsp;{
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;Diagnostic&nbsp;diagnostic&nbsp;=&nbsp;Diagnostician.INSTANCE.validate(eObject);
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span>&nbsp;(diagnostic.getSeverity()&nbsp;==&nbsp;Diagnostic.ERROR)&nbsp;{
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//&nbsp;SKIPPED:&nbsp;present&nbsp;the&nbsp;errors
-						<br/>
-						</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;false;
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;<span class="keyword">else</span>&nbsp;<span class="keyword">if</span>&nbsp;(diagnostic.getSeverity()&nbsp;==&nbsp;Diagnostic.WARNING)&nbsp;{
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//&nbsp;SKIPPED:&nbsp;present&nbsp;the&nbsp;warnings
-						<br/>
-						</span>&nbsp;&nbsp;&nbsp;&nbsp;}
-						<br/>
-						}
-						<br/>
-						<span class="keyword">return</span>&nbsp;true;
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;}
-						<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">protected</span>&nbsp;<span class="keyword">boolean</span>&nbsp;validateModel(Resource&nbsp;resource)&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span>&nbsp;(EObject&nbsp;eObject&nbsp;:&nbsp;resource.getContents())&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Diagnostic&nbsp;diagnostic&nbsp;=&nbsp;Diagnostician.INSTANCE.validate(eObject);<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span>&nbsp;(diagnostic.getSeverity()&nbsp;==&nbsp;Diagnostic.ERROR)&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//&nbsp;SKIPPED:&nbsp;present&nbsp;the&nbsp;errors<br/>
+						</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;false;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;<span class="keyword">else</span>&nbsp;<span class="keyword">if</span>&nbsp;(diagnostic.getSeverity()&nbsp;==&nbsp;Diagnostic.WARNING)&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//&nbsp;SKIPPED:&nbsp;present&nbsp;the&nbsp;warnings<br/>
+						</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;true;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
 						}
 					</p>
 				</div>
@@ -196,7 +176,7 @@
 			<div class="toc">
 			  <ul>
 			    <li><a href="04-Customization.php#FeaturesProvider.php" >Features Provider</a></li>
-			    <li><a href="04-Customization.php#PropertyDescriptionProvider.php" >Property Description Provider</a></li>
+			    <li><a href="04-Customization.php#PropertyDescriptionProvider.php" >Feature Caption Provider</a></li>
 			    <li><a href="04-Customization.php#ViewerLabelProvider.php" >Viewer Label Provider</a></li>
 			    <li><a href="04-Customization.php#ViewerContentProvider.php" >Viewer Content Provider</a></li>
 			    <li><a href="04-Customization.php#ProposalProvider.php" >Proposal Provider</a></li>
@@ -225,13 +205,10 @@
 			<div class="literallayout">
 				<div class="incode">
 					<p class="code">
-						<span class="keyword">protected</span>&nbsp;<span class="keyword">void</span>&nbsp;buildMap(EClassToEStructuralFeatureMap&nbsp;map)&nbsp;{
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">super</span>.buildMap(map);
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;map.mapTo(LIBRARY,LIBRARY__NAME,&nbsp;ADDRESSABLE__ADDRESS);
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;}
+						<span class="keyword">protected</span>&nbsp;<span class="keyword">void</span>&nbsp;buildMap(EClassToEStructuralFeatureMap&nbsp;map)&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">super</span>.buildMap(map);<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;map.mapTo(LIBRARY,LIBRARY__NAME,&nbsp;ADDRESSABLE__ADDRESS);<br/>
+						}
 					</p>
 				</div>
 			</div>
@@ -259,29 +236,19 @@
 			<div class="literallayout">
 				<div class="incode">
 					<p class="code">
-						<span class="keyword">public</span>&nbsp;<span class="keyword">class</span>&nbsp;OrderedEStructuralFeaturesProvider&nbsp;
+						<span class="keyword">public</span>&nbsp;<span class="keyword">class</span>&nbsp;OrderedEStructuralFeaturesProvider&nbsp;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">extends</span>&nbsp;FeaturesProvider&nbsp;{<br/>
 						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">extends</span>&nbsp;FeaturesProvider&nbsp;{
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;@Inject
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;EStructuralFeatureNameComparator&nbsp;comparator;
-						<br/>
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;@Override
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span>&nbsp;List&lt;EStructuralFeature&gt;&nbsp;getFeatures(EClass&nbsp;eClass)&nbsp;{
-						<br/>
-						List&lt;EStructuralFeature&gt;&nbsp;features&nbsp;=&nbsp;<span class="keyword">super</span>.getFeatures(eClass);
-						<br/>
-						Collections.sort(features,&nbsp;
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">new</span>&nbsp;EStructuralFeatureNameComparator());
-						<br/>
-						<span class="keyword">return</span>&nbsp;features;
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;}
-						<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;@Inject<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;EStructuralFeatureNameComparator&nbsp;comparator;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;@Override<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span>&nbsp;List&lt;EStructuralFeature&gt;&nbsp;getFeatures(EClass&nbsp;eClass)&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;EStructuralFeature&gt;&nbsp;features&nbsp;=&nbsp;<span class="keyword">super</span>.getFeatures(eClass);<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Collections.sort(features,&nbsp;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">new</span>&nbsp;EStructuralFeatureNameComparator());<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;features;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
 						}
 					</p>
 				</div>
@@ -303,38 +270,24 @@
 			<div class="literallayout">
 				<div class="incode">
 					<p class="code">
-						<span class="keyword">import</span>&nbsp;<span class="keyword">static</span>&nbsp;org.eclipse.emf.examples.extlibrary.EXTLibraryPackage.Literals.*;
+						<span class="keyword">import</span>&nbsp;<span class="keyword">static</span>&nbsp;org.eclipse.emf.examples.extlibrary.EXTLibraryPackage.Literals.*;<br/>
+						<span class="keyword">import</span>&nbsp;org.eclipse.emf.parsley.ui.provider.EStructuralFeaturesProvider;<br/>
 						<br/>
-						<span class="keyword">import</span>&nbsp;org.eclipse.emf.parsley.ui.provider.EStructuralFeaturesProvider;
+						<span class="keyword">public</span>&nbsp;<span class="keyword">class</span>&nbsp;LibraryEStructuralFeaturesProvider&nbsp;<span class="keyword">extends</span><br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FeaturesProvider&nbsp;{<br/>
 						<br/>
-						<span class="keyword">public</span>&nbsp;<span class="keyword">class</span>&nbsp;LibraryEStructuralFeaturesProvider&nbsp;<span class="keyword">extends</span>
-						<br/>
-						FeaturesProvider&nbsp;{
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;@Override
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">protected</span>&nbsp;<span class="keyword">void</span>&nbsp;buildMap(EClassToEStructuralFeatureMap&nbsp;map)&nbsp;{
-						<br/>
-						<span class="keyword">super</span>.buildMap(map);
-						<br/>
-						map.mapTo(LIBRARY,
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LIBRARY__NAME,&nbsp;ADDRESSABLE__ADDRESS);
-						<br/>
-						map.mapTo(PERSON,
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PERSON__FIRST_NAME,&nbsp;PERSON__LAST_NAME,
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ADDRESSABLE__ADDRESS);
-						<br/>
-						map.mapTo(WRITER,
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PERSON__FIRST_NAME,&nbsp;PERSON__LAST_NAME,
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITER__BOOKS);
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;}
-						<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;@Override<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">protected</span>&nbsp;<span class="keyword">void</span>&nbsp;buildMap(EClassToEStructuralFeatureMap&nbsp;map)&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">super</span>.buildMap(map);<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;map.mapTo(LIBRARY,<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LIBRARY__NAME,&nbsp;ADDRESSABLE__ADDRESS);<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;map.mapTo(PERSON,<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PERSON__FIRST_NAME,&nbsp;PERSON__LAST_NAME,<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ADDRESSABLE__ADDRESS);<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;map.mapTo(WRITER,<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PERSON__FIRST_NAME,&nbsp;PERSON__LAST_NAME,<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITER__BOOKS);<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
 						}
 					</p>
 				</div>
@@ -353,42 +306,28 @@
 			<div class="literallayout">
 				<div class="incode">
 					<p class="code">
-						<span class="keyword">import</span>&nbsp;<span class="keyword">static</span>&nbsp;org.eclipse.emf.examples.extlibrary.EXTLibraryPackage.Literals.*;
+						<span class="keyword">import</span>&nbsp;<span class="keyword">static</span>&nbsp;org.eclipse.emf.examples.extlibrary.EXTLibraryPackage.Literals.*;<br/>
+						<span class="keyword">import</span>&nbsp;org.eclipse.emf.parsley.ui.provider.FeaturesProvider;<br/>
 						<br/>
-						<span class="keyword">import</span>&nbsp;org.eclipse.emf.parsley.ui.provider.FeaturesProvider;
+						<span class="keyword">public</span>&nbsp;<span class="keyword">class</span>&nbsp;LibraryEStructuralFeaturesAsStringsProvider&nbsp;<span class="keyword">extends</span><br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FeaturesProvider&nbsp;{<br/>
 						<br/>
-						<span class="keyword">public</span>&nbsp;<span class="keyword">class</span>&nbsp;LibraryEStructuralFeaturesAsStringsProvider&nbsp;<span class="keyword">extends</span>
+						&nbsp;&nbsp;&nbsp;&nbsp;@Override<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">protected</span>&nbsp;<span class="keyword">void</span>&nbsp;buildMap(EClassToEStructuralFeatureMap&nbsp;map)&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">super</span>.buildMap(map);<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;map.mapTo(LIBRARY,&nbsp;LIBRARY__NAME,&nbsp;ADDRESSABLE__ADDRESS);<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
 						<br/>
-						FeaturesProvider&nbsp;{
+						&nbsp;&nbsp;&nbsp;&nbsp;@Override<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">protected</span>&nbsp;<span class="keyword">void</span>&nbsp;buildStringMap(<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EClassToEStructuralFeatureAsStringsMap&nbsp;stringMap)&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">super</span>.buildStringMap(stringMap);<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stringMap.mapTo(PERSON.getInstanceClassName(),&nbsp;<span class="string">"firstName"</span>,&nbsp;<span class="string">"lastName"</span>,<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"address"</span>);<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stringMap.mapTo(WRITER.getInstanceClassName(),&nbsp;<span class="string">"firstName"</span>,&nbsp;<span class="string">"lastName"</span>,<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"books"</span>);<br/>
 						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;@Override
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">protected</span>&nbsp;<span class="keyword">void</span>&nbsp;buildMap(EClassToEStructuralFeatureMap&nbsp;map)&nbsp;{
-						<br/>
-						<span class="keyword">super</span>.buildMap(map);
-						<br/>
-						map.mapTo(LIBRARY,&nbsp;LIBRARY__NAME,&nbsp;ADDRESSABLE__ADDRESS);
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;}
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;@Override
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">protected</span>&nbsp;<span class="keyword">void</span>&nbsp;buildStringMap(
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;EClassToEStructuralFeatureAsStringsMap&nbsp;stringMap)&nbsp;{
-						<br/>
-						<span class="keyword">super</span>.buildStringMap(stringMap);
-						<br/>
-						stringMap.mapTo(PERSON.getInstanceClassName(),&nbsp;<span class="string">"firstName"</span>,&nbsp;<span class="string">"lastName"</span>,
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"address"</span>);
-						<br/>
-						stringMap.mapTo(WRITER.getInstanceClassName(),&nbsp;<span class="string">"firstName"</span>,&nbsp;<span class="string">"lastName"</span>,
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"books"</span>);
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;}
-						<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
 						}
 					</p>
 				</div>
@@ -401,118 +340,91 @@
 			the customizations will be applied only to <a href="03-Components.php#TableComponent.php" title="Go to &quot;Table Component&quot;">tables</a>, not to <a href="03-Components.php#FormComponent.php" title="Go to &quot;Form Component&quot;">Forms</a>.
 			</p>
 			<a name="PropertyDescriptionProvider" ></a>
-			<h2>Property Description Provider</h2>
+			<h2>Feature Caption Provider</h2>
 			<p>
 			 <em>This can be done with Parsley DSL too!</em>
 			 
-			The <a class="jdoc" href="http://download.eclipse.org/modeling/emf/emf/javadoc/2.9.0/org/eclipse/emf/parsley/ui/provider/PropertyDescriptionProvider.html" title="org.eclipse.emf.parsley.ui.provider.PropertyDescriptionProvider">PropertyDescriptionProvider</abbr></a> <a class="srcLink" href="https://github.com/eclipse/emf/blob/R2_8_0/plugins/org.eclipse.emf.ecore/src/org/eclipse/emf/parsley/ui/provider/PropertyDescriptionProvider.java" title="View Source Code" >(src)</a> provides labels for
-			the features. It can be customized, with injection (see Injection paragraph), to customize the label on the
-			left of each control. The framework use a polimorphic mechanism to find customizations, so that It can
+			The <a class="jdoc" href="http://download.eclipse.org/modeling/emf/emf/javadoc/2.9.0/org/eclipse/emf/parsley/ui/provider/FeatureCaptionProvider.html" title="org.eclipse.emf.parsley.ui.provider.FeatureCaptionProvider">FeatureCaptionProvider</abbr></a> <a class="srcLink" href="https://github.com/eclipse/emf/blob/R2_8_0/plugins/org.eclipse.emf.ecore/src/org/eclipse/emf/parsley/ui/provider/FeatureCaptionProvider.java" title="View Source Code" >(src)</a> provides captions for
+			the features. It can be customized, with injection (see Injection paragraph), to customize the caption label on the
+			left of each control in a form and the headers in a table's columns. 
+			The framework use a polimorphic mechanism to find customizations, so that It can
 			be written a method with a specific signature build by the keyword <em>'text'</em> followed by the EClass and the EStructuralFeature.
 			All parts of the name are separated by an underscore character and the method must accept a parameter of type EStructuralFeature.
 			</p>
 			<p>
-			In the following example we specify the label text for the feature 'Author' of Book and the feature 'Name' for
+			In the following example we specify the caption text for the feature 'Author' of Book and the feature 'Name' for
 			Writer.
 			</p>
 			<p>
 			<div class="literallayout">
 				<div class="incode">
 					<p class="code">
-						<span class="keyword">public</span>&nbsp;String&nbsp;text_Book_author(<span class="keyword">final</span>&nbsp;EStructuralFeature&nbsp;feature)&nbsp;{
+						<span class="keyword">public</span>&nbsp;String&nbsp;text_Book_author(<span class="keyword">final</span>&nbsp;EStructuralFeature&nbsp;feature)&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;<span class="string">"Wrote&nbsp;by:"</span>;<br/>
+						}<br/>
 						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;<span class="string">"Wrote&nbsp;by:"</span>;
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;}
-						<br/>
-						
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span>&nbsp;String&nbsp;text_Writer_name(<span class="keyword">final</span>&nbsp;EStructuralFeature&nbsp;feature)&nbsp;{
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;<span class="string">"Name:"</span>;
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;}
-					</p>
-				</div>
-			</div>
-			</p>
-			<p>
-			Another chance of customization is to define a method the returns directly the control, like in the example
-			below. In this case there is another parameter that is the parent composite.
-			</p>
-			<p>
-			<div class="literallayout">
-				<div class="incode">
-					<p class="code">
-						<span class="keyword">public</span>&nbsp;Label&nbsp;label_Writer_name(Composite&nbsp;parent,&nbsp;EStructuralFeature&nbsp;feature)&nbsp;{
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Label&nbsp;label&nbsp;=&nbsp;defaultLabel(parent,&nbsp;feature);
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;label.setBackground(getFormToolkit().getColors().getColor(IFormColors.TITLE));
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;label;
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;}
+						<span class="keyword">public</span>&nbsp;String&nbsp;text_Writer_name(<span class="keyword">final</span>&nbsp;EStructuralFeature&nbsp;feature)&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;<span class="string">"Name:"</span>;<br/>
+						}
 					</p>
 				</div>
 			</div>
 			</p>
 			<a name="FormPropertyDescriptionProvider" ></a>
-			<h3>Form Property Description Provider</h3>
+			<h3>Form Feature Caption Provider</h3>
 			<p>
-			The <a class="jdoc" href="http://download.eclipse.org/modeling/emf/emf/javadoc/2.9.0/org/eclipse/emf/parsley/ui/provider/FormPropertyDescriptionProvider.html" title="org.eclipse.emf.parsley.ui.provider.FormPropertyDescriptionProvider">FormPropertyDescriptionProvider</abbr></a> <a class="srcLink" href="https://github.com/eclipse/emf/blob/R2_8_0/plugins/org.eclipse.emf.ecore/src/org/eclipse/emf/parsley/ui/provider/FormPropertyDescriptionProvider.java" title="View Source Code" >(src)</a> can be used if you want
+			The <a class="jdoc" href="http://download.eclipse.org/modeling/emf/emf/javadoc/2.9.0/org/eclipse/emf/parsley/ui/provider/FormFeatureCaptionProvider.html" title="org.eclipse.emf.parsley.ui.provider.FormFeatureCaptionProvider">FormFeatureCaptionProvider</abbr></a> <a class="srcLink" href="https://github.com/eclipse/emf/blob/R2_8_0/plugins/org.eclipse.emf.ecore/src/org/eclipse/emf/parsley/ui/provider/FormFeatureCaptionProvider.java" title="View Source Code" >(src)</a> can be used if you want
 			to define the description only for the form. For example using the <a href="03-Components.php#TreeFormComponent.php" title="Go to &quot;Tree Form Component&quot;">Tree
 			Form</a> your definition will not be used in the tree.
+			</p>
+			<p>
+			In this case you can also define a method the returns directly the control, like in the example
+			below. In such methods there is another parameter that is the parent composite.
+			</p>
+			<p>
+			<div class="literallayout">
+				<div class="incode">
+					<p class="code">
+						<span class="keyword">public</span>&nbsp;Label&nbsp;label_Writer_name(Composite&nbsp;parent,&nbsp;EStructuralFeature&nbsp;feature)&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;Label&nbsp;label&nbsp;=&nbsp;defaultLabel(parent,&nbsp;feature);<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;label.setBackground(getFormToolkit().getColors().getColor(IFormColors.TITLE));<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;label;<br/>
+						}
+					</p>
+				</div>
+			</div>
 			</p>
 			<a name="ViewerLabelProvider" ></a>
 			<h2>Viewer Label Provider</h2>
 			<p>
 			The Label Provider can be customized by providing a specific implementation of <a class="jdoc" href="http://help.eclipse.org/helios/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/jface/viewers/ILabelProvider.html" title="org.eclipse.jface.viewers.ILabelProvider">ILabelProvider</abbr></a>
 			and injecting it in the spefic module <em>(TODO)</em>.
-			EMF Components provides such an implementation with the class <a class="jdoc" href="http://download.eclipse.org/modeling/emf/emf/javadoc/2.9.0/org/eclipse/emf/parsley/ui/provider/ViewerLabelProvider.html" title="org.eclipse.emf.parsley.ui.provider.ViewerLabelProvider">ViewerLabelProvider</abbr></a> <a class="srcLink" href="https://github.com/eclipse/emf/blob/R2_8_0/plugins/org.eclipse.emf.ecore/src/org/eclipse/emf/parsley/ui/provider/ViewerLabelProvider.java" title="View Source Code" >(src)</a>
+			EMF Parsley provides such an implementation with the class <a class="jdoc" href="http://download.eclipse.org/modeling/emf/emf/javadoc/2.9.0/org/eclipse/emf/parsley/ui/provider/ViewerLabelProvider.html" title="org.eclipse.emf.parsley.ui.provider.ViewerLabelProvider">ViewerLabelProvider</abbr></a> <a class="srcLink" href="https://github.com/eclipse/emf/blob/R2_8_0/plugins/org.eclipse.emf.ecore/src/org/eclipse/emf/parsley/ui/provider/ViewerLabelProvider.java" title="View Source Code" >(src)</a>
 			that is inteded to be surclassed by the programmer to provides specific implementations like in the example below.
 			</p>
 			<p>
 			<div class="literallayout">
 				<div class="incode">
 					<p class="code">
-						<span class="keyword">public</span>&nbsp;<span class="keyword">class</span>&nbsp;CustomLibraryLabelProvider&nbsp;<span class="keyword">extends</span>&nbsp;ViewerLabelProvider&nbsp;{
+						<span class="keyword">public</span>&nbsp;<span class="keyword">class</span>&nbsp;CustomLibraryLabelProvider&nbsp;<span class="keyword">extends</span>&nbsp;ViewerLabelProvider&nbsp;{<br/>
 						<br/>
-						
+						&nbsp;&nbsp;&nbsp;&nbsp;@Inject<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span>&nbsp;CustomLibraryLabelProvider(AdapterFactoryLabelProvider&nbsp;delegate)&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">super</span>(delegate);<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
 						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@Inject
+						&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span>&nbsp;String&nbsp;text(Book&nbsp;book)&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;<span class="string">"Book:&nbsp;"</span>&nbsp;+&nbsp;book.getTitle();<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
 						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span>&nbsp;CustomLibraryLabelProvider(AdapterFactoryLabelProvider&nbsp;delegate)&nbsp;{
+						&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span>&nbsp;String&nbsp;image(Book&nbsp;book)&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;<span class="string">"book2.png"</span>;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
 						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">super</span>(delegate);
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-						<br/>
-						
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span>&nbsp;String&nbsp;text(Book&nbsp;book)&nbsp;{
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;<span class="string">"Book:&nbsp;"</span>&nbsp;+&nbsp;book.getTitle();
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-						<br/>
-						
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span>&nbsp;String&nbsp;image(Book&nbsp;book)&nbsp;{
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;<span class="string">"book2.png"</span>;
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-						<br/>
-						
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span>&nbsp;String&nbsp;text(Borrower&nbsp;b)&nbsp;{
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;<span class="string">"Borrower:&nbsp;"</span>&nbsp;+&nbsp;b.getFirstName();
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;}
+						&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span>&nbsp;String&nbsp;text(Borrower&nbsp;b)&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;<span class="string">"Borrower:&nbsp;"</span>&nbsp;+&nbsp;b.getFirstName();<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+						}
 					</p>
 				</div>
 			</div>
@@ -521,7 +433,7 @@
 			<h2>Viewer Content Provider</h2>
 			<p>
 			The programmer can provide a specific implementation of <a class="jdoc" href="http://help.eclipse.org/helios/topic/org.eclipse.platform.doc.isv/reference/api/org/eclipse/jface/viewers/IContentProvider.html" title="org.eclipse.jface.viewers.IContentProvider">IContentProvider</abbr></a>
-			by injecting it in the spefic module <em>(TODO)</em>. EMF Components provides an implementation with the class
+			by injecting it in the spefic module <em>(TODO)</em>. EMF Parsley provides an implementation with the class
 			<a class="jdoc" href="http://download.eclipse.org/modeling/emf/emf/javadoc/2.9.0/org/eclipse/emf/parsley/edit/ui/provider/ViewerContentProvider.html" title="org.eclipse.emf.parsley.edit.ui.provider.ViewerContentProvider">ViewerContentProvider</abbr></a> <a class="srcLink" href="https://github.com/eclipse/emf/blob/R2_8_0/plugins/org.eclipse.emf.ecore/src/org/eclipse/emf/parsley/edit/ui/provider/ViewerContentProvider.java" title="View Source Code" >(src)</a> that can be easily used to
 			specify the children of all object on the tree, like in the example below.
 			</p>
@@ -529,47 +441,27 @@
 			<div class="literallayout">
 				<div class="incode">
 					<p class="code">
-						<span class="keyword">public</span>&nbsp;<span class="keyword">class</span>&nbsp;CustomLibraryViewerContentProvider&nbsp;<span class="keyword">extends</span>&nbsp;ViewerContentProvider&nbsp;{
+						<span class="keyword">public</span>&nbsp;<span class="keyword">class</span>&nbsp;CustomLibraryViewerContentProvider&nbsp;<span class="keyword">extends</span>&nbsp;ViewerContentProvider&nbsp;{<br/>
 						<br/>
-						
+						&nbsp;&nbsp;&nbsp;&nbsp;@Inject<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span>&nbsp;CustomLibraryViewerContentProvider(AdapterFactory&nbsp;adapterFactory)&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">super</span>(adapterFactory);<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
 						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@Inject
+						&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span>&nbsp;Object&nbsp;children(Library&nbsp;library)&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;library.getBooks();<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
 						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span>&nbsp;CustomLibraryViewerContentProvider(AdapterFactory&nbsp;adapterFactory)&nbsp;{
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">super</span>(adapterFactory);
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-						<br/>
-						
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span>&nbsp;Object&nbsp;children(Library&nbsp;library)&nbsp;{
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;library.getBooks();
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-						<br/>
-						
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span>&nbsp;Object&nbsp;children(Book&nbsp;book)&nbsp;{
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ArrayList&lt;Object&gt;&nbsp;children&nbsp;=&nbsp;<span class="keyword">new</span>&nbsp;ArrayList&lt;Object&gt;();
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Writer&nbsp;author&nbsp;=&nbsp;book.getAuthor();
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span>&nbsp;(author&nbsp;!=&nbsp;null)&nbsp;{
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;children.add(author);
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;children.addAll(book.getBorrowers());
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;children;
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;}
+						&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span>&nbsp;Object&nbsp;children(Book&nbsp;book)&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ArrayList&lt;Object&gt;&nbsp;children&nbsp;=&nbsp;<span class="keyword">new</span>&nbsp;ArrayList&lt;Object&gt;();<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Writer&nbsp;author&nbsp;=&nbsp;book.getAuthor();<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span>&nbsp;(author&nbsp;!=&nbsp;null)&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;children.add(author);<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;children.addAll(book.getBorrowers());<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;children;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+						}
 					</p>
 				</div>
 			</div>
@@ -588,29 +480,18 @@
 			<div class="literallayout">
 				<div class="incode">
 					<p class="code">
-						<span class="keyword">public</span>&nbsp;List&lt;?&gt;&nbsp;proposals_Book_author(Book&nbsp;book)&nbsp;{
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;Object&gt;&nbsp;proposals&nbsp;=&nbsp;<span class="keyword">new</span>&nbsp;LinkedList&lt;Object&gt;();
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Writer&nbsp;writer&nbsp;=&nbsp;EXTLibraryFactory.eINSTANCE.createWriter();
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;writer.setFirstName(<span class="string">"Fake"</span>);
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;writer.setLastName(<span class="string">"Writer"</span>);
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;proposals.add(writer);
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;writer&nbsp;=&nbsp;EXTLibraryFactory.eINSTANCE.createWriter();
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;writer.setFirstName(<span class="string">"Fake"</span>);
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;writer.setLastName(<span class="string">"Writer2"</span>);
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;proposals.add(writer);
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;proposals;
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;}
+						<span class="keyword">public</span>&nbsp;List&lt;?&gt;&nbsp;proposals_Book_author(Book&nbsp;book)&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;List&lt;Object&gt;&nbsp;proposals&nbsp;=&nbsp;<span class="keyword">new</span>&nbsp;LinkedList&lt;Object&gt;();<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;Writer&nbsp;writer&nbsp;=&nbsp;EXTLibraryFactory.eINSTANCE.createWriter();<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;writer.setFirstName(<span class="string">"Fake"</span>);<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;writer.setLastName(<span class="string">"Writer"</span>);<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;proposals.add(writer);<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;writer&nbsp;=&nbsp;EXTLibraryFactory.eINSTANCE.createWriter();<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;writer.setFirstName(<span class="string">"Fake"</span>);<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;writer.setLastName(<span class="string">"Writer2"</span>);<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;proposals.add(writer);<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;proposals;<br/>
+						}
 					</p>
 				</div>
 			</div>
@@ -672,7 +553,7 @@
 			<p>
 			<ul>
 			  <li><a href="04-Customization.php#JfaceProviderFactory.php" title="Go to &quot;Jface Provider Factory&quot;">JfaceProviderFactory</a></li>
-			  <li><a href="04-Customization.php#PropertyDescriptionProvider.php" title="Go to &quot;Property Description Provider&quot;">PropertyDescriptionProvider</a></li>
+			  <li><a href="04-Customization.php#PropertyDescriptionProvider.php" title="Go to &quot;Feature Caption Provider&quot;">PropertyDescriptionProvider</a></li>
 			  <li><a href="04-Customization.php#FeaturesProvider.php" title="Go to &quot;Features Provider&quot;">FeaturesProvider</a></li>
 			</ul>
 			</p>
@@ -704,7 +585,7 @@
 			</p>
 			<p>
 			<ul>
-			  <li><a href="04-Customization.php#FormPropertyDescriptionProvider.php" title="Go to &quot;Form Property Description Provider&quot;">FormPropertyDescriptionProvider</a></li>
+			  <li><a href="04-Customization.php#FormPropertyDescriptionProvider.php" title="Go to &quot;Form Feature Caption Provider&quot;">FormPropertyDescriptionProvider</a></li>
 			  <li><a href="04-Customization.php#FormControlFactory.php" title="Go to &quot;Form Control Factory&quot;">Form Control Factory</a></li>
 			  <li><a href="04-Customization.php#EditingDomainFinder.php" title="Go to &quot;Editing Domain Finder&quot;">EditingDomainFinder</a></li>
 			  <li><a href="04-Customization.php#JfaceProviderFactory.php" title="Go to &quot;Jface Provider Factory&quot;">JfaceProviderFactory</a></li>
@@ -736,23 +617,15 @@
 			<div class="literallayout">
 				<div class="incode">
 					<p class="code">
-						<span class="keyword">public</span>&nbsp;Control&nbsp;control_Writer_name(DataBindingContext&nbsp;dbc,IObservableValue&nbsp;featureObservable)&nbsp;{
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//Creating&nbsp;the&nbsp;control
-						<br/>
-						</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Text&nbsp;text&nbsp;=&nbsp;getToolkit().createText(getParent(),&nbsp;<span class="string">""</span>);
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text.setData(FormToolkit.KEY_DRAW_BORDER,&nbsp;FormToolkit.TREE_BORDER);
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text.setBackground(getToolkit().getColors().getColor(IFormColors.TITLE));
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//Binding&nbsp;the&nbsp;control&nbsp;to&nbsp;the&nbsp;feature&nbsp;observable
-						<br/>
-						</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dbc.bindValue(SWTObservables.observeText(text,&nbsp;SWT.Modify),&nbsp;&nbsp;&nbsp;&nbsp;featureObservable);
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;text;
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;}
+						<span class="keyword">public</span>&nbsp;Control&nbsp;control_Writer_name(DataBindingContext&nbsp;dbc,IObservableValue&nbsp;featureObservable)&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//Creating&nbsp;the&nbsp;control<br/>
+						</span>&nbsp;&nbsp;&nbsp;&nbsp;Text&nbsp;text&nbsp;=&nbsp;getToolkit().createText(getParent(),&nbsp;<span class="string">""</span>);<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;text.setData(FormToolkit.KEY_DRAW_BORDER,&nbsp;FormToolkit.TREE_BORDER);<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;text.setBackground(getToolkit().getColors().getColor(IFormColors.TITLE));<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//Binding&nbsp;the&nbsp;control&nbsp;to&nbsp;the&nbsp;feature&nbsp;observable<br/>
+						</span>&nbsp;&nbsp;&nbsp;&nbsp;dbc.bindValue(SWTObservables.observeText(text,&nbsp;SWT.Modify),&nbsp;&nbsp;&nbsp;&nbsp;featureObservable);<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;text;<br/>
+						}
 					</p>
 				</div>
 			</div>

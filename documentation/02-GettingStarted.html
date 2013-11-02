@@ -44,7 +44,7 @@
 		</li>
 		<li class="separator"><div class="separator">
 		<img src="triangle.gif" style="height:12px; margin-right: 2px; "  /><img src="triangle-90.gif" style="display:none; margin-right: 2px" height="12px" />
-		<a href="05-DSL.php">EMF Components DSL</a></div>
+		<a href="05-DSL.php">EMF Parsley DSL</a></div>
 		<ul style="display: none;" id="subToc_05-DSL.html">
 		<li id="05-DSL.html#xbase.html" ><a href="05-DSL.php#xbase.php" >Xbase features</a></li>
 		</ul>
@@ -60,7 +60,7 @@
 		<li id="07-Eclipse4.html#GetFirstExample.html" ><a href="07-Eclipse4.php#GetFirstExample.php" >First Example Setup</a></li>
 		<li id="07-Eclipse4.html#PrepareForEclipse4Application.html" ><a href="07-Eclipse4.php#PrepareForEclipse4Application.php" >Preparing for a pure Eclipse 4 Application</a></li>
 		<li id="07-Eclipse4.html#CreateEclipse4Application.html" ><a href="07-Eclipse4.php#CreateEclipse4Application.php" >Create an Eclipse 4 Application</a></li>
-		<li id="07-Eclipse4.html#Eclipse4ApplicationAndEMFComponents.html" ><a href="07-Eclipse4.php#Eclipse4ApplicationAndEMFComponents.php" >Using an EMF Parsley TreeComposite into an Eclipse 4 Part</a></li>
+		<li id="07-Eclipse4.html#Eclipse4ApplicationAndEMFParsley.html" ><a href="07-Eclipse4.php#Eclipse4ApplicationAndEMFParsley.php" >Using an EMF Parsley TreeComposite into an Eclipse 4 Part</a></li>
 		<li id="07-Eclipse4.html#Eclipse4Save.html" ><a href="07-Eclipse4.php#Eclipse4Save.php" >Adding the dirty state and Save command</a></li>
 		</ul>
 		</li>
@@ -68,13 +68,8 @@
 		Appendix
 		</li>
 		<li class="separator"><div class="separator">
-		<img src="triangle.gif" style="height:12px; margin-right: 2px; "  /><img src="triangle-90.gif" style="display:none; margin-right: 2px" height="12px" />
+		<img src="triangle.gif" style="height:12px; margin-right: 2px; display:none"  /><img src="triangle-90.gif" style="display:none; margin-right: 2px" height="12px" />
 		<a href="GettingSources.php">Getting Sources</a></div>
-		<ul style="display: none;" id="subToc_GettingSources.html">
-		<li id="GettingSources.html#InstallBuckminster.html" ><a href="GettingSources.php#InstallBuckminster.php" >Install Buckminster in the IDE</a></li>
-		<li id="GettingSources.html#PrepareTP.html" ><a href="GettingSources.php#PrepareTP.php" >Prepare an empty target platform</a></li>
-		<li id="GettingSources.html#MaterializeWP.html" ><a href="GettingSources.php#MaterializeWP.php" >Materialize the Workspace</a></li>
-		</ul>
 		</li>
 		<li class="separator"><div class="separator">
 		<img src="triangle.gif" style="height:12px; margin-right: 2px; display:none"  /><img src="triangle-90.gif" style="display:none; margin-right: 2px" height="12px" />
@@ -118,7 +113,7 @@
 			<div class="image" >
 			<a class="gallery" rel="prettyPhoto[all]" title="" href="images/emf-parsley-update-site.png">
 				<img src="images/emf-parsley-update-site.png" 
-					
+					width="600px"
 				/>
 			</a>
 			<div class="caption">
@@ -179,17 +174,12 @@
 			<div class="literallayout">
 				<div class="incode">
 					<p class="code">
-						<span class="keyword">parts</span>&nbsp;{
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">viewpart</span>&nbsp;org.eclipse.emf.parsley.examples.firstexample.view.library.treeform&nbsp;{
-						<br/>
-						<span class="keyword">viewname</span>&nbsp;<span class="string">"My&nbsp;Library&nbsp;Tree&nbsp;Form"</span>
-						<br/>
-						<span class="keyword">viewclass</span>&nbsp;
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;}
+						<span class="keyword">parts</span>&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">viewpart</span>&nbsp;org.eclipse.emf.parsley.examples.firstexample.view.library.treeform&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">viewname</span>&nbsp;<span class="string">"My&nbsp;Library&nbsp;Tree&nbsp;Form"</span><br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">viewclass</span>&nbsp;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+						}
 					</p>
 				</div>
 			</div>
@@ -217,17 +207,14 @@
 			<div class="literallayout">
 				<div class="incode">
 					<p class="code">
-						<span class="keyword">import</span>&nbsp;org.eclipse.emf.parsley.views.AbstractSaveableTreeFormView;
+						<span class="keyword">import</span>&nbsp;org.eclipse.emf.parsley.views.AbstractSaveableTreeFormView;<br/>
+						<span class="keyword">import</span>&nbsp;org.eclipse.emf.common.util.URI;<br/>
 						<br/>
-						<span class="keyword">import</span>&nbsp;org.eclipse.emf.common.util.URI;
+						<span class="keyword">public</span>&nbsp;<span class="keyword">class</span>&nbsp;LibraryTreeFormView&nbsp;<span class="keyword">extends</span>&nbsp;AbstractSaveableTreeFormView&nbsp;{<br/>
 						<br/>
-						<span class="keyword">public</span>&nbsp;<span class="keyword">class</span>&nbsp;LibraryTreeFormView&nbsp;<span class="keyword">extends</span>&nbsp;AbstractSaveableTreeFormView&nbsp;{
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">protected</span>&nbsp;URI&nbsp;createResourceURI()&nbsp;{
-						<br/>
-						<span class="keyword">return</span>&nbsp;URI.createFileURI(&nbsp;System.getProperty(<span class="string">"user.home"</span>)&nbsp;+&nbsp;<span class="string">"/MyLibrary.library"</span>&nbsp;);
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;}
+						&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">protected</span>&nbsp;URI&nbsp;createResourceURI()&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;URI.createFileURI(&nbsp;System.getProperty(<span class="string">"user.home"</span>)&nbsp;+&nbsp;<span class="string">"/MyLibrary.library"</span>&nbsp;);<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
 						<br/>
 						}
 					</p>
@@ -280,11 +267,9 @@
 			  		<div class="literallayout">
 			  	<div class="incode">
 			  		<p class="code">
-			  			<span class="keyword">public</span>&nbsp;Class&lt;?&nbsp;<span class="keyword">extends</span>&nbsp;EmptyResourceInitializer&gt;&nbsp;bindEmptyResourceInitializer()&nbsp;{
-			  			<br/>
-			  			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;LibraryEmptyResourceInitializer.<span class="keyword">class</span>;
-			  			<br/>
-			  			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+			  			<span class="keyword">public</span>&nbsp;Class&lt;?&nbsp;<span class="keyword">extends</span>&nbsp;EmptyResourceInitializer&gt;&nbsp;bindEmptyResourceInitializer()&nbsp;{<br/>
+			  			&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span>&nbsp;LibraryEmptyResourceInitializer.<span class="keyword">class</span>;<br/>
+			  			}
 			  		</p>
 			  	</div>
 			  </div>
@@ -294,29 +279,20 @@
 			  		<div class="literallayout">
 			  	<div class="incode">
 			  		<p class="code">
-			  			<span class="keyword">import</span>&nbsp;org.eclipse.emf.parsley.resource.EmptyResourceInitializer;
+			  			<span class="keyword">import</span>&nbsp;org.eclipse.emf.parsley.resource.EmptyResourceInitializer;<br/>
+			  			<span class="keyword">import</span>&nbsp;org.eclipse.emf.ecore.resource.Resource;<br/>
+			  			<span class="keyword">import</span>&nbsp;org.eclipse.emf.examples.extlibrary.EXTLibraryFactory;<br/>
+			  			<span class="keyword">import</span>&nbsp;org.eclipse.emf.examples.extlibrary.Library;<br/>
 			  			<br/>
-			  			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">import</span>&nbsp;org.eclipse.emf.ecore.resource.Resource;
+			  			<span class="keyword">public</span>&nbsp;<span class="keyword">class</span>&nbsp;LibraryEmptyResourceInitializer&nbsp;&nbsp;<span class="keyword">extends</span>&nbsp;EmptyResourceInitializer&nbsp;{&nbsp;<br/>
+			  			&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+			  			&nbsp;&nbsp;&nbsp;<span class="keyword">public</span>&nbsp;<span class="keyword">void</span>&nbsp;initialize(Resource&nbsp;resource)&nbsp;{&nbsp;<br/>
+			  			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">super</span>.initialize(resource);&nbsp;<br/>
+			  			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Library&nbsp;library&nbsp;=&nbsp;EXTLibraryFactory.eINSTANCE.createLibrary();&nbsp;<br/>
+			  			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resource.getContents().add(library);&nbsp;<br/>
+			  			&nbsp;&nbsp;&nbsp;}&nbsp;<br/>
 			  			<br/>
-			  			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">import</span>&nbsp;org.eclipse.emf.examples.extlibrary.EXTLibraryFactory;
-			  			<br/>
-			  			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">import</span>&nbsp;org.eclipse.emf.examples.extlibrary.Library;
-			  			<br/>
-			  			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span>&nbsp;<span class="keyword">class</span>&nbsp;LibraryEmptyResourceInitializer&nbsp;&nbsp;<span class="keyword">extends</span>&nbsp;EmptyResourceInitializer&nbsp;{&nbsp;
-			  			<br/>
-			  			&nbsp;&nbsp;
-			  			<br/>
-			  			&nbsp;<span class="keyword">public</span>&nbsp;<span class="keyword">void</span>&nbsp;initialize(Resource&nbsp;resource)&nbsp;{&nbsp;
-			  			<br/>
-			  			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">super</span>.initialize(resource);&nbsp;
-			  			<br/>
-			  			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Library&nbsp;library&nbsp;=&nbsp;EXTLibraryFactory.eINSTANCE.createLibrary();&nbsp;
-			  			<br/>
-			  			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resource.getContents().add(library);&nbsp;
-			  			<br/>
-			  			&nbsp;}&nbsp;
-			  			<br/>
-			  			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+			  			}
 			  		</p>
 			  	</div>
 			  </div>
@@ -356,7 +332,7 @@
 			<div class="image" >
 			<a class="gallery" rel="prettyPhoto[all]" title="" href="images/first-example-run.png">
 				<img src="images/first-example-run.png" 
-					
+					width="600px"
 				/>
 			</a>
 			<div class="caption">
@@ -385,7 +361,7 @@
 			<div class="image" >
 			<a class="gallery" rel="prettyPhoto[all]" title="" href="images/createWriter.png">
 				<img src="images/createWriter.png" 
-					
+					width="600px"
 				/>
 			</a>
 			<div class="caption">
@@ -431,30 +407,19 @@
 			<div class="literallayout">
 				<div class="incode">
 					<p class="code">
-						<span class="keyword">module</span>&nbsp;...&nbsp;{
+						<span class="keyword">module</span>&nbsp;...&nbsp;{<br/>
 						<br/>
-						
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">parts</span>&nbsp;{&nbsp;
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...&nbsp;&nbsp;&nbsp;&nbsp;
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;}
-						<br/>
-						<span class="keyword">featuresProvider</span>&nbsp;{
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">features</span>&nbsp;{
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Library&nbsp;-&gt;&nbsp;name
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Writer&nbsp;-&gt;&nbsp;name,&nbsp;address,&nbsp;books
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Book&nbsp;-&gt;&nbsp;author,&nbsp;title,&nbsp;category
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;}
-						<br/>
-						}
-						<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">parts</span>&nbsp;{&nbsp;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">featuresProvider</span>&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">features</span>&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Library&nbsp;-&gt;&nbsp;name<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Writer&nbsp;-&gt;&nbsp;name,&nbsp;address,&nbsp;books<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Book&nbsp;-&gt;&nbsp;author,&nbsp;title,&nbsp;category<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
 						}
 					</p>
 				</div>
@@ -478,17 +443,12 @@
 			<div class="literallayout">
 				<div class="incode">
 					<p class="code">
-						<span class="keyword">propertyDescriptionProvider</span>&nbsp;{
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">text</span>&nbsp;{
-						<br/>
-						Book&nbsp;:&nbsp;author&nbsp;-&gt;&nbsp;<span class="string">&apos;Wrote&nbsp;by:&apos;</span>
-						<br/>
-						Writer&nbsp;:&nbsp;name&nbsp;-&gt;&nbsp;<span class="string">&apos;Name:&apos;</span>
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;}
+						<span class="keyword">propertyDescriptionProvider</span>&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">text</span>&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Book&nbsp;:&nbsp;author&nbsp;-&gt;&nbsp;<span class="string">&apos;Wrote&nbsp;by:&apos;</span><br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Writer&nbsp;:&nbsp;name&nbsp;-&gt;&nbsp;<span class="string">&apos;Name:&apos;</span><br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+						}
 					</p>
 				</div>
 			</div>
@@ -500,15 +460,11 @@
 			<div class="literallayout">
 				<div class="incode">
 					<p class="code">
-						<span class="keyword">labelProvider</span>&nbsp;{
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">text</span>&nbsp;{
-						<br/>
-						Book&nbsp;b&nbsp;-&gt;&nbsp;<span class="string">&apos;"&apos;</span>&nbsp;+&nbsp;b.title&nbsp;+&nbsp;<span class="string">&apos;"&apos;</span>&nbsp;+<span class="string">&apos;&nbsp;(by&nbsp;&apos;</span>+&nbsp;b.author.name&nbsp;+&nbsp;<span class="string">&apos;)&apos;</span>
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;}
+						<span class="keyword">labelProvider</span>&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">text</span>&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Book&nbsp;b&nbsp;-&gt;&nbsp;<span class="string">&apos;"&apos;</span>&nbsp;+&nbsp;b.title&nbsp;+&nbsp;<span class="string">&apos;"&apos;</span>&nbsp;+<span class="string">&apos;&nbsp;(by&nbsp;&apos;</span>+&nbsp;b.author.name&nbsp;+&nbsp;<span class="string">&apos;)&apos;</span><br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+						}
 					</p>
 				</div>
 			</div>
@@ -517,7 +473,7 @@
 			<div class="image" >
 			<a class="gallery" rel="prettyPhoto[all]" title="" href="images/labelCustomization.png">
 				<img src="images/labelCustomization.png" 
-					
+					width="600px"
 				/>
 			</a>
 			<div class="caption">

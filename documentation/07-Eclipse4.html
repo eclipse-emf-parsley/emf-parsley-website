@@ -44,7 +44,7 @@
 		</li>
 		<li class="separator"><div class="separator">
 		<img src="triangle.gif" style="height:12px; margin-right: 2px; "  /><img src="triangle-90.gif" style="display:none; margin-right: 2px" height="12px" />
-		<a href="05-DSL.php">EMF Components DSL</a></div>
+		<a href="05-DSL.php">EMF Parsley DSL</a></div>
 		<ul style="display: none;" id="subToc_05-DSL.html">
 		<li id="05-DSL.html#xbase.html" ><a href="05-DSL.php#xbase.php" >Xbase features</a></li>
 		</ul>
@@ -60,7 +60,7 @@
 		<li id="07-Eclipse4.html#GetFirstExample.html" ><a href="07-Eclipse4.php#GetFirstExample.php" >First Example Setup</a></li>
 		<li id="07-Eclipse4.html#PrepareForEclipse4Application.html" ><a href="07-Eclipse4.php#PrepareForEclipse4Application.php" >Preparing for a pure Eclipse 4 Application</a></li>
 		<li id="07-Eclipse4.html#CreateEclipse4Application.html" ><a href="07-Eclipse4.php#CreateEclipse4Application.php" >Create an Eclipse 4 Application</a></li>
-		<li id="07-Eclipse4.html#Eclipse4ApplicationAndEMFComponents.html" ><a href="07-Eclipse4.php#Eclipse4ApplicationAndEMFComponents.php" >Using an EMF Parsley TreeComposite into an Eclipse 4 Part</a></li>
+		<li id="07-Eclipse4.html#Eclipse4ApplicationAndEMFParsley.html" ><a href="07-Eclipse4.php#Eclipse4ApplicationAndEMFParsley.php" >Using an EMF Parsley TreeComposite into an Eclipse 4 Part</a></li>
 		<li id="07-Eclipse4.html#Eclipse4Save.html" ><a href="07-Eclipse4.php#Eclipse4Save.php" >Adding the dirty state and Save command</a></li>
 		</ul>
 		</li>
@@ -68,13 +68,8 @@
 		Appendix
 		</li>
 		<li class="separator"><div class="separator">
-		<img src="triangle.gif" style="height:12px; margin-right: 2px; "  /><img src="triangle-90.gif" style="display:none; margin-right: 2px" height="12px" />
+		<img src="triangle.gif" style="height:12px; margin-right: 2px; display:none"  /><img src="triangle-90.gif" style="display:none; margin-right: 2px" height="12px" />
 		<a href="GettingSources.php">Getting Sources</a></div>
-		<ul style="display: none;" id="subToc_GettingSources.html">
-		<li id="GettingSources.html#InstallBuckminster.html" ><a href="GettingSources.php#InstallBuckminster.php" >Install Buckminster in the IDE</a></li>
-		<li id="GettingSources.html#PrepareTP.html" ><a href="GettingSources.php#PrepareTP.php" >Prepare an empty target platform</a></li>
-		<li id="GettingSources.html#MaterializeWP.html" ><a href="GettingSources.php#MaterializeWP.php" >Materialize the Workspace</a></li>
-		</ul>
 		</li>
 		<li class="separator"><div class="separator">
 		<img src="triangle.gif" style="height:12px; margin-right: 2px; display:none"  /><img src="triangle-90.gif" style="display:none; margin-right: 2px" height="12px" />
@@ -90,13 +85,13 @@
 				    <li><a href="07-Eclipse4.php#GetFirstExample.php" >First Example Setup</a></li>
 				    <li><a href="07-Eclipse4.php#PrepareForEclipse4Application.php" >Preparing for a pure Eclipse 4 Application</a></li>
 				    <li><a href="07-Eclipse4.php#CreateEclipse4Application.php" >Create an Eclipse 4 Application</a></li>
-				    <li><a href="07-Eclipse4.php#Eclipse4ApplicationAndEMFComponents.php" >Using an EMF Parsley TreeComposite into an Eclipse 4 Part</a></li>
+				    <li><a href="07-Eclipse4.php#Eclipse4ApplicationAndEMFParsley.php" >Using an EMF Parsley TreeComposite into an Eclipse 4 Part</a></li>
 				    <li><a href="07-Eclipse4.php#Eclipse4Save.php" >Adding the dirty state and Save command</a></li>
 				  </ul>
 				</div>
 				
 		<p>
-		Instead of using the Extension Point mechanism, EMF Components leverages from DSL and Google Guice Injection.
+		Instead of using the Extension Point mechanism, EMF Parsley leverages from DSL and Google Guice Injection.
 		</p>
 		<p>
 		Because of this, it is very easy to use it with Eclipse 4.
@@ -123,7 +118,7 @@
 			</p>
 			<p>
 			<ul>
-			  <li>org.eclipse.emf.parsley.examples.firstexample (the EMF Components example plug-in)</li>
+			  <li>org.eclipse.emf.parsley.examples.firstexample (the EMF Parsley example plug-in)</li>
 			  <li>org.eclipse.emf.examples.library (the model plug-in)</li>
 			  <li>org.eclipse.emf.examples.library.edit (the model.edit plug-in)</li>
 			</ul>
@@ -160,7 +155,7 @@
 			<p>
 			Create a Part and ensure that the application starts.
 			</p>
-		<a name="Eclipse4ApplicationAndEMFComponents" ></a>
+		<a name="Eclipse4ApplicationAndEMFParsley" ></a>
 		<span style="float:left; border-top: 1px dotted #d4d4dd; margin-left: 0; margin-top: 5px;
 			padding: 5px 0;
 			padding-top: 5px;"></span><a style="float: right" href="#">Top</a>
@@ -176,12 +171,9 @@
 			<div class="literallayout">
 				<div class="incode">
 					<p class="code">
-						<span class="comment">//&nbsp;Use&nbsp;these&nbsp;imports&nbsp;during&nbsp;Organizing&nbsp;Imports&nbsp;operation
-						<br/>
-						</span><span class="keyword">import</span>&nbsp;org.eclipse.emf.common.util.URI;
-						<br/>
-						<span class="keyword">import</span>&nbsp;org.eclipse.emf.ecore.resource.Resource;
-						<br/>
+						<span class="comment">//&nbsp;Use&nbsp;these&nbsp;imports&nbsp;during&nbsp;Organizing&nbsp;Imports&nbsp;operation<br/>
+						</span><span class="keyword">import</span>&nbsp;org.eclipse.emf.common.util.URI;<br/>
+						<span class="keyword">import</span>&nbsp;org.eclipse.emf.ecore.resource.Resource;<br/>
 						<span class="keyword">import</span>&nbsp;org.eclipse.swt.widgets.Composite;
 					</p>
 				</div>
@@ -191,8 +183,7 @@
 			<div class="literallayout">
 				<div class="incode">
 					<p class="code">
-						<span class="comment">//&nbsp;The&nbsp;part&nbsp;implements&nbsp;IMenuListener&nbsp;for&nbsp;context&nbsp;menu&nbsp;handling
-						<br/>
+						<span class="comment">//&nbsp;The&nbsp;part&nbsp;implements&nbsp;IMenuListener&nbsp;for&nbsp;context&nbsp;menu&nbsp;handling<br/>
 						</span>public&nbsp;class&nbsp;MyEclipse4Part&nbsp;implements&nbsp;IMenuListener
 					</p>
 				</div>
@@ -202,59 +193,46 @@
 			<div class="literallayout">
 				<div class="incode">
 					<p class="code">
-						<span class="comment">//the&nbsp;parent&nbsp;composite
+						<span class="comment">//the&nbsp;parent&nbsp;composite<br/>
+						</span>private&nbsp;Composite&nbsp;parent;<br/>
+						<span class="comment">//the&nbsp;EMF&nbsp;Parley&nbsp;composite&nbsp;for&nbsp;showing&nbsp;a&nbsp;tree&nbsp;and&nbsp;a&nbsp;detail&nbsp;form<br/>
+						</span>private&nbsp;TreeFormComposite&nbsp;treeFormComposite;<br/>
+						<span class="comment">//the&nbsp;EMF&nbsp;Resource<br/>
+						</span>private&nbsp;Resource&nbsp;resource;<br/>
 						<br/>
-						</span>private&nbsp;Composite&nbsp;parent;
+						<span class="comment">//Guice&nbsp;injected&nbsp;EMF&nbsp;Parsley&nbsp;component&nbsp;for&nbsp;contributing&nbsp;to&nbsp;the&nbsp;tree&nbsp;context&nbsp;menu<br/>
+						</span>private&nbsp;TreeActionBarContributor&nbsp;treeActionBarContributor&nbsp;=&nbsp;FirstexampleActivator.getDefault().getInjector()<br/>
 						<br/>
-						<span class="comment">//the&nbsp;EMF&nbsp;Parley&nbsp;composite&nbsp;for&nbsp;showing&nbsp;a&nbsp;tree&nbsp;and&nbsp;a&nbsp;detail&nbsp;form
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.getInstance(TreeActionBarContributor.class);<br/>
 						<br/>
-						</span>private&nbsp;TreeFormComposite&nbsp;treeFormComposite;
 						<br/>
-						<span class="comment">//the&nbsp;EMF&nbsp;Resource
+						<span class="comment">//Guice&nbsp;injected&nbsp;EMF&nbsp;Parsley&nbsp;factory&nbsp;for&nbsp;the&nbsp;tree&nbsp;detail&nbsp;form<br/>
+						</span>private&nbsp;TreeFormFactory&nbsp;treeFormFactory&nbsp;=&nbsp;FirstexampleActivator.getDefault().getInjector()<br/>
 						<br/>
-						</span>private&nbsp;Resource&nbsp;resource;
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.getInstance(TreeFormFactory.class);<br/>
 						<br/>
-						<span class="comment">//Guice&nbsp;injected&nbsp;EMF&nbsp;Parsley&nbsp;component&nbsp;for&nbsp;contributing&nbsp;to&nbsp;the&nbsp;tree&nbsp;context&nbsp;menu
+						<span class="comment">//Guice&nbsp;injected&nbsp;EMF&nbsp;Parsley&nbsp;Resource&nbsp;loader<br/>
+						</span>private&nbsp;ResourceLoader&nbsp;resourceLoader&nbsp;=&nbsp;FirstexampleActivator.getDefault().getInjector()<br/>
 						<br/>
-						</span>private&nbsp;TreeActionBarContributor&nbsp;treeActionBarContributor&nbsp;=&nbsp;FirstexampleActivator.getDefault().getInjector()
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.getInstance(ResourceLoader.class);<br/>
 						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.getInstance(TreeActionBarContributor.class);
+						<span class="comment">//Guice&nbsp;injected&nbsp;EMF&nbsp;Parsley&nbsp;editing&nbsp;domain<br/>
+						</span>private&nbsp;AdapterFactoryEditingDomain&nbsp;editingDomain&nbsp;=&nbsp;FirstexampleActivator.getDefault().getInjector()<br/>
 						<br/>
-						
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.getInstance(AdapterFactoryEditingDomain.class);<br/>
 						<br/>
-						<span class="comment">//Guice&nbsp;injected&nbsp;EMF&nbsp;Parsley&nbsp;factory&nbsp;for&nbsp;the&nbsp;tree&nbsp;detail&nbsp;form
+						<span class="comment">//Guice&nbsp;injected&nbsp;viewer&nbsp;initializer<br/>
+						</span>private&nbsp;ViewerInitializer&nbsp;viewerInitializer&nbsp;=&nbsp;(ViewerInitializer)&nbsp;FirstexampleActivator.getDefault().getInjector()<br/>
 						<br/>
-						</span>private&nbsp;TreeFormFactory&nbsp;treeFormFactory&nbsp;=&nbsp;FirstexampleActivator.getDefault().getInjector()
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.getInstance(ViewerInitializer.class);<br/>
 						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.getInstance(TreeFormFactory.class);
+						<span class="comment">//Guice&nbsp;injected&nbsp;save&nbsp;manager<br/>
+						</span>private&nbsp;ResourceSaveManager&nbsp;resourceSaveManager&nbsp;=&nbsp;FirstexampleActivator.getDefault().getInjector()<br/>
 						<br/>
-						<span class="comment">//Guice&nbsp;injected&nbsp;EMF&nbsp;Parsley&nbsp;Resource&nbsp;loader
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.getInstance(ResourceSaveManager.class);<br/>
 						<br/>
-						</span>private&nbsp;ResourceLoader&nbsp;resourceLoader&nbsp;=&nbsp;FirstexampleActivator.getDefault().getInjector()
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.getInstance(ResourceLoader.class);
-						<br/>
-						<span class="comment">//Guice&nbsp;injected&nbsp;EMF&nbsp;Parsley&nbsp;editing&nbsp;domain
-						<br/>
-						</span>private&nbsp;AdapterFactoryEditingDomain&nbsp;editingDomain&nbsp;=&nbsp;FirstexampleActivator.getDefault().getInjector()
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.getInstance(AdapterFactoryEditingDomain.class);
-						<br/>
-						<span class="comment">//Guice&nbsp;injected&nbsp;viewer&nbsp;initializer
-						<br/>
-						</span>private&nbsp;ViewerInitializer&nbsp;viewerInitializer&nbsp;=&nbsp;(ViewerInitializer)&nbsp;FirstexampleActivator.getDefault().getInjector()
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.getInstance(ViewerInitializer.class);
-						<br/>
-						<span class="comment">//Guice&nbsp;injected&nbsp;save&nbsp;manager
-						<br/>
-						</span>private&nbsp;ResourceSaveManager&nbsp;resourceSaveManager&nbsp;=&nbsp;FirstexampleActivator.getDefault().getInjector()
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.getInstance(ResourceSaveManager.class);
-						<br/>
-						<span class="comment">//URI&nbsp;for&nbsp;EMF&nbsp;Resource
-						<br/>
-						</span>private&nbsp;URI&nbsp;uri&nbsp;=&nbsp;URI.createFileURI(System.getProperty(<span class="string">"user.home"</span>)
+						<span class="comment">//URI&nbsp;for&nbsp;EMF&nbsp;Resource<br/>
+						</span>private&nbsp;URI&nbsp;uri&nbsp;=&nbsp;URI.createFileURI(System.getProperty(<span class="string">"user.home"</span>)<br/>
 						<br/>
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;<span class="string">"/MyLibrary.library"</span>);
 					</p>
@@ -268,19 +246,15 @@
 			<div class="literallayout">
 				<div class="incode">
 					<p class="code">
-						@PostConstruct
+						@PostConstruct<br/>
+						public&nbsp;void&nbsp;postConstruct(Composite&nbsp;parent)&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;this.parent&nbsp;=&nbsp;parent;<br/>
 						<br/>
-						public&nbsp;void&nbsp;postConstruct(Composite&nbsp;parent)&nbsp;{
+						&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//&nbsp;Initialize&nbsp;TreeFormFactory&nbsp;&amp;&nbsp;ResourceLoader<br/>
+						</span>&nbsp;&nbsp;&nbsp;&nbsp;init(treeFormFactory,&nbsp;resourceLoader);<br/>
 						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;this.parent&nbsp;=&nbsp;parent;
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//&nbsp;Initialize&nbsp;TreeFormFactory&nbsp;&amp;&nbsp;ResourceLoader
-						<br/>
-						</span>&nbsp;&nbsp;&nbsp;&nbsp;init(treeFormFactory,&nbsp;resourceLoader);
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//&nbsp;Prepare&nbsp;the&nbsp;menu&nbsp;action&nbsp;bar&nbsp;contributor&nbsp;upon&nbsp;the&nbsp;selection
-						<br/>
-						</span>&nbsp;&nbsp;&nbsp;&nbsp;treeFormComposite.getViewer().addSelectionChangedListener(treeActionBarContributor);
+						&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//&nbsp;Prepare&nbsp;the&nbsp;menu&nbsp;action&nbsp;bar&nbsp;contributor&nbsp;upon&nbsp;the&nbsp;selection<br/>
+						</span>&nbsp;&nbsp;&nbsp;&nbsp;treeFormComposite.getViewer().addSelectionChangedListener(treeActionBarContributor);<br/>
 						<br/>
 						}
 					</p>
@@ -294,36 +268,23 @@
 			<div class="literallayout">
 				<div class="incode">
 					<p class="code">
-						public&nbsp;void&nbsp;init(TreeFormFactory&nbsp;treeFormFactory,&nbsp;ResourceLoader&nbsp;resourceLoader)&nbsp;{
+						public&nbsp;void&nbsp;init(TreeFormFactory&nbsp;treeFormFactory,&nbsp;ResourceLoader&nbsp;resourceLoader)&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//create&nbsp;the&nbsp;tree-form&nbsp;composite<br/>
+						</span>&nbsp;&nbsp;&nbsp;&nbsp;treeFormComposite&nbsp;=&nbsp;treeFormFactory.createTreeFormMasterDetailComposite(parent,&nbsp;SWT.BORDER);<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//load&nbsp;the&nbsp;resource<br/>
+						</span>&nbsp;&nbsp;&nbsp;&nbsp;resource&nbsp;=&nbsp;resourceLoader.getResource(editingDomain,&nbsp;uri).getResource();<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//update&nbsp;the&nbsp;composite<br/>
+						</span>&nbsp;&nbsp;&nbsp;&nbsp;treeFormComposite.update(resource);<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//initialize&nbsp;and&nbsp;bind&nbsp;the&nbsp;context&nbsp;menu&nbsp;to&nbsp;the&nbsp;tree-form&nbsp;composite<br/>
+						</span>&nbsp;&nbsp;&nbsp;&nbsp;treeActionBarContributor.initialize(editingDomain);<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;viewerInitializer.addContextMenu(<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;treeFormComposite.getViewer(),&nbsp;treeActionBarContributor,&nbsp;editingDomain,&nbsp;this);<br/>
+						}<br/>
 						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//create&nbsp;the&nbsp;tree-form&nbsp;composite
 						<br/>
-						</span>&nbsp;&nbsp;&nbsp;&nbsp;treeFormComposite&nbsp;=&nbsp;treeFormFactory.createTreeFormMasterDetailComposite(parent,&nbsp;SWT.BORDER);
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//load&nbsp;the&nbsp;resource
-						<br/>
-						</span>&nbsp;&nbsp;&nbsp;&nbsp;resource&nbsp;=&nbsp;resourceLoader.getResource(editingDomain,&nbsp;uri).getResource();
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//update&nbsp;the&nbsp;composite
-						<br/>
-						</span>&nbsp;&nbsp;&nbsp;&nbsp;treeFormComposite.update(resource);
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//initialize&nbsp;and&nbsp;bind&nbsp;the&nbsp;context&nbsp;menu&nbsp;to&nbsp;the&nbsp;tree-form&nbsp;composite
-						<br/>
-						</span>&nbsp;&nbsp;&nbsp;&nbsp;treeActionBarContributor.initialize(editingDomain);
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;viewerInitializer.addContextMenu(
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;treeFormComposite.getViewer(),&nbsp;treeActionBarContributor,&nbsp;editingDomain,&nbsp;this);
-						<br/>
-						}
-						<br/>
-						@Override
-						<br/>
-						public&nbsp;void&nbsp;menuAboutToShow(IMenuManager&nbsp;manager)&nbsp;{
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;treeActionBarContributor.menuAboutToShow(manager);
-						<br/>
+						@Override<br/>
+						public&nbsp;void&nbsp;menuAboutToShow(IMenuManager&nbsp;manager)&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;treeActionBarContributor.menuAboutToShow(manager);<br/>
 						}
 					</p>
 				</div>
@@ -336,7 +297,7 @@
 			<div class="image" >
 			<a class="gallery" rel="prettyPhoto[all]" title="" href="images/07-eclipse4-part.png">
 				<img src="images/07-eclipse4-part.png" 
-					
+					width="600px"
 				/>
 			</a>
 			<div class="caption">
@@ -361,8 +322,7 @@
 			<div class="literallayout">
 				<div class="incode">
 					<p class="code">
-						@Inject
-						<br/>
+						@Inject<br/>
 						MDirtyable&nbsp;dirtyable;
 					</p>
 				</div>
@@ -375,11 +335,10 @@
 			<div class="literallayout">
 				<div class="incode">
 					<p class="code">
-						@PostConstruct
+						@PostConstruct<br/>
+						public&nbsp;void&nbsp;postConstruct(Composite&nbsp;parent,&nbsp;MDirtyable&nbsp;dirtyable)&nbsp;{<br/>
 						<br/>
-						public&nbsp;void&nbsp;postConstruct(Composite&nbsp;parent,&nbsp;MDirtyable&nbsp;dirtyable)&nbsp;{
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dirtyable&nbsp;=&nbsp;dirtyable;
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dirtyable&nbsp;=&nbsp;dirtyable;<br/>
 						<br/>
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.dirtyable.setDirty(false);
 					</p>
@@ -393,19 +352,13 @@
 			<div class="literallayout">
 				<div class="incode">
 					<p class="code">
-						editingDomain.getCommandStack().addCommandStackListener(
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;new&nbsp;CommandStackListener()&nbsp;{
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;void&nbsp;commandStackChanged(EventObject&nbsp;event)&nbsp;{
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(dirtyable&nbsp;!=&nbsp;null)
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dirtyable.setDirty(true);
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;});
+						editingDomain.getCommandStack().addCommandStackListener(<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new&nbsp;CommandStackListener()&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;void&nbsp;commandStackChanged(EventObject&nbsp;event)&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(dirtyable&nbsp;!=&nbsp;null)<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dirtyable.setDirty(true);<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});
 					</p>
 				</div>
 			</div>
@@ -417,20 +370,17 @@
 			<div class="literallayout">
 				<div class="incode">
 					<p class="code">
-						@Persist
+						@Persist<br/>
+						public&nbsp;void&nbsp;save(MDirtyable&nbsp;dirty)&nbsp;throws&nbsp;IOException&nbsp;{<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(resourceSaveManager.save(resource))&nbsp;{<br/>
 						<br/>
-						public&nbsp;void&nbsp;save(MDirtyable&nbsp;dirty)&nbsp;throws&nbsp;IOException&nbsp;{
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(dirty&nbsp;!=&nbsp;null)&nbsp;{<br/>
 						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(resourceSaveManager.save(resource))&nbsp;{
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dirty.setDirty(false);<br/>
 						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(dirty&nbsp;!=&nbsp;null)&nbsp;{
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
 						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dirty.setDirty(false);
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;}
-						<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
 						}
 					</p>
 				</div>
@@ -445,15 +395,13 @@
 			<div class="literallayout">
 				<div class="incode">
 					<p class="code">
-						public&nbsp;class&nbsp;SaveHandler&nbsp;{
+						public&nbsp;class&nbsp;SaveHandler&nbsp;{<br/>
 						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;@Execute
+						&nbsp;&nbsp;&nbsp;&nbsp;@Execute<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;void&nbsp;execute(EPartService&nbsp;partService,&nbsp;@Named(IServiceConstants.ACTIVE_PART)&nbsp;MPart&nbsp;part)&nbsp;{<br/>
 						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;void&nbsp;execute(EPartService&nbsp;partService,&nbsp;@Named(IServiceConstants.ACTIVE_PART)&nbsp;MPart&nbsp;part)&nbsp;{
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;partService.savePart(part,&nbsp;false);
-						<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;}
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;partService.savePart(part,&nbsp;false);<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
 						<br/>
 						}
 					</p>
