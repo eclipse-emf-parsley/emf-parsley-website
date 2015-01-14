@@ -103,131 +103,142 @@
 			</div>
 		</div>		
 		<!-- NAVBAR End -->
-<!-- START THE FEATURETTES -->
-<div id="page">  
-	<div class="inner">
-</br>
-<div class="row featurette">
-	<div class="col-md-8 col-md-offset-3">
-		<h1 id="par" class="featurette-heading text-parsley">Getting Sources</h1>
-		<p>
-		If you want to get the sources of EMF Parsley,
-		for instance, to contribute new features and patches, you can get them
-		via Git.
-		</p>
-		<p>
-		Note that you need two different workspaces (and two different target platforms)
-		if you want to materialize also the workspace for developing the <a href="http://eclipse.org/rap/">RAP</a>
-		version of Emf Parsley (see below).
-		</p>
-		<p>
-		In both cases, you need a <a href="http://www.eclipse.org/Xtext/download.html">"Full eclipse"</a> 
-		from Xtext website or use the <a href="http://www.eclipse.org/downloads/">eclipse DSL Package</a>
-		(we use Xtend for many sources files, and we do not put the generated files
-		in the repository).
-		</p>
-</br>
-<div >
-	<h2 id="par" class="featurette-heading text-parsley1">Materialization</h2>
-<p>
-We use <a href="http://www.eclipse.org/buckminster/">Buckminster</a> as the
-building and materialization infrastructure.
-We provide an <a href="http://git.eclipse.org/c/emf-parsley/org.eclipse.emf-parsley.git/plain/devtools/org.eclipse.emf.parsley.contributor/workspace.ant">ant script</a> which installs and runs Buckminster. 
-This will automatically materialize the sources in the workspace and setup
-the target platform, so that you will have everything that is necessary
-to have a working workspace with EMF Parsley sources.
-</p>
-<p>
-What this ant script will do in detail:
-</p>
-<p>
-</p>
-<ul>
-	<li>installs Buckminster headless if not found;
-		default path: <strong>${user.home}/buckminster.parsley</strong>.
-		It can be changed by passing a path for the variable
-	<strong>buckminster.home</strong>.</li>
-	<li>creates an eclipse workspace; 
-		default: <strong>${user.home}/workspaces/emf-parsley-sources</strong>
-		or <strong>${user.home}/workspaces/emf-parsley-rap-sources</strong>
-		for target <strong>materialize.workspace.rap</strong>.
-		It can be changed by passing a path for the 
-		variable <strong>WORKSPACE</strong></li>
-	<li>clones the Emf Parsley git repository;
-		default: <strong>${user.home}/git/org.eclipse.emf-parsley</strong>.
-		It can be changed by passing a full path for the
-		variable <strong>git.clone.dest</strong>.  Note that the repository will
-		be cloned only if it is not found in the given path.</li>
-	<li>creates and sets a target platform</li>
-	<li>imports necessary projects in the created workspace</li>
-	<li>runs the MWE2 workflow for generating Xtext language infrastructure for the DSL</li>
-	<li>sets some important workspace settings</li>
-</ul>
-<p>
-</p>
-<p>
-Especially the first time (for cloning and materializing the target platform)
-the script might take several minutes.  (Target platform materialization
-might also fail due to network problems; in that case, try and run the
-script again).
-</p>
-<p>
-Run the ant script located <a href="http://git.eclipse.org/c/emf-parsley/org.eclipse.emf-parsley.git/plain/devtools/org.eclipse.emf.parsley.contributor/workspace.ant">here</a>. 
-In Linux you can use following command:
-</p>
-<p>
-</p>
 
-wget -N http://git.eclipse.org/c/emf-parsley/org.eclipse.emf-parsley.git/plain/devtools/org.eclipse.emf.parsley.contributor/workspace.ant
-<p>
-</p>
-<p>
-and then run the script:
-</p>
-<p>
-</p>
+	<style>
+	.row {
+	    -webkit-animation: zoomIn 1.5s;
+	    -moz-animation: zoomIn 1.5s;
+	    -ms-animation: zoomIn 1.5s;
+	    -o-animation: zoomIn 1.5s;
+	    animation: zoomIn 1.5s;
+	}
+	</style>
 
-ant -f workspace.ant
-<p>
-</p>
-<p>
-If you want the workspace for RAP version of Emf Parsley, run the script as
-follows:
-</p>
-<p>
-</p>
-
-ant -f workspace.ant materialize.workspace.rap
-<p>
-</p>
-<p>
-You can pass custom path using the variables defined above; for instance
-</p>
-<p>
-</p>
-
-ant -Dgit.clone.dest=/myrepos/emf-parsley -DWORKSPACE=/myworkspaces/parsley -f workspace.ant
-<p>
-</p>
-<p>
-After the script terminates successfully, you can open the materialized
-workspace with Eclipse (an automatic build will also start for compiling
-Xtend files).  The workspace is already setup with the correct target platform.
-</p>
-</div>
-</br>
-<div >
-	<h2 id="par" class="featurette-heading text-parsley1">Oomph</h2>
-<p>
-Coming soon!
-</p>
-</div>
+	<!-- START THE FEATURETTES -->
+	<div id="page">  
+		<div class="inner">
+	</br>
+	<div class="row featurette">
+		<div class="col-md-6 col-md-offset-3">
+			<h1 id="par" class="featurette-heading text-parsley">Getting Sources</h1>
+			<p>
+			If you want to get the sources of EMF Parsley,
+			for instance, to contribute new features and patches, you can get them
+			via Git.
+			</p>
+			<p>
+			Note that you need two different workspaces (and two different target platforms)
+			if you want to materialize also the workspace for developing the <a href="http://eclipse.org/rap/">RAP</a>
+			version of Emf Parsley (see below).
+			</p>
+			<p>
+			In both cases, you need a <a href="http://www.eclipse.org/Xtext/download.html">"Full eclipse"</a> 
+			from Xtext website or use the <a href="http://www.eclipse.org/downloads/">eclipse DSL Package</a>
+			(we use Xtend for many sources files, and we do not put the generated files
+			in the repository).
+			</p>
+	</br>
+	<div >
+		<h2 id="par" class="featurette-heading text-parsley1">Materialization</h2>
+	<p>
+	We use <a href="http://www.eclipse.org/buckminster/">Buckminster</a> as the
+	building and materialization infrastructure.
+	We provide an <a href="http://git.eclipse.org/c/emf-parsley/org.eclipse.emf-parsley.git/plain/devtools/org.eclipse.emf.parsley.contributor/workspace.ant">ant script</a> which installs and runs Buckminster. 
+	This will automatically materialize the sources in the workspace and setup
+	the target platform, so that you will have everything that is necessary
+	to have a working workspace with EMF Parsley sources.
+	</p>
+	<p>
+	What this ant script will do in detail:
+	</p>
+	<p>
+	</p>
+	<ul>
+		<li>installs Buckminster headless if not found;
+			default path: <strong>${user.home}/buckminster.parsley</strong>.
+			It can be changed by passing a path for the variable
+		<strong>buckminster.home</strong>.</li>
+		<li>creates an eclipse workspace; 
+			default: <strong>${user.home}/workspaces/emf-parsley-sources</strong>
+			or <strong>${user.home}/workspaces/emf-parsley-rap-sources</strong>
+			for target <strong>materialize.workspace.rap</strong>.
+			It can be changed by passing a path for the 
+			variable <strong>WORKSPACE</strong></li>
+		<li>clones the Emf Parsley git repository;
+			default: <strong>${user.home}/git/org.eclipse.emf-parsley</strong>.
+			It can be changed by passing a full path for the
+			variable <strong>git.clone.dest</strong>.  Note that the repository will
+			be cloned only if it is not found in the given path.</li>
+		<li>creates and sets a target platform</li>
+		<li>imports necessary projects in the created workspace</li>
+		<li>runs the MWE2 workflow for generating Xtext language infrastructure for the DSL</li>
+		<li>sets some important workspace settings</li>
+	</ul>
+	<p>
+	</p>
+	<p>
+	Especially the first time (for cloning and materializing the target platform)
+	the script might take several minutes.  (Target platform materialization
+	might also fail due to network problems; in that case, try and run the
+	script again).
+	</p>
+	<p>
+	Run the ant script located <a href="http://git.eclipse.org/c/emf-parsley/org.eclipse.emf-parsley.git/plain/devtools/org.eclipse.emf.parsley.contributor/workspace.ant">here</a>. 
+	In Linux you can use following command:
+	</p>
+	<p>
+	</p>
+	
+	wget -N http://git.eclipse.org/c/emf-parsley/org.eclipse.emf-parsley.git/plain/devtools/org.eclipse.emf.parsley.contributor/workspace.ant
+	<p>
+	</p>
+	<p>
+	and then run the script:
+	</p>
+	<p>
+	</p>
+	
+	ant -f workspace.ant
+	<p>
+	</p>
+	<p>
+	If you want the workspace for RAP version of Emf Parsley, run the script as
+	follows:
+	</p>
+	<p>
+	</p>
+	
+	ant -f workspace.ant materialize.workspace.rap
+	<p>
+	</p>
+	<p>
+	You can pass custom path using the variables defined above; for instance
+	</p>
+	<p>
+	</p>
+	
+	ant -Dgit.clone.dest=/myrepos/emf-parsley -DWORKSPACE=/myworkspaces/parsley -f workspace.ant
+	<p>
+	</p>
+	<p>
+	After the script terminates successfully, you can open the materialized
+	workspace with Eclipse (an automatic build will also start for compiling
+	Xtend files).  The workspace is already setup with the correct target platform.
+	</p>
 	</div>
-</div>
+	</br>
+	<div >
+		<h2 id="par" class="featurette-heading text-parsley1">Oomph</h2>
+	<p>
+	Coming soon!
+	</p>
 	</div>
-	</br></br></br></br></br></br></br>
-	<!-- /END THE FEATURETTES -->
-</div>
+		</div>
+	</div>
+		</div>
+		</br></br></br></br></br></br></br>
+		<!-- /END THE FEATURETTES -->
+	</div>
 	<!-- FOOTER -->
 		<footer style="z-index: 1001;position:relative;background-color:#35414C;-webkit-box-shadow: 0px -3px 8px 0px rgba(171,209,173,1);-moz-box-shadow: 0px -3px 8px 0px rgba(171,209,173,1);box-shadow: 0px -3px 8px 0px rgba(30,51,72,1);margin-top:1%;">
 			<img width="100%" alt="" src="img/footer.jpg" />
