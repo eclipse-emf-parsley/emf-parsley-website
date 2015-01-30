@@ -138,8 +138,8 @@
 	<div style="position: fixed;" class="col-md-2">
 		<ul class="dropdown-menu" style="margin: 0px; max-width: 250px; display: block;box-shadow: 0 0px 7px rgba(0,0,0,.175);">
 			<li class="activemenu" ><a tabindex="-1" href="#par">Overview</a></li>
-			<li><a class="submenu" tabindex="-1" href="#par">Components</a></li>
-			<li><a class="submenu" tabindex="-1" href="#par">Customizations</a></li>
+			<li><a class="submenu" tabindex="-1" href="#par">Parsley Components</a></li>
+			<li><a class="submenu" tabindex="-1" href="#par">Customize</a></li>
 			<li class="divider"></li>
 			<li><a tabindex="-1" href="#par">First Example</a></li>
 			<li class="divider"></li>
@@ -176,7 +176,7 @@
 			</p>
 	</br>
 	<div >
-		<h2 id="par" class="featurette-heading text-parsley1">Components</h2>
+		<h2 id="par" class="featurette-heading text-parsley1">Parsley Components</h2>
 	<p>
 	<strong>EMF Parsley</strong> aims to provide a complete set of block components to visualize your model with the introspective EMF capabilities and can be used to easily build forms, viewers or editors.
 	</p>
@@ -197,10 +197,10 @@
 	</div>
 	</br>
 	<div >
-		<h2 id="par" class="featurette-heading text-parsley1">Customizations</h2>
+		<h2 id="par" class="featurette-heading text-parsley1">Customize</h2>
 	<p>
 	The main feature of <strong>EMF Parsley</strong> is that you can customize all basic UI behaviours of the components with Injection mechanism (based on <a href="http://code.google.com/p/google-guice">Google Guice</a>).
-	You can get more info in the <a href="#addref" rel="Components">Components Section</a>, but you don't have to know all details about the internal implementation to inject your own customization because
+	You can get more info in the <a href="#addref" rel="Customizations">Customizations Section</a>, but you don't have to know all details about the internal implementation to inject your own customization because
 	<strong>Emf Parsley</strong> provides a DSL to easy customize your UI, as explained in the next section.
 	</p>
 		</br>
@@ -302,12 +302,12 @@
 			<p>
 			</p>
 			<pre class="prettyprint  lang-parsley" skin="desert">
-				parts {
-					viewpart org.eclipse.emf.parsley.examples.firstexample.view.library.treeform {
-						viewname "My Library Tree Form"
-						viewclass 
-					}
+			parts {
+				viewpart org.eclipse.emf.parsley.examples.firstexample.view.library.treeform {
+					viewname "My Library Tree Form"
+					viewclass 
 				}
+			}
 			</pre>
 			<p>
 			</p>
@@ -391,27 +391,27 @@
 				<li>override method <strong>bindEmptyResourceInitializer()</strong> providing a class for Resource initialization
 					
 				<pre class="prettyprint" skin="desert">
-							public Class&lt;? extends EmptyResourceInitializer&gt; bindEmptyResourceInitializer() {
-								return LibraryEmptyResourceInitializer.class;
-							}
-						</pre></li>
+				public Class&lt;? extends EmptyResourceInitializer&gt; bindEmptyResourceInitializer() {
+					return LibraryEmptyResourceInitializer.class;
+				}
+				</pre></li>
 				<li>create a new class <strong>LibraryEmptyResourceInitializer</strong> extending from <strong>EmptyResourceInitializer</strong> for Resource initialization
 				<pre class="prettyprint" skin="desert">
-							import org.eclipse.emf.parsley.resource.EmptyResourceInitializer;
-							import org.eclipse.emf.ecore.resource.Resource;
-							import org.eclipse.emf.examples.extlibrary.EXTLibraryFactory;
-							import org.eclipse.emf.examples.extlibrary.Library;
-							
-							public class LibraryEmptyResourceInitializer  extends EmptyResourceInitializer { 
-							    
-							   public void initialize(Resource resource) { 
-							       super.initialize(resource); 
-							       Library library = EXTLibraryFactory.eINSTANCE.createLibrary(); 
-							       resource.getContents().add(library); 
-							   } 
-							
-							} 
-						</pre>
+				import org.eclipse.emf.parsley.resource.EmptyResourceInitializer;
+				import org.eclipse.emf.ecore.resource.Resource;
+				import org.eclipse.emf.examples.extlibrary.EXTLibraryFactory;
+				import org.eclipse.emf.examples.extlibrary.Library;
+				
+				public class LibraryEmptyResourceInitializer  extends EmptyResourceInitializer { 
+				    
+				   public void initialize(Resource resource) { 
+				       super.initialize(resource); 
+				       Library library = EXTLibraryFactory.eINSTANCE.createLibrary(); 
+				       resource.getContents().add(library); 
+				   }
+				
+				}
+				</pre>
 						The method <strong>initialize()</strong> will be executed only when the Resource is empty
 						(i.e., it has no contents).</li>
 			</ol>
@@ -508,7 +508,6 @@
 			<p>
 			</p>
 			<pre class="prettyprint  lang-parsley" skin="desert">
-			
 			module ... {
 			
 				parts { 
@@ -543,12 +542,12 @@
 			<p>
 			</p>
 			<pre class="prettyprint  lang-parsley" skin="desert">
-				propertyDescriptionProvider {
-					text {
-						Book : author -&gt; 'Wrote by:'
-						Writer : name -&gt; 'Name:'
-					}
+			propertyDescriptionProvider {
+				text {
+					Book : author -&gt; 'Wrote by:'
+					Writer : name -&gt; 'Name:'
 				}
+			}
 			</pre>
 			<p>
 			
@@ -558,11 +557,11 @@
 			 
 			</p>
 			<pre class="prettyprint  lang-parsley" skin="desert">
-				labelProvider {
-					text {
-						Book b -&gt; '"' + b.title + '"' +' (by '+ b.author.name + ')'
-					}
+			labelProvider {
+				text {
+					Book b -&gt; '"' + b.title + '"' +' (by '+ b.author.name + ')'
 				}
+			}
 			</pre>
 			<p>
 			
@@ -580,7 +579,7 @@
 			<p>
 			This section describes the components that are provided to be used out-of-the-box, that are the foundations for all parts built upon <strong>Emf Parsley</strong>.
 			Afetr a brief description, for each component we present a set of customizations, just to get an idea of how it works. You can refer
-			to <a href="#addref" rel="Customizations">Customization Section</a> for a complete list.
+			to <a href="#addref" rel="Customizations">Customizations Section</a> for a complete list.
 			</p>
 	</br>
 	<div >
@@ -607,7 +606,8 @@
 	(...)
 	
 	formComposite = formFactory.createFormDetailComposite(parent, SWT.NONE);
-	formComposite.init(eObject);</pre>
+	formComposite.init(eObject);
+	</pre>
 	<p>
 	</p>
 	<p>
@@ -659,12 +659,14 @@
 	</p>
 	<p>
 	</p>
-	<pre class="prettyprint" skin="desert">@Inject ViewerInitializer viewerInitializer;
+	<pre class="prettyprint" skin="desert">
+	@Inject ViewerInitializer viewerInitializer;
 	
 	(...)
 	
 	treeViewer = new TreeViewer(parent);
-	viewerInitializer.initialize(treeViewer, element);</pre>
+	viewerInitializer.initialize(treeViewer, element);
+	</pre>
 	<p>
 	</p>
 	<p>
@@ -711,12 +713,14 @@
 	</p>
 	<p>
 	</p>
-	<pre class="prettyprint" skin="desert">@Inject TreeFormFactory treeFormFactory;
+	<pre class="prettyprint" skin="desert">
+	@Inject TreeFormFactory treeFormFactory;
 	
 	(...)
 	
 	treeFormComposite = treeFormFactory.createTreeFormComposite(parent, SWT.BORDER);
-	treeFormComposite.update(application);</pre>
+	treeFormComposite.update(application);
+	</pre>
 	<p>
 	</p>
 	<p>
@@ -738,7 +742,8 @@
 	</p>
 	<p>
 	</p>
-	<pre class="prettyprint" skin="desert">@Inject ViewerFactory viewerFactory;
+	<pre class="prettyprint" skin="desert">
+	@Inject ViewerFactory viewerFactory;
 	
 	(...)
 	
@@ -785,8 +790,8 @@
 			class for overriding by Java.
 			</p>
 			<p>
-			As we deeply explained in the <a href="#addref" rel="Introduction"></a>, if you wnat to provide a specific implementation via
-			Java, you can use the Google Guice injection mechanism, buy overriding the specific class with your own
+			As we hinted in the <a href="#addref" rel="Overview">Overview</a>, if you want to provide a specific implementation via
+			Java, you can use the Google Guice injection mechanism, but overriding the specific class with your own
 			implementation. Note that an explicit contructor is needed, with the <strong>@Inject</strong> annotation to make Guice
 			correctly works.
 			</p>
@@ -802,7 +807,8 @@
 		</p>
 		<p>
 		</p>
-		<pre class="prettyprint  lang-parsley" skin="desert">labelProvider{
+		<pre class="prettyprint  lang-parsley" skin="desert">
+		labelProvider{
 			text{
 				Book -&gt; "Book:"+title
 				Borrower -&gt; "Borrower: "+firstName
@@ -855,7 +861,8 @@
 		</p>
 		<p>
 		</p>
-		<pre class="prettyprint  lang-parsley" skin="desert">viewerContentProvider{
+		<pre class="prettyprint  lang-parsley" skin="desert">
+		viewerContentProvider{
 			elements{
 				Library -&gt; books
 			}
@@ -920,11 +927,13 @@
 		</p>
 		<p>
 		</p>
-		<pre class="prettyprint  lang-parsley" skin="desert">featuresProvider{
+		<pre class="prettyprint  lang-parsley" skin="desert">
+		featuresProvider{
 			features{
 				Book -&gt; title, author, category, pages 		
 			}
-		}</pre>
+		}
+		</pre>
 		<p>
 		 
 		 
@@ -1004,12 +1013,14 @@
 		Here you can see an example of the DSL.
 		 
 		</p>
-		<pre class="prettyprint  lang-parsley" skin="desert">featureCaptionProvider{
+		<pre class="prettyprint  lang-parsley" skin="desert">
+		featureCaptionProvider{
 			text{
 				Book:author -&gt; "Wrote by:"
 				Writer:name -&gt; "Name:"
 			}
-		}</pre>
+		}
+		</pre>
 		<p>
 		
 		 
@@ -1070,13 +1081,15 @@
 		</p>
 		<p>
 		</p>
-		<pre class="prettyprint  lang-parsley" skin="desert">proposals{
+		<pre class="prettyprint  lang-parsley" skin="desert">
+		proposals{
 			Book:author -&gt; {
 				defaultProposals(feature).
 					filter(Writer).
 					filter[name.startsWith("F")].toList
 			}
-		}</pre>
+		}
+		</pre>
 		<p>
 		
 		 
@@ -1096,13 +1109,15 @@
 	</p>
 	<p>
 	</p>
-	<pre class="prettyprint" skin="desert">@Inject ViewerInitializer viewerInitializer;
+	<pre class="prettyprint" skin="desert">
+	@Inject ViewerInitializer viewerInitializer;
 	(...)
 	
 	treeActionBarContributor.initialize(editingDomain);
 	viewerInitializer.addContextMenu(treeFormComposite.getViewer(),
 	treeActionBarContributor, editingDomain, this);
-	treeFormComposite.getViewer().addSelectionChangedListener(treeActionBarContributor);</pre>
+	treeFormComposite.getViewer().addSelectionChangedListener(treeActionBarContributor);
+	</pre>
 	<p>
 	</p>
 		</br>
@@ -1114,7 +1129,8 @@
 		</p>
 		<p>
 		</p>
-		<pre class="prettyprint  lang-parsley" skin="desert">menuBuilder{
+		<pre class="prettyprint  lang-parsley" skin="desert">
+		menuBuilder{
 			menus{
 				Library-&gt; #[
 					submenu("Edit",#[
@@ -1134,7 +1150,8 @@
 					)
 				]
 			}
-		}</pre>
+		}
+		</pre>
 		<p>
 		</p>
 		<p>
@@ -1151,7 +1168,8 @@
 		<strong>EMF Parsley</strong> let you customize the <strong>form controls</strong> via the DSL as in the following example.
 		 
 		</p>
-		<pre class="prettyprint  lang-parsley" skin="desert">formControlFactory {
+		<pre class="prettyprint  lang-parsley" skin="desert">
+		 formControlFactory {
 			control {
 				Library : name -&gt; { }
 				Writer : books -&gt; 
@@ -1167,7 +1185,8 @@
 										SWT::WRAP, SWT::V_SCROLL)
 				}
 			}
-		}</pre>
+		}
+		</pre>
 		<p>
 		
 		 
@@ -1199,11 +1218,13 @@
 		</p>
 		<p>
 		</p>
-		<pre class="prettyprint  lang-parsley" skin="desert">dialogControlFactory {
+		<pre class="prettyprint  lang-parsley" skin="desert">
+		dialogControlFactory {
 			control {
 				...
 			}
-		}</pre>
+		}
+		</pre>
 		<p>
 		</p>
 	</div>
@@ -1430,13 +1451,13 @@
 	<p>
 	</p>
 	<pre class="prettyprint" skin="desert">
-		editingDomain.getCommandStack().addCommandStackListener(
-					new CommandStackListener() {
-						public void commandStackChanged(EventObject event) {
-							if (dirtyable != null)
-								dirtyable.setDirty(true);
-						}
-					});
+	editingDomain.getCommandStack().addCommandStackListener(
+				new CommandStackListener() {
+					public void commandStackChanged(EventObject event) {
+						if (dirtyable != null)
+							dirtyable.setDirty(true);
+					}
+				});
 	</pre>
 	<p>
 	</p>
@@ -1650,7 +1671,7 @@
 		});
 	</script>
 	<script type="text/javascript" src="google-code-prettify/lang-common.js"></script><script type="text/javascript">
-		registerLanguage('import|module|parts|labelProvider|text|image|elements|propertyDescriptionProvider|featuresProvider|features|formControlFactory|control|target|viewerContentProvider|children|viewpart|viewname|viewclass|viewcategory|for|new|switch|default|boolean|do|if|this|double|throw|byte|else|case|enum|instanceof|return|featureCaptionProvider|catch|extends|int|short|try|char|void|finally|long|float|super|while|proposals|dialogControlFactory', 'emfparsley');
+		registerLanguage('import|module|parts|labelProvider|text|image|elements|propertyDescriptionProvider|featuresProvider|features|formControlFactory|control|target|viewerContentProvider|children|viewpart|viewname|viewclass|viewcategory|for|new|switch|default|boolean|do|if|this|double|throw|byte|else|case|enum|instanceof|return|featureCaptionProvider|catch|extends|int|short|try|char|void|finally|long|float|super|while|proposals|dialogControlFactory|menuBuilder|menus|emfMenus', 'emfparsley');
 	</script>
 </body>
 </html>
