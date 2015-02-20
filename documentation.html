@@ -154,6 +154,13 @@
 			<li><a class="submenu" tabindex="-1" href="#par">Contextual Menu</a></li>
 			<li><a class="submenu" tabindex="-1" href="#par">Factories</a></li>
 			<li class="divider"></li>
+			<li><a tabindex="-1" href="#par">RAP</a></li>
+			<li><a class="submenu" tabindex="-1" href="#par">Introduction</a></li>
+			<li><a class="submenu" tabindex="-1" href="#par">Installing the RAP Tools</a></li>
+			<li><a class="submenu" tabindex="-1" href="#par">Setup the EMF Parsley</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAP Target Platform</a></li>
+			<li><a class="submenu" tabindex="-1" href="#par">Running the Parsley RAP</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UI Example</a></li>
+			<li><a class="submenu" tabindex="-1" href="#par">Running the Parsley RAP</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDO Example</a></li>
+			<li class="divider"></li>
 			<li><a tabindex="-1" href="#par">Eclipse 4.x</a></li>
 			<li><a class="submenu" tabindex="-1" href="#par">First Example Setup</a></li>
 			<li><a class="submenu" tabindex="-1" href="#par">Preparing for a pure e4</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Application</a></li>
@@ -170,27 +177,32 @@
 		<div class="col-md-8 col-md-offset-3">
 			<h1 id="par" class="featurette-heading text-parsley">Overview</h1>
 			<p>
-			<strong>Emf Parsley</strong> is a lightweight framework that allows easy and quick UI development
-			upon EMF. <strong>EMF Parsley</strong> is built from EMF Edit framework features like Tree, Form and Table builders with
-			standard JFace databinding, providing a complete component-based toolset. Moreover a DSL allows to customize several behaviors in each component and can be configured to use all kinds of EMF persistence implementations (XMI, Teneo, CDO).
+			<strong>EMF Parsley</strong> is a lightweight framework that allows easy and quick UI development based
+			upon EMF. <strong>EMF Parsley</strong> is built on top of the EMF Edit framework and it implements features like Trees, Forms and Table builders with
+			standard JFace databinding, providing a complete component-based toolset.
+			EMF Parsley can be configured to use all kinds of EMF persistence
+			implementations (XMI, Teneo, CDO) 
+			Moreover a DSL allows to easily customize several behaviors in each component.
 			</p>
 	</br>
 	<div >
 		<h2 id="par" class="featurette-heading text-parsley1">Parsley Components</h2>
 	<p>
-	<strong>EMF Parsley</strong> aims to provide a complete set of block components to visualize your model with the introspective EMF capabilities and can be used to easily build forms, viewers or editors.
+	<strong>EMF Parsley</strong> aims to provide a complete set of components to visualize your model with the introspective EMF capabilities
+	and can be used to easily build forms, viewers or editors.
 	</p>
 	<p>
 	There are some components that can be used out-of-the-box and can be considered as a reference implementation
-	of the mechanisms that are the bases of <strong>Emf Parsley</strong> itslef.
+	of the mechanisms that are the basis of <strong>EMF Parsley</strong> itslef.
 	</p>
 	<p>
 	</p>
 	<ul>
-		<li><strong>Tree</strong></li>
-		<li><strong>Form</strong></li>
-		<li><strong>Table</strong></li>
-		<li><strong>Search</strong> coming soon</li>
+		<li><strong>Trees</strong></li>
+		<li><strong>Forms</strong></li>
+		<li><strong>Tables</strong></li>
+		<li><strong>Editors</strong></li>
+		<li><strong>Search boxes</strong> coming soon</li>
 	</ul>
 	<p>
 	</p>
@@ -199,9 +211,11 @@
 	<div >
 		<h2 id="par" class="featurette-heading text-parsley1">Customize</h2>
 	<p>
-	The main feature of <strong>EMF Parsley</strong> is that you can customize all basic UI behaviours of the components with Injection mechanism (based on <a href="http://code.google.com/p/google-guice">Google Guice</a>).
-	You can get more info in the <a href="#addref" rel="Customizations">Customizations Section</a>, but you don't have to know all details about the internal implementation to inject your own customization because
-	<strong>Emf Parsley</strong> provides a DSL to easy customize your UI, as explained in the next section.
+	The main feature of <strong>EMF Parsley</strong> is that you can customize all basic UI behaviours of the components with <strong>Dependency Injection</strong>
+	mechanisms (based on <a href="http://code.google.com/p/google-guice">Google Guice</a>).
+	You can get more info in the <a href="#addref" rel="Customizations">Customizations Section</a>, but you don't have to know all details
+	about the internal implementation to inject your own customization because
+	<strong>EMF Parsley</strong> provides a DSL to easy customize your UI, as explained in the next section.
 	</p>
 		</br>
 		<h3 class="featurette-heading text-parsley2">Customize with the DSL<a id="Customizations_DSL"></a></h3>
@@ -214,7 +228,7 @@
 		<p>
 		</p>
 		<p>
-		Clicking the "Finish" button the wizard will open directly the dsl editor. You can use the content assistant
+		Clicking the "Finish" button the wizard will open directly the DSL editor. You can use the content assistant
 		to discover all features.
 		</p>
 		<p>
@@ -228,17 +242,21 @@
 		<p>
 		</p>
 		<ul>
-			<li><strong>parts</strong> let you define your View Parts: a file plugin.xml_emfparsley_gen will be generated
-				to synchronize with your own plugin.xml</li>
-			<li><strong>bindings</strong> section let you define which implementation will be used wiht Injection</li>
-			<li><strong>menu</strong> section let you define the contextual menu for all viewers (<strong>Tree</strong> and <strong>tables</strong>)</li>
-			<li><strong>features provider</strong> is used to retrieve list of feature for a given EClass to build <strong>Tables</strong>
-				and <strong>Forms</strong></li>
+			<li><strong>parts</strong> lets you define your View Parts: a file <strong>plugin.xml_emfparsley_gen</strong> will be generated
+				that is meant to be synchronized with your own <strong>plugin.xml</strong></li>
+			<li><strong>bindings</strong> section lets you define which implementation will be used with Injection</li>
+			<li><strong>menu</strong> section lets you define the contextual menu for all viewers (<strong>trees</strong> and <strong>tables</strong>)</li>
+			<li><strong>features provider</strong> is used to retrieve the list of feature for a given EClass to build <strong>tables</strong>
+				and <strong>forms</strong></li>
 			<li><strong>viewer content provider</strong> mediates between the viewer's model and the viewer, to provide the
 				contents to be shown</li>
-			<li><strong>Label Provider</strong> is used to retrieve the image and text rapresentation of the EStructuredFeature of a given EClass</li>
-			<li><strong>Caption Provider</strong> provides captions for each feature. Different implementations can be defined for <strong>Dialogs</strong> and <strong>Forms</strong></li>
-			<li><strong>Control Factory</strong> provides a custom implementation of Controls for each feature. Different implementations can be defined forfor <strong>Dialogs</strong> and <strong>Forms</strong></li>
+			<li><strong>Label Provider</strong> is used to retrieve the image and text rapresentation of the objects of a
+				tree viewer</li>
+			<li><strong>Caption Provider</strong> provides captions for each feature (namely, EStructuredFeature) of the object shown in a form,
+				in a dialog or in a table row. 
+				Different implementations can be defined for <strong>dialogs</strong>, <strong>forms</strong> and <strong>tables</strong>.</li>
+			<li><strong>Control Factory</strong> provides a custom implementation of the Controls for each feature shown in a form or a dialog. 
+				Different implementations can be defined forfor <strong>dialogs</strong> and <strong>forms</strong></li>
 		</ul>
 		<p>
 		</p>
@@ -276,6 +294,9 @@
 				<li>org.eclipse.emf.examples.library.editor (the editor plug-in)</li>
 			</ul>
 			<p>
+			</p>
+			<p>
+			The editor plug-in project can be removed.
 			</p>
 			<p>
 			Please consider that here we are starting from this well known EMF model taken out-of-the-box from Eclipse,
@@ -351,6 +372,7 @@
 			<p>
 			Now get back to <strong>module.parlsey</strong> file, go just after <strong>"viewclass"</strong> keyword, type <strong>"LibraryTreeFormView"</strong>
 			and <strong>Ctrl-Space</strong>: the content assist will set automatically the correct qualified name
+			(it will insert the class name, and add the corresponding import at the beginning of the file):
 			</p>
 			<p>
 			</p>
@@ -577,8 +599,8 @@
 		<div class="col-md-8 col-md-offset-3">
 			<h1 id="par" class="featurette-heading text-parsley">Components</h1>
 			<p>
-			This section describes the components that are provided to be used out-of-the-box, that are the foundations for all parts built upon <strong>Emf Parsley</strong>.
-			Afetr a brief description, for each component we present a set of customizations, just to get an idea of how it works. You can refer
+			This section describes the components that are provided to be used out-of-the-box, that are the foundations for all parts built upon <strong>EMF Parsley</strong>.
+			Afetr a brief description, for each component we present a set of customizations, just to give an idea of how it works. You can refer
 			to <a href="#addref" rel="Customizations">Customizations Section</a> for a complete list.
 			</p>
 	</br>
@@ -586,7 +608,7 @@
 		<h2 id="par" class="featurette-heading text-parsley1">Form Component</h2>
 	<p>
 	The <strong>Form Component</strong> can be used to rapresent an <abbr title="org.eclipse.emf.ecore.EObject">EObject</abbr>
-	 in a row-oriented form,
+	 in a form,
 	like in the image above.
 	</p>
 	<p>
@@ -596,7 +618,7 @@
 	</p>
 	<p>
 	<strong>EMF Parsley</strong> provides a factory that can be used to create such a component, like in the code below.
-	Here you can see that can be configured only in 2 lines, the constructor phase and the build&amp;fill phase.
+	Here you can see that a form can be configured in 2 lines, the constructor phase and the build&amp;fill phase.
 	</p>
 	<p>
 	</p>
@@ -611,42 +633,45 @@
 	<p>
 	</p>
 	<p>
-	Most of the job is done by the second line of code, that get the list of <abbr title="org.eclipse.emf.ecore.EStructuralFeature">EStructuralFeature</abbr>
-	 defined for the <abbr title="org.eclipse.emf.ecore.EClass">EClass</abbr>
+	Most of the job is done by the second line of code, which gets the list of <abbr title="org.eclipse.emf.ecore.EStructuralFeature">EStructuralFeature</abbr>
+	 defined
+	for the <abbr title="org.eclipse.emf.ecore.EClass">EClass</abbr>
 	
-	(that is the type of the object to rapresent) and builds a row for each of them. Each row is composed
-	by a <strong>label</strong> with the name of the feature and a <strong>control</strong> to access the data.
+	(that is the type of the object to represent) and builds a row for each of them. Each row is composed
+	by a <strong>caption</strong> which defaults to the name of the feature and a <strong>control</strong> to access the data.
 	</p>
 	<p>
-	All these aspect can be customized in many way, for example feature list, the labels and the controls.
+	All these aspects can be customized in many ways, for example you can customize the feature list, the captions and the controls.
 	</p>
 		</br>
 		<h3 class="featurette-heading text-parsley2">Feature List Customization<a id="FormComponent_features"></a></h3>
 		<p>
-		The <strong>list fo feature</strong> displayed on the form can be customized via the <a href="#FeaturesProvider">Feature	Provider</a> to select the features or the order.
+		The <strong>list of features</strong> displayed on the form can be customized via the <a href="#FeaturesProvider">Feature Provider</a> 
+		that returns the list of the features (in a given order).
 		</p>
 		</br>
 		<h3 class="featurette-heading text-parsley2">Caption Customization<a id="FormComponent_captions"></a></h3>
 		<p>
-		The description on the left side of the form can be customizzed via the <a href="#FormFeatureCaptionProvider">Form Feature Caption Provider</a>.
+		The captions of the features shown in the form can be customizzed via the <a href="#FormFeatureCaptionProvider">Form Feature Caption Provider</a>.
 		</p>
 		</br>
 		<h3 class="featurette-heading text-parsley2">Control Customization<a id="FormComponent_controls"></a></h3>
 		<p>
-		Otherwise to customize the controls on the right, you can use the <a href="#FormControlFactory">Form Control Factory</a>.
+		The Controls in the form can be customized via the <a href="#FormControlFactory">Form Control Factory</a>.
 		</p>
 		</br>
 		<h3 class="featurette-heading text-parsley2">Proposal Provider<a id="FormComponent_proposals"></a></h3>
 		<p>
-		Depending on the feature types, can be some fields that use predefined values (e.g. combo). You can provide the exact proposal list via the <a href="#ProposalProvider">Proposal Provider</a>
+		Depending on the feature types, some fields can have predefined values (e.g. combo). 
+		You can provide the exact proposal list via the <a href="#ProposalProvider">Proposal Provider</a>
 		</p>
 	</div>
 	</br>
 	<div >
 		<h2 id="par" class="featurette-heading text-parsley1">Tree Component</h2>
 	<p>
-	The <strong>Tree Component</strong> provides a tree rapresentation of data that can be feeded with an EResource, a
-	Resource URI, and a simple EObject. This component use the EMF Meta-Model information to display objects in the tree.
+	The <strong>Tree Component</strong> provides a tree rapresentation of data that can be fed with an EResource, a
+	Resource URI, and a simple EObject. This component uses the EMF Meta-Model information to display objects in the tree.
 	</p>
 	<p>
 	</p>
@@ -685,22 +710,22 @@
 		</br>
 		<h3 class="featurette-heading text-parsley2">LabelProvider<a id="Tree_LabelProvider"></a></h3>
 		<p>
-		The <a href="#ViewerLabelProvider">Viewer Label Provider</a> is the implementation ov a ILabelProvider interface
+		The <a href="#ViewerLabelProvider">Viewer Label Provider</a> is the implementation of an ILabelProvider interface
 		and is responsible to provide the text and image rapresentation for each EObject visualized.
 		</p>
 		</br>
 		<h3 class="featurette-heading text-parsley2">Adding Menu<a id="Tree_MenuBuilder"></a></h3>
 		<p>
-		The contextual menu can be added to the viewer via the ViewerInitializer, as explained in the <a href="#addref" rel="Contextual Menu">Menu section</a>
-		The <a href="#MenuBuilder">Menu Builder</a> allow to fully customize the contextual menu.
+		The contextual menu can be added to the viewer via the ViewerInitializer, as explained in the <a href="#addref" rel="Contextual Menu">Menu section</a>.
+		The <a href="#MenuBuilder">Menu Builder</a> allows to fully customize the menus.
 		</p>
 	</div>
 	</br>
 	<div >
 		<h2 id="par" class="featurette-heading text-parsley1">Tree Form Component</h2>
 	<p>
-	The <strong>Tree Form Component</strong> contains a <a href="#addref" rel="Tree Component"></a> that provides a tree rapresentation of data that can be feeded with
-	an EResource, a Resource URI, and a simple EObject. This component use the EMF Meta-Model information to display objects in 
+	The <strong>Tree Form Component</strong> contains a <a href="#addref" rel="Tree Component"></a> that provides a tree rapresentation of data that can be fed with
+	an EResource, a Resource URI, and a simple EObject. This component uses the EMF Meta-Model information to display objects in 
 	the tree. The component also combines a <a href="#addref" rel="Form Component"></a> detail that display the current selected object.
 	</p>
 	<p>
@@ -732,8 +757,8 @@
 	<div >
 		<h2 id="par" class="featurette-heading text-parsley1">Table Component</h2>
 	<p>
-	The <strong>Table Component</strong> can rapresent data in a grid, once you have specified what kind of object need to be rapresented. 
-	It uses metamodel infos to build column as needed.
+	The <strong>Table Component</strong> can rapresent data in a grid, once you have specified the type of objects to represent. 
+	It uses metamodel information to build columns as needed.
 	</p>
 	<p>
 	</p>
@@ -753,28 +778,29 @@
 	</p>
 	<p>
 	The class <abbr title="org.eclipse.emf.parsley.builders.TableViewerColumnBuilder">TableViewerColumnBuilder</abbr>
-	 has the responsability to
+	 has the responsibility to
 	build the columns of the Table, by using the <a href="#FeaturesProvider">Features Provider</a> to get the list
-	of features and the <a href="#FeatureCaptionProvider">Feature Caption Provider</a> for the captions.
+	of features and the <a href="#FeatureCaptionProvider">Feature Caption Provider</a> for the column headers.
 	The class <abbr title="org.eclipse.emf.parsley.ui.provider.TableColumnLabelProvider">TableColumnLabelProvider</abbr>
 	 can be used to specify
-	an implementation of ILabelProvider for each column.
+	an implementation of ILabelProvider for each cell in the table.
 	</p>
 		</br>
 		<h3 class="featurette-heading text-parsley2">Feature List Customization<a id="Table_features"></a></h3>
 		<p>
-		The <strong>list fo feature</strong> displayed on the form can be customized via the <a href="#TableFeaturesProvider">Table Feature Provider</a> to select the features or the order.
+		The <strong>list fo features</strong> displayed on the table can be customized via the <a href="#TableFeaturesProvider">Table Feature Provider</a>.
+		This list of features will be used for building the columns of the table.
 		</p>
 		</br>
 		<h3 class="featurette-heading text-parsley2">Caption Customization<a id="Table_captions"></a></h3>
 		<p>
-		The description on the left side of the form can be customizzed via the <a href="#FeatureCaptionProvider">Caption Provider</a>.
+		The headers of the table can be customizzed via the <a href="#FeatureCaptionProvider">Caption Provider</a>.
 		</p>
 		</br>
 		<h3 class="featurette-heading text-parsley2">Adding Menu<a id="Table_MenuBuilder"></a></h3>
 		<p>
-		The contextual menu can be added to the viewer via the ViewerInitializer, as explained in the <a href="#addref" rel="Contextual Menu">Menu section</a>
-		The <a href="#MenuBuilder">Menu Builder</a> allow to fully customize the contextual menu.
+		The context menu can be added to the viewer via the ViewerInitializer, as explained in the <a href="#addref" rel="Contextual Menu">Menu section</a>
+		The <a href="#MenuBuilder">Menu Builder</a> allows to fully customize the menus.
 		</p>
 	</div>
 		</div>
@@ -784,16 +810,18 @@
 		<div class="col-md-8 col-md-offset-3">
 			<h1 id="par" class="featurette-heading text-parsley">Customizations</h1>
 			<p>
-			In this chapter we will describe how <strong>EMF Parsley</strong> let you customize the standard behaviours.
-			A DSL is provided to easily customize most common feature, but you can customize all aspect by doing
-			manually. As a matter of fact each customization is explained in a single section, with the details on the DSL (if available) and the
-			class for overriding by Java.
+			In this chapter we will describe how <strong>EMF Parsley</strong> lets you customize the standard behaviours.
+			A DSL is provided to easily customize most common features, but you can also customize all aspects
+			manually (i.e., in directly Java).
+			As a matter of fact each customization is explained in a single section, with the details on how to do
+			that with the DSL (if available) and in Java.
 			</p>
 			<p>
-			As we hinted in the <a href="#addref" rel="Overview">Overview</a>, if you want to provide a specific implementation via
-			Java, you can use the Google Guice injection mechanism, but overriding the specific class with your own
-			implementation. Note that an explicit contructor is needed, with the <strong>@Inject</strong> annotation to make Guice
-			correctly works.
+			If you want to provide a specific implementation in
+			Java, you can use the Google Guice injection mechanism, by overriding the specific class with your own
+			implementation. Note that in some cases an explicit constructor is needed, with the <strong>@Inject</strong> annotation to make Guice
+			correctly works; when this is the case, the base class will already have such a constructor and you will only
+			need to override it, but you will also need to add the <strong>@Inject</strong> annotation explicitly.
 			</p>
 	</br>
 	<div >
@@ -801,7 +829,7 @@
 		</br>
 		<h3 class="featurette-heading text-parsley2">Viewer Label Provider<a id="ViewerLabelProvider"></a></h3>
 		<p>
-		The Label Prorvider as in JFace allows to specify the representation of a given Object. <strong>EMF Parsley</strong>
+		The Jface Label Prorvider allows to specify the representation of a given Object. <strong>EMF Parsley</strong>
 		provides an implementation that uses the information provided via the DSL, as you can see in the snippet
 		below.
 		</p>
@@ -821,12 +849,20 @@
 		<p>
 		</p>
 		<p>
-		However if you wnat to use your own implementation, you can do that by providing a specific implementation of <abbr title="org.eclipse.jface.viewers.ILabelProvider">ILabelProvider</abbr>
+		However if you want to customize the label provider in Java, you need to provide an implementation of <abbr title="org.eclipse.jface.viewers.ILabelProvider">ILabelProvider</abbr>
 		
 		and injecting it in the spefic module <strong>(TODO)</strong>.
-		<strong>EMF Parsley</strong> provides such an implementation with the class <abbr title="org.eclipse.emf.parsley.ui.provider.ViewerLabelProvider">ViewerLabelProvider</abbr>
+		<strong>EMF Parsley</strong> provides such a base implementation with the class <abbr title="org.eclipse.emf.parsley.ui.provider.ViewerLabelProvider">ViewerLabelProvider</abbr>
 		
-		that is inteded to be surclassed by the programmer to provides specific implementations like in the example below.
+		that is meant to be subclassed by the programmer to provide specific implementations like in the example below.
+		</p>
+		<p>
+		This class, like many others in our framework, relies on the <strong>polymorphic dispatcher</strong> idiom to declaratively
+		specify text and image representations for objects. It boils down to the fact that the only thing you need to do is 
+		to implement a method that matches a specific signature: <strong>text</strong> and <strong>image</strong> for the String representation and
+		the image, respectively.  These methods will need to specify as parameter the type of the object to represent. 
+		For the image, you can either specify an image filename or an Image object.  File names for images are
+		assumed to refer to files in the <strong>icons</strong> folder of the containing plug-in.
 		</p>
 		<p>
 		</p>
@@ -856,7 +892,7 @@
 		</br>
 		<h3 class="featurette-heading text-parsley2">Viewer Content Provider<a id="ViewerContentProvider"></a></h3>
 		<p>
-		As in Jface, the Content Provider is used to get the elements to represent and for tree their children.
+		As in Jface, the Content Provider is used to get the elements to represent in a tree and their children.
 		<strong>EMF Parsley</strong> provides an implementation that uses the DSL as in the code below.
 		</p>
 		<p>
@@ -881,10 +917,10 @@
 		<p>
 		The developer can also provide a specific implementation of <abbr title="org.eclipse.jface.viewers.IContentProvider">IContentProvider</abbr>
 		
-		by injecting it in the spefic module <strong>(TODO)</strong>. EMF Parsley provides an implementation with the class
+		by injecting it in the spefic module <strong>(TODO)</strong>. EMF Parsley provides a base implementation with the class
 		<abbr title="org.eclipse.emf.parsley.edit.ui.provider.ViewerContentProvider">ViewerContentProvider</abbr>
 		 that can be easily used to
-		specify the children of all object on the tree, like in the example below.
+		specify the children of all object on the tree, like in the example below (again, this uses the polymorphic dispatch idiom).
 		</p>
 		<p>
 		</p>
@@ -920,9 +956,9 @@
 		</br>
 		<h3 class="featurette-heading text-parsley2">Features Provider<a id="FeaturesProvider"></a></h3>
 		<p>
-		<strong>EMF Parsley</strong> uses thi kinf of provider wherever a list of feature is requested for a certain EClass.
+		<strong>EMF Parsley</strong> uses this kind of provider wherever a list of features is requested for a certain EClass.
 		The default is to return the list of all the features in the EClass, but the programmer can customize it (for instance,
-		by returning only a superset, or using a different order) on an EClass-based strategy.
+		by returning only a superset, or in a different order) on an EClass-based strategy.
 		Thus you can use the DSL to specify that list, as in the snipped below.
 		</p>
 		<p>
@@ -937,7 +973,7 @@
 		<p>
 		 
 		 
-		If we look at Java, there are more chances to customize this behaviour, but we need to go deep in some
+		If you want to customize it in Java, there are more ways to customize this behaviour, but we need to go deep in some
 		details of the <strong>Feature Provider</strong> implementation.
 		</p>
 		<p>
@@ -949,7 +985,8 @@
 		<abbr title="org.eclipse.emf.parsley.ui.provider.FeaturesProvider">FeaturesProvider</abbr>
 		.
 		The default behavior is to simply return all the features of the a given EClass,
-		in the order they are defined in the EClass, as implemented by the method <strong>defaultFeatures</strong> in <abbr title="org.eclipse.emf.parsley.ui.provider.FeaturesProvider">FeaturesProvider</abbr>
+		in the order they are defined in the EClass, as implemented by the method <strong>defaultFeatures</strong> in 
+		<abbr title="org.eclipse.emf.parsley.ui.provider.FeaturesProvider">FeaturesProvider</abbr>
 		.
 		</p>
 		<p>
@@ -1004,6 +1041,12 @@
 		:
 		the customizations will be applied only to <a href="#addref" rel="Table Component">Tables</a>, not to <a href="#addref" rel="Form Component">Forms</a>.
 		</p>
+		<p>
+		If there are no specific customization in the <abbr title="org.eclipse.emf.parsley.ui.provider.TableFeaturesProvider">TableFeaturesProvider</abbr>
+		,
+		we fall back to <abbr title="org.eclipse.emf.parsley.ui.provider.FeaturesProvider">FeaturesProvider</abbr>
+		.
+		</p>
 		</br>
 		<h3 class="featurette-heading text-parsley2">Feature Caption Provider<a id="FeatureCaptionProvider"></a></h3>
 		<p>
@@ -1022,14 +1065,15 @@
 		}
 		</pre>
 		<p>
-		
-		 
-		The <abbr title="org.eclipse.emf.parsley.ui.provider.FeatureCaptionProvider">FeatureCaptionProvider</abbr>
-		 provides captions for
-		the features. It can be customized, with injection (see Injection paragraph), to customize the caption label on the
-		left of each control in a form and the headers in a table's columns. 
-		The framework use a polimorphic mechanism to find customizations, so that It can
-		be written a method with a specific signature build by the keyword <strong>'text'</strong> followed by the EClass and the EStructuralFeature.
+		</p>
+		<p>
+		If you want to customize it in Java, you need to derive from
+		<abbr title="org.eclipse.emf.parsley.ui.provider.FeatureCaptionProvider">FeatureCaptionProvider</abbr>
+		. 
+		It can be customized, with injection <strong>TODO (see Injection paragraph)</strong>, to customize the caption label on the
+		left of each control in a form and the headers in a table's column. 
+		The framework uses a polimorphic mechanism to find customizations: it searches for
+		methods with a specific signature: the name is built by the string <strong>'text'</strong> followed by the EClass and the EStructuralFeature.
 		All parts of the name are separated by an underscore character and the method must accept a parameter of type EStructuralFeature.
 		</p>
 		<p>
@@ -1059,7 +1103,8 @@
 		</p>
 		<p>
 		In this case you can also define a method the returns directly the control, like in the example
-		below. In such methods there is another parameter that is the parent composite.
+		below. In such methods there is another parameter that is the parent composite (that is automatically
+		passed by the framework).
 		</p>
 		<p>
 		</p>
@@ -1072,12 +1117,23 @@
 		</pre>
 		<p>
 		</p>
+		<p>
+		If there is no customization in the <abbr title="org.eclipse.emf.parsley.ui.provider.FormFeatureCaptionProvider">FormFeatureCaptionProvider</abbr>
+		
+		we fall back to <abbr title="org.eclipse.emf.parsley.ui.provider.FeatureCaptionProvider">FeatureCaptionProvider</abbr>
+		.
+		</p>
 		</br>
 		<h3 class="featurette-heading text-parsley2">Proposal Provider<a id="ProposalProvider"></a></h3>
 		<p>
-		Some controls use a list of proposal to help the end user experince: for example the combo box has a
-		list of proposal, but also the simple text can use the proposal to assist and correct the hand-writed
-		values. For each feature it can be specified a list of proposals via the DSl.
+		Some controls use a list of proposals to help the end user experince: for example a single value reference feature
+		will be rendered by default with a combo box, automatically filled with all the possible targets for
+		that reference; similarly for Enum features. You can customize the proposals, and you can specify proposals also
+		for simple text fields (a content assist dialog will show up for text fields).
+		</p>
+		<p>
+		For each feature you can specify a list of proposals via the DSL.  In the example below, we first
+		compute the default proposals for that feature and then we filter the proposals.
 		</p>
 		<p>
 		</p>
@@ -1098,13 +1154,16 @@
 		and implementing the method </p>
 		<pre class="prettyprint" skin="desert">public List&lt;?&gt; proposals_Book_author(Book book) {...}</pre>
 		<p>
+		.  This
+		method follows the same convention on the signature name as explained in <a href="#FeatureCaptionProvider">Feature
+		Provider</a>.
 		</p>
 	</div>
 	</br>
 	<div >
 		<h2 id="par" class="featurette-heading text-parsley1">Contextual Menu</h2>
 	<p>
-	Contextual menu can be added to any viewer by usinf the <abbr title="org.eclipse.emf.parsley.viewers.ViewerInitializer">ViewerInitializer</abbr>
+	A context menu can be added to any viewer by using the <abbr title="org.eclipse.emf.parsley.viewers.ViewerInitializer">ViewerInitializer</abbr>
 	.
 	</p>
 	<p>
@@ -1120,11 +1179,15 @@
 	</pre>
 	<p>
 	</p>
+	<p>
+	The contents of such menu are built automatically by the framework or customized by the programmer,
+	as shown in the next section.
+	</p>
 		</br>
 		<h3 class="featurette-heading text-parsley2">Menu Builder<a id="MenuBuilder"></a></h3>
 		<p>
-		<strong>EMF Parsley</strong> logically separate the menu into 2 parts. The first section contains all common edit commands
-		such as <strong>copy</strong> and <strong>paste</strong>. The second section regards EMF specific commands, such as for example <strong>new child</strong>.
+		<strong>EMF Parsley</strong> logically separates the menu into 2 parts. The first section contains all common edit commands
+		such as <strong>copy</strong> and <strong>paste</strong>. The second section contains EMF specific commands, such as for example <strong>new child</strong>.
 		You can use the DSL to fully customize the menu, as in the example below.
 		</p>
 		<p>
@@ -1165,11 +1228,11 @@
 		</br>
 		<h3 class="featurette-heading text-parsley2">Form Control Factory<a id="FormControlFactory"></a></h3>
 		<p>
-		<strong>EMF Parsley</strong> let you customize the <strong>form controls</strong> via the DSL as in the following example.
+		<strong>EMF Parsley</strong> lets you customize the <strong>form controls</strong> via the DSL as in the following example.
 		 
 		</p>
 		<pre class="prettyprint  lang-parsley" skin="desert">
-		 formControlFactory {
+		formControlFactory {
 			control {
 				Library : name -&gt; { }
 				Writer : books -&gt; 
@@ -1188,13 +1251,16 @@
 		}
 		</pre>
 		<p>
-		
+		</p>
+		<p>
+		For each pair EClass, EStructuralFeature you can either simply return a Control or specify also the target
+		for the databinding (see some examples above).
 		 
-		If you want to customize the controls on the detail via Java, you can extend the class <abbr title="org.eclipse.emf.parsley.binding.FormControlFactory">FormControlFactory</abbr>
+		If you want to customize the controls in Java, you can extend the class <abbr title="org.eclipse.emf.parsley.binding.FormControlFactory">FormControlFactory</abbr>
 		.
 		Using the same polimorphic mechanism of the labels, the programmer can write a method with the keyword <strong>'control'</strong>
-		followed by the EClass and EStructuralFeature undescore-character-separated. In the signature of the
-		method must be both the <strong>DataBinding Context</strong> and the <strong>Feature Observable</strong> that can be used for databinding.
+		followed by the EClass and EStructuralFeature undescore-character-separated. The method
+		must accept as parameters the <strong>DataBinding Context</strong> and the <strong>Feature Observable</strong> that can be used for databinding.
 		</p>
 		<p>
 		</p>
@@ -1227,6 +1293,204 @@
 		</pre>
 		<p>
 		</p>
+		<p>
+		This customization is exactly as in the case of the form of the previous section.
+		</p>
+	</div>
+		</div>
+	</div>
+	 <hr style="width:64.6%;margin-bottom:28px;margin-top:30px;" class="col-md-8 col-md-offset-3"> 
+	<div class="row featurette">
+		<div class="col-md-8 col-md-offset-3">
+			<h1 id="par" class="featurette-heading text-parsley">RAP</h1>
+	</br>
+	<div >
+		<h2 id="par" class="featurette-heading text-parsley1">Introduction</h2>
+	<p>
+	As you may know <a href="http://eclipse.org/rap/">RAP (Remote Application Platform)</a> is a technology that allows you to run an Eclipse RCP application over the web.
+	</p>
+	<p>
+	In order to obtain this goal you have to setup a specific RAP Target Platform, for instance the one that RAP itself provides once you install it.
+	</p>
+	<p>
+	However when you want to use an Eclipse RCP framework over the RAP Platform, you generally have to deal with
+	dependencies, since not all Eclipse frameworks are ready-to-use with RAP, especially those related with the SWT layer.
+	</p>
+	<p>
+	EMF Parsley provides a proper RAP Target Platform that allows you to start leveraging Parsley potentials to the web the same way you have 
+	learned to do with desktop (RCP) development.
+	</p>
+	</div>
+	</br>
+	<div >
+		<h2 id="par" class="featurette-heading text-parsley1">Installing the RAP Tools</h2>
+	<p>
+	To begin with, you need to install the RAP Tools into the IDE.
+	This can be accomplished with the following steps:
+	</p>
+	<ol>
+		<li>Help -&gt; Install New Software ...</li>
+		<li>select the main Eclipse Update site (e.g. <strong>"http://download.eclipse.org/releases/luna"</strong>)</li>
+		<li>expand category "Web, XML, Java EE and OSGi Enterprise Development"</li>
+		<li>select "RAP Tools" and complete the installation, restarting the IDE at the end</li>
+		<li>after IDE restarts just close the Welcome page</li>
+	</ol>
+	<p>
+	</p>
+	</div>
+	</br>
+	<div >
+		<h2 id="par" class="featurette-heading text-parsley1">Setup the EMF Parsley RAP Target Platform</h2>
+	<p>
+	After having installed EMF Parsley as described <a href="https://www.eclipse.org/emf-parsley/download.html">here</a> and
+	created a new workspace, you can setup the EMF Parsley RAP Target Platform in the following way: 
+	</p>
+	<ol>
+		<li>File -&gt; New... -&gt; Example...</li>
+		<li>from Category "Emf Parsley Examples", select "Emf Parsley Rap Target Platform Example"</li>
+		<li>press Next and Finish</li>
+		<li>open the Target Definition file <strong>emf-parsely-rap-2.3.target</strong></li>
+		<li>wait until the "Resolving Target Definition" job is done (check the status bar)</li>
+		<li>when finished, click on hyperlink "Set as Target Platform"</li>
+	</ol>
+	<p>
+	</p>
+	<p>
+	You will end up with a RAP-enabled workspace, enhanced by EMF and Parsley!
+	</p>
+	</div>
+	</br>
+	<div >
+		<h2 id="par" class="featurette-heading text-parsley1">Running the Parsley RAP UI Example</h2>
+	<p>
+	Here is the fastest way to get a working web application with all the stuff put togheter:
+	</p>
+	<ol>
+		<li>File -&gt; New... -&gt; Example...</li>
+		<li>from Category "Emf Parsley Examples", select "Emf Parsley Rap Example"</li>
+		<li>press Next and Finish</li>
+		<li>expand plug-in <strong>"org.eclipse.emf.parsley.examples.rap.ui"</strong></li>
+		<li>right-click "Emf_Parsley_RAP_UI_Example.launch" and click "Run as" "Emf_Parsley_RAP_UI_Example"</li>
+	</ol>
+	<p>
+	</p>
+	<p>
+	What you will get is a web application that allows you to interact with the model instance as you would
+	do in a desktop (RCP) environment.
+	</p>
+	<p>
+	</p>
+	<img src="images/08-rap-ui-example-running.png" class="img-responsive centered" style="margin-top:10px;margin-bottom:10px;">
+	<p>
+	</p>
+	<p>
+	In this web application you can see two views: 
+	</p>
+	<ul>
+		<li>the one on the left is a read-only view; it just reflects the model content, but it does not react to changes (the classic Eclipse dirty indicator is not triggered
+		by changes) and you are not able to save. Its model is created in class <strong>org.eclipse.emf.parsley.examples.rap.ui.GuiceModule.CustomEmptyResourceInitializer</strong>
+		and is not persisted</li>
+		<li>the view on the right is instead a Saveable view and therefore it not only triggers the dirty state after
+		a change, but also allows you to save the modifications with the automatic dirty state reset. Its model
+		is persisted in file <strong>System.getProperty("java.io.tmpdir")+"/My.model")</strong></li>
+	</ul>
+	<p>
+	</p>
+	<p>
+	Of course, since this is a web application, you can also open a browser on another pc or device on the same network and type the address,
+	replacing 127.0.0.1 with the IP of the machine where the application was launched.
+	</p>
+	</div>
+	</br>
+	<div >
+		<h2 id="par" class="featurette-heading text-parsley1">Running the Parsley RAP CDO Example</h2>
+	<p>
+	The EMF default XMI persistence is certainly very handy to start with, but as soon as you want a more
+	production-ready EMF persistence architecture, well, <a href="http://wiki.eclipse.org/CDO">CDO</a> is for sure the way to go.
+	In fact with CDO you basically have an EMF model instance shared between clients, that also allows the
+	clients to be synchronized with the model changes.
+	</p>
+	<p>
+	In this example, in order to keep things simple, we will use CDO with an in-memory store (MEMStore) whose contents will be lost once the server is stopped.
+	However CDO can be configured for usage with RDBMS, Object-oriented or NO-SQL databases (see <a href="http://eclipse.org/cdo/documentation/">here</a> for details)
+	</p>
+	<p>
+	To start with we need a CDO Server running and we can obtain it with an example plugin that can be used
+	both in an RCP and in a RAP workspace.
+	</p>
+	<p>
+	</p>
+	<ol>
+		<li>File -&gt; New... -&gt; Example...</li>
+		<li>from Category "Emf Parsley Examples", select "Emf Parsley Cdo Server Example"</li>
+		<li>press Next and Finish</li>
+		<li>expand plug-in <strong>"org.eclipse.emf.parsley.examples.cdo.server"</strong></li>
+		<li>right-click "CDOServerExample.launch" and click "Run as" "CDOServerExample"</li>
+		<li>a message on the Console <strong>"Repository[demo] started!"</strong> informs that the CDO Server instance
+			is started!</li>
+	</ol>
+	<p>
+	</p>
+	<p>
+	Now we can create the web application that will use the CDO server just started.
+	</p>
+	<p>
+	</p>
+	<ol>
+		<li>File -&gt; New... -&gt; Example...</li>
+		<li>from Category "Emf Parsley Examples", select "Emf Parsley Rap Cdo Example"</li>
+		<li>press Next and Finish</li>
+	</ol>
+	<p>
+	</p>
+	<p>
+	The plug-in projects created are:
+	</p>
+	<p>
+	</p>
+	<ul>
+		<li>the Model (org.eclipse.emf.parsley.examples.cdo.model)</li>
+		<li>a Parsley plug-in with a TreeForm (org.eclipse.emf.parsley.examples.cdo.treeform)</li>
+		<li>the webapp (org.eclipse.emf.parsley.examples.cdo.rap)</li>
+	</ul>
+	<p>
+	</p>
+	<p>
+	Then let's start the application
+	</p>
+	<p>
+	</p>
+	<ol>
+		<li>expand plug-in <strong>"org.eclipse.emf.parsley.examples.cdo.rap"</strong></li>
+		<li>right-click "EMF-Parsley_Library_RAP.launch" and click "Run as" "EMF-Parsley_Library_RAP"</li>
+	</ol>
+	<p>
+	</p>
+	<p>
+	If you happen to see this
+	</p>
+	<p>
+	</p>
+	<img src="images/08-rap-refresh.png" class="img-responsive centered" style="margin-top:10px;margin-bottom:10px;">
+	<p>
+	</p>
+	<p>
+	just press the refresh button and should see the following
+	</p>
+	<p>
+	</p>
+	<img src="images/08-rap-cdo-1.png" class="img-responsive centered" style="margin-top:10px;margin-bottom:10px;">
+	<p>
+	</p>
+	<p>
+	Now feel free to open the same address from more browsers window (yes, on different machines or devices, possibly)
+	and see the power of this technology stack at work!
+	</p>
+	<p>
+	</p>
+	<img src="images/08-rap-cdo-2.png" class="img-responsive centered" style="margin-top:10px;margin-bottom:10px;">
+	<p>
+	</p>
 	</div>
 		</div>
 	</div>
