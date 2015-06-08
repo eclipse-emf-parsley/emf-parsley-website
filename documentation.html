@@ -150,16 +150,21 @@
 			<li><a class="submenu" tabindex="-1" href="#par">Table Component</a></li>
 			<li class="divider"></li>
 			<li><a tabindex="-1" href="#par">Customizations</a></li>
+			<li><a class="submenu" tabindex="-1" href="#par">Dependency Injection With</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Google Guice</a></li>
 			<li><a class="submenu" tabindex="-1" href="#par">Providers</a></li>
 			<li><a class="submenu" tabindex="-1" href="#par">Contextual Menu</a></li>
 			<li><a class="submenu" tabindex="-1" href="#par">Factories</a></li>
+			<li><a class="submenu" tabindex="-1" href="#par">Resources</a></li>
+			<li><a class="submenu" tabindex="-1" href="#par">Configurator</a></li>
+			<li><a class="submenu" tabindex="-1" href="#par">Validation</a></li>
+			<li class="divider"></li>
+			<li><a tabindex="-1" href="#par">Advanced Features</a></li>
+			<li><a class="submenu" tabindex="-1" href="#par">Testing Framework</a></li>
 			<li class="divider"></li>
 			<li><a tabindex="-1" href="#par">RAP</a></li>
 			<li><a class="submenu" tabindex="-1" href="#par">Introduction</a></li>
-			<li><a class="submenu" tabindex="-1" href="#par">Installing the RAP Tools</a></li>
-			<li><a class="submenu" tabindex="-1" href="#par">Setup the EMF Parsley</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAP Target Platform</a></li>
-			<li><a class="submenu" tabindex="-1" href="#par">Running the Parsley RAP</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UI Example</a></li>
-			<li><a class="submenu" tabindex="-1" href="#par">Running the Parsley RAP</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CDO Example</a></li>
+			<li><a class="submenu" tabindex="-1" href="#par">Setup</a></li>
+			<li><a class="submenu" tabindex="-1" href="#par">Examples</a></li>
 			<li class="divider"></li>
 			<li><a tabindex="-1" href="#par">Eclipse 4.x</a></li>
 			<li><a class="submenu" tabindex="-1" href="#par">First Example Setup</a></li>
@@ -167,6 +172,9 @@
 			<li><a class="submenu" tabindex="-1" href="#par">Create an e4 Application</a></li>
 			<li><a class="submenu" tabindex="-1" href="#par">Using a TreeComposite</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;into an e4 Part</a></li>
 			<li><a class="submenu" tabindex="-1" href="#par">Adding the dirty state</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and Save command</a></li>
+			<li class="divider"></li>
+			<li><a tabindex="-1" href="#par">Migration Guide</a></li>
+			<li><a class="submenu" tabindex="-1" href="#par">From 0.3 to 0.4</a></li>
 			<li class="divider"></li>
 		</ul>
 	</div>
@@ -212,7 +220,7 @@
 		<h2 id="par" class="featurette-heading text-parsley1">Customize</h2>
 	<p>
 	The main feature of <strong>EMF Parsley</strong> is that you can customize all basic UI behaviours of the components with <strong>Dependency Injection</strong>
-	mechanisms (based on <a href="http://code.google.com/p/google-guice">Google Guice</a>).
+	mechanisms (based on <a href="https://github.com/google/guice">Google Guice</a>).
 	You can get more info in the <a href="#addref" rel="Customizations">Customizations Section</a>, but you don't have to know all details
 	about the internal implementation to inject your own customization because
 	<strong>EMF Parsley</strong> provides a DSL to easy customize your UI, as explained in the next section.
@@ -269,7 +277,8 @@
 			<h1 id="par" class="featurette-heading text-parsley">First Example</h1>
 			<p>
 			The purpose of this first example is to make use of the classical EMF Library Model example and
-			create a view for editing such models using an EMF Parsley enabled plug-in.
+			create a view for editing such models using an EMF Parsley enabled plug-in.  We will use
+			one of the saveable views shipped with Parsley: a Tree Form View.
 			</p>
 			<p>
 			So let's start by creating the model plug-in with
@@ -309,138 +318,209 @@
 			</p>
 			<ol>
 				<li>select "File" -&gt; "New" -&gt; "Project..."</li>
-				<li>from the "Emf Parsley" category select "Emf Parsley Dsl based Project"</li>
+				<li>from the "Emf Parsley" category select "Emf Parsley Dsl based Project"
+					
+				<img src="images/01-new-project-dsl-wizard.png" class="img-responsive centered" style="margin-top:10px;margin-bottom:10px;"></li>
 				<li>click "Next"</li>
-				<li>give a name to the project (e.g. "org.eclipse.emf.parsley.examples.firstexample")</li>
+				<li>give a name to the project (e.g. "org.eclipse.emf.parsley.examples.firstexample")
+					and make sure the checkbox about using one of the templates is checked
+					
+				<img src="images/01-new-project-dsl-wizard2.png" class="img-responsive centered" style="margin-top:10px;margin-bottom:10px;"></li>
+				<li>click "Next"</li>
+				<li>Select "Saveable Tree Form View"
+					
+				<img src="images/01-new-project-dsl-wizard3.png" class="img-responsive centered" style="margin-top:10px;margin-bottom:10px;"></li>
 				<li>click "Finish"</li>
 			</ol>
 			<p>
 			
 			 
-			The generated project has some classes and a <strong>module.parlsey</strong> file, which opens automatically.
-			Just type the following content into the {} block (note that context assist is available)
+			The generated project has some classes and a <strong>module.parlsey</strong> file, which opens automatically:
 			</p>
 			<p>
 			</p>
 			<pre class="prettyprint  lang-parsley" skin="desert">
-			parts {
-				viewpart org.eclipse.emf.parsley.examples.firstexample.view.library.treeform {
-					viewname "My Library Tree Form"
-					viewclass 
+			import org.eclipse.emf.parsley.examples.firstexample.FirstexampleSaveableTreeFormView
+			
+			/* org.eclipse.emf.parsley.examples.firstexample Emf Parsley Dsl Module file */
+			module org.eclipse.emf.parsley.examples.firstexample {
+				
+				parts {
+					viewpart org.eclipse.emf.parsley.examples.firstexample {
+						viewname "Firstexample"
+						viewclass FirstexampleSaveableTreeFormView
+					}
+				}
+				
+				configurator {
+					resourceURI {
+						FirstexampleSaveableTreeFormView -&gt; {
+							// TODO create and return a org.eclipse.emf.common.util.URI
+							return null;
+						}
+					}
+				}
+				
+				resourceManager {
+					initializeResource {
+						// Optional: initialize an empty Resource
+						// 'it' is of type Resource
+						// e.g., it.getContents += myFactory.createMyClass
+					}
 				}
 			}
 			</pre>
 			<p>
 			</p>
 			<p>
-			Here above we have just declared a view part with
-			 
+			The <strong>viewpart</strong> corresponds to the standard Eclipse view part extension point; the Parsley
+			DSL will generate a <strong>plugin.xml_emfparsley_gen</strong>
+			into the root folder of your project. Just copy this file into <strong>"plugin.xml"</strong>. Parsley
+			will never override your <strong>plugin.xml</strong> file; each time you modify the module file, the
+			<strong>plugin.xml_emfparsley_gen</strong> will be generated: it is up to you to keep the generated file
+			synchronized with your <strong>"plugin.xml"</strong>.  The easiest way is to select to the files,
+			and use the context menu "Compare With" =&gt; "Each Other".
 			</p>
-			<ol>
-				<li>id <strong>"org.eclipse.emf.parsley.examples.firstexample.view.library.treeform"</strong></li>
-				<li>name <strong>"Library Tree Form"</strong></li>
-				<li>class: not yet set, we are going to create
-				<strong>"org.eclipse.emf.parsley.examples.firstexample.views.LibraryTreeFormView"</strong></li>
-			</ol>
+			<p>
+			The wizard will also generate a view part class into the project
+			(in this example, <strong>FirstexampleSaveableTreeFormView</strong>); you can add other controls
+			into that view, or customize other behaviors.  Note that the Parsley DSL will never
+			touch the files into the <strong>src</strong> source folder.  On the contrary, files generated into
+			<strong>emfparsley-gen</strong> source folder must never be manually modified, since its contents will
+			be regenerated each time you modify the <strong>module.parsley</strong> file.
+			</p>
+			<p>
+			For example, let's change the view name into "My Library Tree Form":
+			</p>
+			<p>
+			</p>
+			<pre class="prettyprint  lang-parsley" skin="desert">
+			...
+			module org.eclipse.emf.parsley.examples.firstexample {
+				
+				parts {
+					viewpart org.eclipse.emf.parsley.examples.firstexample {
+						viewname "My Library Tree Form"
+						...
+			</pre>
 			<p>
 			</p>
 			<p>
-			So there is still an error, in fact we need to create the declared class. 
-			<strong>Suggestion:</strong> Just copy the above qualified class name (<strong>"org.eclipse.emf.parsley.examples.firstexample.views.LibraryTreeFormView"</strong>), 
-			select the project, right-click and select File -&gt; New -&gt; Class. Now paste the clipboard content into <strong>"Name:"</strong> field: the
-			package and class name will be automatically splitted into right fields. Then click <strong>"Finish"</strong>.
+			Let's save the file, wait for Eclipse to rebuild, and update the
+			<strong>plugin.xml</strong> with the new <strong>plugin.xml_emfparsley_gen</strong>.
 			</p>
 			<p>
-			Now modify the view class code with this content:
+			(Other <strong>viewpart</strong> sections can be created; content assist is available for that).
+			</p>
+			<p>
+			In the generated <strong>module.parsley</strong>, there is a <strong>configurator</strong> section, with
+			a <strong>TODO</strong> comment (The <strong>Configurator</strong> is detailed in the section <a href="#addref" rel="Configurator">Configurator</a>):
 			</p>
 			<p>
 			</p>
-			<pre class="prettyprint" skin="desert">
-			import org.eclipse.emf.parsley.views.AbstractSaveableTreeFormView;
-			import org.eclipse.emf.common.util.URI;
-			
-			public class LibraryTreeFormView extends AbstractSaveableTreeFormView {
-			
-				protected URI createResourceURI() {
-					return URI.createFileURI( System.getProperty("user.home") + "/MyLibrary.library" );
+			<pre class="prettyprint  lang-parsley" skin="desert">
+			configurator {
+				resourceURI {
+					FirstexampleSaveableTreeFormView -&gt; {
+						// TODO create and return a org.eclipse.emf.common.util.URI
+						return null;
+					}
 				}
-			
 			}
 			</pre>
 			<p>
 			</p>
 			<p>
-			Now get back to <strong>module.parlsey</strong> file, go just after <strong>"viewclass"</strong> keyword, type <strong>"LibraryTreeFormView"</strong>
-			and <strong>Ctrl-Space</strong>: the content assist will set automatically the correct qualified name
-			(it will insert the class name, and add the corresponding import at the beginning of the file):
-			</p>
-			<p>
-			</p>
-			<pre class="prettyprint  lang-parsley" skin="desert">
-				viewclass org.eclipse.emf.parsley.examples.firstexample.views.LibraryTreeFormView
-			</pre>
-			<p>
-			</p>
-			<p>
-			when you save the above file you will notice that a new file (<strong>"plugin.xml_emfparsley_gen"</strong>) 
-			is generated into the root folder of your project. Just copy this file into <strong>"plugin.xml"</strong>.
-			</p>
-			<p>
-			Let's focus briefly on the above <strong>createResourceURI()</strong> method: our goal is allowing to manage 
-			a library model instance which persists on a EMF Resource.
+			Let's focus on the above <strong>resourceURI</strong>: our goal is allowing to manage 
+			a library model instance which persists on a EMF <abbr title="org.eclipse.emf.ecore.resource.Resource">Resource</abbr>
+			.
+			So we must specify the <abbr title="org.eclipse.emf.common.util.URI">URI</abbr>
+			 of the resource
+			that will be edited by our tree form view.
 			In this example we choose to use the EMF default persistence (XMI), but you can provide any URI 
 			(e.g. using Teneo, CDO or any other EMF Resource Persistence implementation)
-			In particular here we choose to persist the Resource in a XMI file named <strong>"MyLibrary.library"</strong> into the user home
-			folder (you might want to change it with any other path).
+			In particular here we choose to persist the Resource in a XMI file named <strong>"MyLibrary.library"</strong>
+			into the user home folder (you might want to change it with any other path).
+			To achieve this, we just need to create such a URI (recall that content assist is available
+			when typing Xbase expressions):
 			</p>
 			<p>
-			We need a <strong>Dependency</strong> from the model plug-in: so open <strong>MANIFEST.MF</strong> file, go to <strong>Dependencies</strong>
+			</p>
+			<pre class="prettyprint  lang-parsley" skin="desert">
+			configurator {
+				resourceURI {
+					FirstexampleSaveableTreeFormView -&gt; {
+						return URI.createFileURI( System.getProperty("user.home") + "/MyLibrary.library" );
+					}
+				}
+			}
+			</pre>
+			<p>
+			</p>
+			<p>
+			If you simply copy and paste the above return statement, you'll get an error about
+			unresolvable Java type URI; "Organize Imports" context menu (or its shortcut "Ctrl+Shift+O")
+			can be used to automatically add the missing import (make sure you select
+			<abbr title="org.eclipse.emf.common.util.URI">URI</abbr>
+			).
+			</p>
+			<p>
+			Note that the specified URI, will be used for loading the resource only for our specific
+			view (the resource will be automatically created if it does not exist).
+			</p>
+			<p>
+			In the <strong>module.parsley</strong> there is another section that has been generated by the wizard:
+			</p>
+			<p>
+			</p>
+			<pre class="prettyprint  lang-parsley" skin="desert">
+			resourceManager {
+				initializeResource {
+					// Optional: initialize an empty Resource
+					// 'it' is of type Resource
+					// e.g., it.getContents += myFactory.createMyClass
+				}
+			}
+			</pre>
+			<p>
+			</p>
+			<p>
+			We can use this section to initialize our resource when it is empty
+			(i.e., the first time the resource is created); (The <strong>resourceManager</strong>
+			is detailed in section <a href="#ResourceManager">Resource Manager</a>).
+			</p>
+			<p>
+			In this example, we want to initialize an empty resource with a
+			<strong>Library</strong> object; so
+			we first need a <strong>Dependency</strong> from the model plug-in: so open <strong>MANIFEST.MF</strong> file, go to <strong>Dependencies</strong>
 			tab, press <strong>"Add..."</strong> button in <strong>"Required Plug-ins"</strong> section and insert <strong>"org.eclipse.emf.examples.library"</strong>
 			among dependencies.
 			</p>
 			<p>
-			Before executing this code we need to do some little more work in order to initialize the Resource.
+			Now we can implement the <strong>initializeResource</strong> method
+			(as described in the comment, the <abbr title="org.eclipse.emf.ecore.resource.Resource">Resource</abbr>
+			
+			to initialized is available through the parameter <strong>it</strong>); the Library object
+			is created using the standard EMF API: we need the factory of the library model:
 			</p>
 			<p>
-			An easy way to overcome this issue can be the following:
 			</p>
-			<p>
-			</p>
-			<ol>
-				<li>open the class *GuiceModule (FirstexampleGuiceModule in this example) that the wizard created for you.
-					Note that this is a key	class for all customizations; it allows to override several methods in order to provide custom behaviors
-					and implementations.</li>
-				<li>override method <strong>bindEmptyResourceInitializer()</strong> providing a class for Resource initialization
-					
-				<pre class="prettyprint" skin="desert">
-				public Class&lt;? extends EmptyResourceInitializer&gt; bindEmptyResourceInitializer() {
-					return LibraryEmptyResourceInitializer.class;
+			<pre class="prettyprint  lang-parsley" skin="desert">
+			resourceManager {
+				initializeResource {
+					it.getContents += EXTLibraryFactory.eINSTANCE.createLibrary
 				}
-				</pre></li>
-				<li>create a new class <strong>LibraryEmptyResourceInitializer</strong> extending from <strong>EmptyResourceInitializer</strong> for Resource initialization
-				<pre class="prettyprint" skin="desert">
-				import org.eclipse.emf.parsley.resource.EmptyResourceInitializer;
-				import org.eclipse.emf.ecore.resource.Resource;
-				import org.eclipse.emf.examples.extlibrary.EXTLibraryFactory;
-				import org.eclipse.emf.examples.extlibrary.Library;
-				
-				public class LibraryEmptyResourceInitializer  extends EmptyResourceInitializer { 
-				    
-				   public void initialize(Resource resource) { 
-				       super.initialize(resource); 
-				       Library library = EXTLibraryFactory.eINSTANCE.createLibrary(); 
-				       resource.getContents().add(library); 
-				   }
-				
-				}
-				</pre>
-						The method <strong>initialize()</strong> will be executed only when the Resource is empty
-						(i.e., it has no contents).</li>
-			</ol>
+			}
+			</pre>
 			<p>
 			</p>
 			<p>
-			now get back to the <strong>MANIFEST.MF</strong> and run the example
+			Again, use the content assist while typing, e.g., for automatically importing the
+			type <strong>EXTLibraryFactory</strong>, or use the "Organize Imports" functionality.
+			</p>
+			<p>
+			Now, we are ready to execute this example:
+			let's get back to the <strong>MANIFEST.MF</strong> and run the example
 			</p>
 			<p>
 			</p>
@@ -509,6 +589,11 @@
 			of this selection.
 			</p>
 			<p>
+			</p>
+			<img src="images/first-example-default.png" class="img-responsive centered" style="margin-top:10px;margin-bottom:10px;">
+			<p>
+			</p>
+			<p>
 			However, up to this point, you have no control over the field to be shown and its order; for example
 			you may want just the <strong>"name"</strong> attribute for the Library and <strong>"name", "address" and "books"</strong> attributes
 			for Writers and maybe <strong>"title", "authors" and "category"</strong> for Books.
@@ -525,17 +610,15 @@
 			<p>
 			</p>
 			<p>
-			and then defining the features to show
+			and then defining the features to show (the <strong>featuresProvider</strong> is detailed
+			in section <a href="#FeaturesProvider">Features Provider</a>):
 			</p>
 			<p>
 			</p>
 			<pre class="prettyprint  lang-parsley" skin="desert">
 			module ... {
 			
-				parts { 
-					...	
-				}
-				
+			...
 				featuresProvider {
 			        features {
 			            Library -&gt; name
@@ -551,24 +634,28 @@
 			Remeber that code completion is available, just exploit it since it helps a lot.
 			</p>
 			<p>
-			If you restart now the application you will see that, when selecting an object, only the declared attributes
-			will be shown. Furthermore, they are shown in the specified order.
+			If you restart now the application you will see that, when selecting an object, only the features
+			specified in the above section will be shown for each specified classes.
+			Furthermore, they are shown in the specified order.
 			</p>
 			<p>
-			Did you run the application in Debug mode? Well, then you can change fields and order, save and see the
+			NOTE: Did you run the application in Debug mode? Well, then you can change fields and order, save and see the
 			changes without even restarting the application.
 			</p>
 			<p>
-			Do you want to change text used for attribute labels in the detail? Just add the following:
+			Do you want to change text used for attribute captions in the form for a specific
+			class? Just add the following
+			(<strong>featureCaptionProvider</strong> is detailed in section <a href="#FeatureCaptionProvider">Feature Caption Provider</a>):
 			</p>
 			<p>
 			</p>
 			<pre class="prettyprint  lang-parsley" skin="desert">
-			propertyDescriptionProvider {
-				text {
-					Book : author -&gt; 'Wrote by:'
-					Writer : name -&gt; 'Name:'
-				}
+			...
+			featureCaptionProvider { 
+			    text { 
+			        Book : author -&gt; "Wrote by:"
+			        Writer : name -&gt; "Name:"
+			    }
 			}
 			</pre>
 			<p>
@@ -576,21 +663,214 @@
 			 
 			Or do you want to change the label shown on the tree nodes on the upper side and as detail title? 
 			Maybe want to format the book label like this?
+			(<strong>labelProvider</strong> is detailed in section <a href="#ViewerLabelProvider">Viewer Label Provider</a>):
 			 
 			</p>
 			<pre class="prettyprint  lang-parsley" skin="desert">
+			...
 			labelProvider {
-				text {
-					Book b -&gt; '"' + b.title + '"' +' (by '+ b.author.name + ')'
+			    text {
+			        Book b -&gt; { '"' + b.title + '"' }
+			        Writer w -&gt; { w.name }
+			    }
+			}
+			</pre>
+			<p>
+			</p>
+			<p>
+			The result of all the above customizations is shown in the following screenshot
+			(compare it with the previous screenshot):
+			</p>
+			<p>
+			</p>
+			<img src="images/first-example-customized.png" class="img-responsive centered" style="margin-top:10px;margin-bottom:10px;">
+			<p>
+			</p>
+			<p>
+			Now, let's customize the context menus; by default,
+			Parsley will generate context menus using EMF.Edit:
+			</p>
+			<p>
+			</p>
+			<img src="images/first-example-default-menus.png" class="img-responsive centered" style="margin-top:10px;margin-bottom:10px;">
+			<p>
+			</p>
+			<p>
+			We will now customize the context menu for books and writers, using
+			the <strong>menuBuilder</strong> in the DSL (context menu customization is detailed
+			in section <a href="#addref" rel="Contextual Menu">Contextual Menu</a>).
+			What we want to achieve is to have a context menu for a <strong>Writer</strong>
+			to add a new book in the library, and set its author to the
+			selected writer (similarly, we want a context menu for a <strong>Book</strong>
+			to add a new writer in the library, and set the selected book as
+			one of the new writer's books):
+			</p>
+			<p>
+			</p>
+			<pre class="prettyprint  lang-parsley" skin="desert">
+			...
+			menuBuilder {
+				val factory = EXTLibraryFactory.eINSTANCE
+				
+				emfMenus {
+					Writer w -&gt; #[
+						actionAdd(
+							"New book",
+							(w.eContainer as Library).books,
+							factory.createBook,
+							[ book |
+								book.title = "A new book" 
+								book.author = w
+							]
+						)
+					]
+					Book b -&gt; #[
+						actionAdd(
+							"New writer",
+							(b.eContainer as Library).writers,
+							factory.createWriter,
+							[ writer |
+								writer.name = "A new writer"
+								writer.books += b
+							]
+						)
+					]
 				}
 			}
 			</pre>
 			<p>
-			
-			 
 			</p>
-			<img src="images/labelCustomization.png" class="img-responsive centered" style="margin-top:10px;margin-bottom:10px;">
 			<p>
+			In this code we use Xbase features like list literals (<strong>#[...]</strong>) and
+			lambda expressions.
+			</p>
+			<p>
+			If you now restart the application, you see that the new
+			context menu appears on writer elements:
+			</p>
+			<p>
+			</p>
+			<img src="images/first-example-custom-menus1.png" class="img-responsive centered" style="margin-top:10px;margin-bottom:10px;">
+			<p>
+			</p>
+			<p>
+			And selecting such a menu on a writer will add a new book, with
+			a title, and whose author is the selected writer:
+			</p>
+			<p>
+			</p>
+			<img src="images/first-example-custom-menus2.png" class="img-responsive centered" style="margin-top:10px;margin-bottom:10px;">
+			<p>
+			</p>
+			<p>
+			You may want to try the new context menu on a book as well.
+			</p>
+			<p>
+			Now, let's customize the contents shown in the tree view: by default,
+			as you can see from the previous screenshots, the tree will show all
+			the contents of the library.  If we want to show only the writers and
+			the books we can specify this section in the DSL
+			(the customization of the content provider is detailed in
+			section <a href="#ViewerContentProvider">Viewer Content Provider</a>):
+			</p>
+			<p>
+			</p>
+			<pre class="prettyprint  lang-parsley" skin="desert">
+			...
+			viewerContentProvider {
+				children {
+					Library -&gt; {
+						writers + books
+					}
+				}
+			}
+			</pre>
+			<p>
+			</p>
+			<p>
+			and the result can be seen in the following screenshot:
+			</p>
+			<p>
+			</p>
+			<img src="images/first-example-custom-contents1.png" class="img-responsive centered" style="margin-top:10px;margin-bottom:10px;">
+			<p>
+			</p>
+			<p>
+			By default, double-clicking on a tree viewer of a saveable view will
+			show a dialog to edit that object (if you customized the
+			<strong>featuresProvider</strong>, the dialog will use your customized version);
+			by default, if you edit a field in such dialog, the modifications will
+			be applied immediately to the resource: this can be seen in the
+			labels of the tree which are automatically updated and in the dirty state of
+			the view:
+			</p>
+			<p>
+			</p>
+			<img src="images/first-example-default-dialog.png" class="img-responsive centered" style="margin-top:10px;margin-bottom:10px;">
+			<p>
+			</p>
+			<p>
+			Such a strategy for editing is delegated to an injected
+			<abbr title="org.eclipse.emf.parsley.edit.IEditingStrategy">IEditingStrategy</abbr>
+			, which is
+			implemented by default by <abbr title="org.eclipse.emf.parsley.edit.OnTheFlyEditingStrategy">OnTheFlyEditingStrategy</abbr>
+			.
+			</p>
+			<p>
+			One may want to avoid this automatic update of the resource, and
+			have the changes applied only when the "OK" dialog button is pressed
+			(if "Cancel" is pressed, no changes should be applied at all).
+			To achieve this behavior, it is enough to bind the alternative implementation
+			<abbr title="org.eclipse.emf.parsley.edit.UndoableEditingStrategy">UndoableEditingStrategy</abbr>
+			, in the Guice module.
+			This can be achieved in the DSL using the <strong>binding</strong> section
+			(Guice bindings are detailed in section <a href="#addref" rel="Dependency Injection With</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Google Guice">Guice Bindings</a>):
+			</p>
+			<p>
+			</p>
+			<pre class="prettyprint  lang-parsley" skin="desert">
+			...
+			bindings {
+				type IEditingStrategy -&gt; UndoableEditingStrategy
+			}
+			</pre>
+			<p>
+			</p>
+			<p>
+			We strongly suggest you use the content assist to discover default
+			bindings, since they also show Javadoc for each default binding:
+			</p>
+			<p>
+			</p>
+			<img src="images/first-example-custom-binding1.png" class="img-responsive centered" style="margin-top:10px;margin-bottom:10px;">
+			<p>
+			</p>
+			<p>
+			Besides types, you can also bind (i.e., inject) specific values
+			that are used in the framework; for example, you can change the
+			orientation of the tree form sash as follows
+			</p>
+			<p>
+			</p>
+			<pre class="prettyprint  lang-parsley" skin="desert">
+			...
+			bindings {
+				type IEditingStrategy -&gt; UndoableEditingStrategy
+				value int TreeFormSashStyle -&gt; SWT.HORIZONTAL
+			}
+			</pre>
+			<p>
+			</p>
+			<p>
+			and see the result:
+			</p>
+			<p>
+			</p>
+			<img src="images/first-example-custom-orientation.png" class="img-responsive centered" style="margin-top:10px;margin-bottom:10px;">
+			<p>
+			</p>
+			<p>
+			This ends the first tutorial.
 			</p>
 		</div>
 	</div>
@@ -823,6 +1103,239 @@
 			correctly works; when this is the case, the base class will already have such a constructor and you will only
 			need to override it, but you will also need to add the <strong>@Inject</strong> annotation explicitly.
 			</p>
+			<p>
+			Although one can specify any Guice <abbr title="com.google.inject.Module">Module</abbr>
+			, <strong>EMF Parsley</strong> ships with
+			some default base class modules that should be used for specifying custom
+			Guice bindings.  The default base class is
+			<abbr title="org.eclipse.emf.parsley.EmfParsleyGuiceModule">EmfParsleyGuiceModule</abbr>
+			 that is suitable to be used
+			in an OSGI environment, like Eclipse itself or RAP (see also <a href="#addref" rel="RAP">EMF Parsley RAP support</a>).
+			Our project wizards will automatically use such module as the base class.
+			For CDO we have a specialized base module.
+			</p>
+			<p>
+			We also have a module to be used in a non OSGI environment, e.g., a pure Java environment:
+			<abbr title="org.eclipse.emf.parsley.EmfParsleyJavaGuiceModule">EmfParsleyJavaGuiceModule</abbr>
+			 (this is the base class of
+			<abbr title="org.eclipse.emf.parsley.EmfParsleyGuiceModule">EmfParsleyGuiceModule</abbr>
+			).  This is useful also for
+			testing purposes, for writing plain Junit tests (i.e., not Plug-in Junit tests).
+			This is also used in our testing framework (see <a href="#addref" rel="Testing Framework">EMF Parsley Testing Framework</a>).
+			</p>
+	</br>
+	<div >
+		<h2 id="par" class="featurette-heading text-parsley1">Dependency Injection With Google Guice</h2>
+	<p>
+	All Parsley components are assembled by means of <strong>Dependency Injection (DI)</strong>.
+	This means that whenever some code is in need for functionality (or state)
+	from another component, one just declares the dependency rather then stating
+	how to resolve it, i.e. obtaining that component.
+	</p>
+	<p>
+	For example, when some code wants to use a label provider,
+	it just declares a field (or method or constructor) and adds the
+	<abbr title="com.google.inject.Inject">@Inject</abbr>
+	 annotation:
+	</p>
+	<p>
+	</p>
+	<pre class="prettyprint" skin="desert">
+	class MyView extends ViewPart {
+	
+		@Inject
+		private ILabelProvider labelProvider;
+	
+	}
+	</pre>
+	<p>
+	</p>
+	<p>
+	It is not the duty of the client code to care about where the
+	actual <abbr title="org.eclipse.jface.viewers.ILabelProvider">ILabelProvider</abbr>
+	 comes from or
+	how it is created.
+	When the above class is instantiated, Guice sees that it requires an instance
+	of ILabelProvider and assigns it to the specified field or method parameter.
+	This of course only works, if the object itself is created by Guice.
+	In Parsley almost every instance is created that way and therefore the whole
+	dependency net is controlled and configured by the means of Google Guice.
+	</p>
+	<p>
+	Guice of course needs to know how to instantiate real objects for declared dependencies.
+	This is done in so called Modules. A <abbr title="com.google.inject.Module">Module</abbr>
+	
+	defines a set of mappings from types to either existing instances,
+	instance providers or concrete classes.
+	Modules are implemented in Java. Here's an example:
+	</p>
+	<p>
+	</p>
+	<pre class="prettyprint" skin="desert">
+	public class MyGuiceModule extends AbstractGenericModule {
+	
+		@Override
+		public void configure(Binder binder) {
+			super.configure(binder);
+			binder.bind(ILabelProvider.class).to(MyLabelProvider.class);
+			binder.bind(...
+		}
+	</pre>
+	<p>
+	</p>
+	<p>
+	With plain Guice modules one implements a method called configure and gets a
+	<abbr title="com.google.inject.Binder">Binder</abbr>
+	 passed in.
+	That binder provides a fluent API to define the mentioned mappings.
+	This was just a very brief and simplified description.
+	We highly recommend to have a look at the <a href="https://github.com/google/guice">Google Guice</a>
+	website to learn more.
+	</p>
+		</br>
+		<h3 class="featurette-heading text-parsley2">Module API<a id="ModuleAPI"></a></h3>
+		<p>
+		Parsley comes with a slightly enhanced module API
+		(this was inspired by Xtext, so, if you are already familiar with the
+		enhnaced Guice module API of Xtext, you can use Parsley API right away).
+		</p>
+		<p>
+		The enhancement we added to Guice's Module API is that we provide an abstract base class,
+		which reflectively looks for certain methods in order to find declared bindings.
+		The standard base class is <abbr title="org.eclipse.emf.parsley.EmfParsleyGuiceModule">EmfParsleyGuiceModule</abbr>
+		,
+		which can be used in a standard Eclipse OSGI environment.  If you are using
+		CDO, it is better to use as base class <strong>CDOEmfParsleyModule</strong>, which has defaults
+		that better fit a CDO environment.  If you do not need OSGI, you can use
+		<abbr title="org.eclipse.emf.parsley.EmfParsleyJavaGuiceModule">EmfParsleyJavaGuiceModule</abbr>
+		 (e.g., to run tests
+		with plain Junit, see also <a href="#addref" rel="Testing Framework">Testing Framework</a>).
+		</p>
+		<p>
+		The most common kind of method is
+		</p>
+		<p>
+		</p>
+		<pre class="prettyprint" skin="desert">
+		public Class&lt;? extends ILabelProvider&gt; bindILabelProvider() {
+			return MyLabelProvider.class;
+		}
+		</pre>
+		<p>
+		</p>
+		<p>
+		which would do the same as the code snippet above.
+		It simply declares a binding from ILabelProvider to MyLabelProvider.
+		That binding will make Guice instantiate and inject a new instance of
+		MyLabelProviderProvider whenever a dependency to ILabelProvider is declared.
+		</p>
+		<p>
+		There are two additional kinds of binding-methods supported.
+		The first one allows to configure a provider.
+		A <abbr title="com.google.inject.Provider">Provider</abbr>
+		 is an interface with just one method:
+		</p>
+		<p>
+		</p>
+		<pre class="prettyprint" skin="desert">
+		public interface Provider&lt;T&gt; extends javax.inject.Provider&lt;T&gt; {
+		
+		  /**
+		   * Provides an instance of {@code T}. Must never return {@code null}.
+		   */
+		  T get();
+		}
+		</pre>
+		<p>
+		</p>
+		<p>
+		This one can be used if you need a hook whenever an instance of a certain type
+		is created. For instance if you want to provide lazy access to a singleton
+		or you need to do some computation each time an instance is created (i.e. factory).
+		If you want to point to a provider rather than to a concrete class you can
+		use the following binding method:
+		</p>
+		<p>
+		</p>
+		<pre class="prettyprint" skin="desert">
+		public Class&lt;? extends Provider&lt;ILabelProvider&gt;&gt; provideILabelProvider() {
+			return MyLabelProviderFactory.class;
+		}
+		</pre>
+		<p>
+		</p>
+		<p>
+		The last kind of binding allows to inject values in Parsley components;
+		here are some examples of such bindings implemented in the base class of
+		Parsley Guice module:
+		</p>
+		<p>
+		</p>
+		<pre class="prettyprint" skin="desert">
+		/**
+		 * The String constant for Content Assist Shortcut
+		 */
+		public String valueContentAssistShortcut() {
+			return "Ctrl+Space";
+		}
+		
+		/**
+		 * The String constant used as a ellipses for Iterable string representation
+		 * when it is too long
+		 */
+		public String valueIterableStringEllipses() {
+			return "...";
+		}
+		
+		/**
+		 * The list of Integer weights for a table's columns
+		 */
+		public List&lt;Integer&gt; valueTableColumnWeights() {
+			return Collections.&lt;Integer&gt;emptyList();
+		}
+		
+		/**
+		 * The int constant defining the Sash style in a TreeFormComposite
+		 */
+		public int valueTreeFormSashStyle() {
+			return SWT.VERTICAL;
+		}
+		</pre>
+		<p>
+		</p>
+		</br>
+		<h3 class="featurette-heading text-parsley2">Specify Guice Bindings in the DSL<a id="BindingsInTheDSL"></a></h3>
+		<p>
+		Guice bindings can be specified directly in the DSL, in the
+		<strong>bindings</strong> section.
+		</p>
+		<p>
+		In this section you can specify bindings of all the three above kinds with
+		<strong>type</strong>, <strong>provide</strong> and <strong>value</strong> respectively, e.g.,
+		</p>
+		<p>
+		</p>
+		<pre class="prettyprint  lang-parsley" skin="desert">
+		bindings {
+			type ILabelProvider -&gt; MyLabelProvider
+			type ... -&gt; ...
+			provide ProposalCreator -&gt; MyProposalCreatorProvider
+			...
+			value int TreeFormSashStyle -&gt; SWT.HORIZONTAL
+		}
+		</pre>
+		<p>
+		</p>
+		<p>
+		We strongly suggest you use the content assist to discover default
+		bindings, since they also show Javadoc for each default binding:
+		</p>
+		<p>
+		</p>
+		<img src="images/first-example-custom-binding1.png" class="img-responsive centered" style="margin-top:10px;margin-bottom:10px;">
+		<p>
+		</p>
+	</div>
 	</br>
 	<div >
 		<h2 id="par" class="featurette-heading text-parsley1">Providers</h2>
@@ -966,7 +1479,7 @@
 		<pre class="prettyprint  lang-parsley" skin="desert">
 		featuresProvider{
 			features{
-				Book -&gt; title, author, category, pages 		
+				Book -&gt; title, author, category, pages
 			}
 		}
 		</pre>
@@ -1186,6 +1699,18 @@
 		</br>
 		<h3 class="featurette-heading text-parsley2">Menu Builder<a id="MenuBuilder"></a></h3>
 		<p>
+		<strong>EMF Parsley</strong> uses the standard EMF.Edit features to build the contextual menus of
+		viewers (thus you will get by default the standard "New Child" and "New Sibling"
+		sections in the context menu).
+		</p>
+		<p>
+		You can customize context menus on a per class basis 
+		by extending the <abbr title="org.eclipse.emf.parsley.edit.action.EditingMenuBuilder">EditingMenuBuilder</abbr>
+		
+		(and injecting it in the Guice module).  However, we suggest to use the
+		DSL for this task, as detailed in the following.
+		</p>
+		<p>
 		<strong>EMF Parsley</strong> logically separates the menu into 2 parts. The first section contains all common edit commands
 		such as <strong>copy</strong> and <strong>paste</strong>. The second section contains EMF specific commands, such as for example <strong>new child</strong>.
 		You can use the DSL to fully customize the menu, as in the example below.
@@ -1205,12 +1730,9 @@
 				]
 			}
 			emfMenus{
-				Library -&gt; #[
-					actionAdd("Add a new book", books,
-						EXTLibraryFactory.eINSTANCE.createBook =&gt; [
-							title="new book"
-						]
-					)
+				Library lib -&gt; #[
+					actionAdd("Add a new book", lib.books,
+						EXTLibraryFactory.eINSTANCE.createBook)
 				]
 			}
 		}
@@ -1218,8 +1740,69 @@
 		<p>
 		</p>
 		<p>
-		You can customize menu also via Java, by extending the <abbr title="org.eclipse.emf.parsley.edit.action.EditingMenuBuilder">EditingMenuBuilder</abbr>
-		.
+		For each EClass of your meta-model you can specify a list of menu items
+		(the #[] is the Xbase syntax for a list literal)
+		Content assist is available to select the editing actions, the separator and
+		also methods for EMF menu part.  In the <strong>emfMenus</strong> section, you can use
+		the method <strong>actionAdd</strong>, specifying the label for the menu,
+		the containment list in the model, and the object to add in such list
+		when the menu is selected (Note that it is up to you to specify a
+		containment list); the DSL will issue an error if the object cannot be
+		added to the list (because it is not of the right type).
+		The object should be created using the standard EMF API (i.e., using
+		the EMF factory for your model).
+		</p>
+		<p>
+		IMPORTANT: do not initialize any reference feature of the created EObject
+		upon object creation; i.e., do not do something like the following
+		</p>
+		<p>
+		</p>
+		<pre class="prettyprint  lang-parsley" skin="desert">
+		emfMenus{
+			Writer w -&gt; #[
+				actionAdd("Add a new book for the writer",
+					(w.eContainer as Library).books,
+					// WRONG: don't do that
+					EXTLibraryFactory.eINSTANCE.createBook =&gt; [
+						author = w
+					]
+				)
+			]
+		}
+		</pre>
+		<p>
+		</p>
+		<p>
+		Since the object is created when the contextual menu is created, NOT
+		when the menu is selected; if you do something like in the code above,
+		you will end up with a resource with dangling references (which cannot be
+		saved).
+		</p>
+		<p>
+		If you want to specify further initialization instructions for the
+		created object you can pass a lambda expression as another argument
+		to <strong>actionAdd</strong>: that lambda will be executed ONLY after the menu
+		has been selected, i.e., ONLY after the created
+		object is part of the resource:
+		</p>
+		<p>
+		</p>
+		<pre class="prettyprint  lang-parsley" skin="desert">
+		emfMenus{
+			Writer w -&gt; #[
+				actionAdd("Add a new book for the writer",
+					(w.eContainer as Library).books,
+					EXTLibraryFactory.eINSTANCE.createBook,
+					// CORRECT: the lambda will be executed when the menu
+					// is selected and the object has been added to
+					// the resource
+					[ book | book.author = w ]
+				)
+			]
+		}
+		</pre>
+		<p>
 		</p>
 	</div>
 	</br>
@@ -1297,6 +1880,423 @@
 		This customization is exactly as in the case of the form of the previous section.
 		</p>
 	</div>
+	</br>
+	<div >
+		<h2 id="par" class="featurette-heading text-parsley1">Resources</h2>
+	<p>
+	</p>
+	<ul>
+		<li>If you need a machanism to fill some data for the first time you use a model, you can provide
+			a specific implementation of <a href="#ResourceManager">Resource Manager</a>.</li>
+		<li>If you want to interact with Resource Loading, you can provide a specific <a href="#ResourceLoader">Resource
+			Loader</a></li>
+	</ul>
+	<p>
+	</p>
+	<p>
+	Concerning saving objects, there are some specific parts that can be customized:
+	</p>
+	<p>
+	</p>
+	<ul>
+		<li><a href="#ResourceSaveStrategy">Resource Save Strategy</a>, if you want to manage the save.</li>
+	</ul>
+	<p>
+	</p>
+		</br>
+		<h3 class="featurette-heading text-parsley2">Resource Loader<a id="ResourceLoader"></a></h3>
+		<p>
+		The class <abbr title="org.eclipse.emf.parsley.resource.ResourceLoader">ResourceLoader</abbr>
+		 can be used to handle resource loading.
+		This class uses internally the <a href="#ResourceManager">Resource Manager</a>.
+		</p>
+		</br>
+		<h3 class="featurette-heading text-parsley2">Resource Manager<a id="ResourceManager"></a></h3>
+		<p>
+		Tasks concerning an EMF <abbr title="org.eclipse.emf.ecore.resource.Resource">Resource</abbr>
+		 are
+		delegated to <abbr title="org.eclipse.emf.parsley.resource.ResourceManager">ResourceManager</abbr>
+		.
+		</p>
+		<p>
+		One of such tasks is initializing the resource, e.g., when, after loading, it is
+		found empty.  You can derive from this class (and bind it in the Guice module) and provide a custom implementation 
+		of the method <strong>initialize</strong>.
+		</p>
+		<p>
+		Saving a resource is also delegated to this class, using the method <strong>save</strong>,
+		which is expected to return a boolean value representing whether saving
+		has succeeded (the default implementation simply saves the resource and returns true).
+		</p>
+		<p>
+		In the DSL, you can specify a <strong>resourceManager</strong> block, and within that block
+		you can specify <strong>initializeResource</strong> and <strong>saveResource</strong>, which correspond to
+		<strong>inizialize</strong> and <strong>save</strong> methods, respectively.  In both cases, inside the
+		block expression, the resource is available with the name <strong>it</strong>; for example
+		</p>
+		<p>
+		</p>
+		<pre class="prettyprint  lang-parsley" skin="desert">
+		import org.eclipse.emf.parsley.examples.library.EXTLibraryFactory
+		
+		...
+		
+		resourceManager {
+			val EXTLibraryFactory libraryFactory = EXTLibraryFactory.eINSTANCE;
+			
+			initializeResource {
+				// it is of type org.eclipse.emf.ecore.resource.Resource
+				it.getContents() += libraryFactory.createLibrary
+			}
+			saveResource {
+				// it is of type org.eclipse.emf.ecore.resource.Resource
+				it.save(null)
+				return true
+			}
+		}
+		
+		...
+		</pre>
+		<p>
+		</p>
+		</br>
+		<h3 class="featurette-heading text-parsley2">Resource Save Strategy<a id="ResourceSaveStrategy"></a></h3>
+		<p>
+		Resource saving is delegated to <abbr title="org.eclipse.emf.parsley.resource.ResourceSaveStrategy">ResourceSaveStrategy</abbr>
+		
+		which, by defaults only saves the passed <abbr title="org.eclipse.emf.ecore.resource.Resource">Resource</abbr>
+		,
+		by delegating to <abbr title="org.eclipse.emf.parsley.resource.ResourceManager">ResourceManager</abbr>
+		
+		(see <a href="#ResourceManager"></a>).
+		You can inject your own save strategy and customize the saving strategy, for
+		instance, you may want to validate the resource before saving
+		(a usable example of this strategy is
+		<abbr title="org.eclipse.emf.parsley.resource.ValidateBeforeSaveStrategy">ValidateBeforeSaveStrategy</abbr>
+		,
+		see also section <a href="#addref" rel="Validation">Validation</a>).
+		</p>
+	</div>
+	</br>
+	<div >
+		<h2 id="par" class="featurette-heading text-parsley1">Configurator</h2>
+	<p>
+	In Parsley, instead of using abstract classes, we often provide concrete
+	classes that implement superclass' abstract methods (or interface methods)
+	by delegating to an injected <abbr title="org.eclipse.emf.parsley.config.Configurator">Configurator</abbr>
+	.
+	Such configurator calls methods in its hierarchy using polymorphic dispatch;
+	in particular, the first argument passed to these methods is the object
+	requesting that specific service to the configurator; typically it will be
+	a UI object, e.g., a view part.
+	</p>
+	<p>
+	These are the methods that can be customized declaratively:
+	</p>
+	<p>
+	</p>
+	<pre class="prettyprint" skin="desert">
+	/**
+	 * Returns the {@link URI} of the resource for the requestor for any use the requestor may need it
+	 * @param requestor
+	 * @return
+	 */
+	public URI resourceURI(Object requestor) {
+		return null;
+	}
+	
+	/**
+	 * Returns the {@link EClass} for the requestor
+	 * @param requestor
+	 * @return
+	 */
+	public EClass eClass(Object requestor) {
+		return null;
+	}
+	
+	/**
+	 * Returns the {@link EStructuralFeature} for the requestor
+	 * @param requestor
+	 * @return
+	 */
+	public EStructuralFeature eStructuralFeature(Object requestor) {
+		return null;
+	}
+	
+	/**
+	 * Returns the contents from the resource for the requestor
+	 * @param requestor
+	 * @param resource
+	 * @return
+	 */
+	public Object contents(Object requestor, Resource resource) {
+		return null;
+	}
+	</pre>
+	<p>
+	</p>
+	<p>
+	The idea is that clients that use such an injected instance should call
+	the <strong>get</strong> methods, e.g., <strong>getContents</strong>, while the customization should be defined
+	using polymorphic dispatch, e.g.,
+	</p>
+	<p>
+	</p>
+	<pre class="prettyprint" skin="desert">
+	class MyConfigurator extends Configurator {
+	
+		public Object contents(MyView1 view1, Resource resource) {
+			return ...;
+		}
+	
+		public Object contents(MyOtherView view, Resource resource) {
+			return ...;
+		}
+	}
+	</pre>
+	<p>
+	</p>
+	<p>
+	In the DSL, you can specify a <strong>configurator</strong> section, e.g.,
+	(the requestor object can be accessed using the implicit variable
+	<strong>it</strong>, while additional parameters can be accessed through their names,
+	as named in the original <abbr title="org.eclipse.emf.parsley.config.Configurator">Configurator</abbr>
+	
+	class, e.g., <strong>resource</strong> for <strong>contents</strong>):
+	</p>
+	<p>
+	</p>
+	<pre class="prettyprint  lang-parsley" skin="desert">
+	module my.project {
+	
+		configurator {
+			resourceURI {
+				MyTreeFormView -&gt; {
+					return ...;
+				}
+			}
+			eClass {
+				MyTreeView -&gt; {
+					return ...;
+				}
+			}
+			eStructuralFeature {
+				MyTreeFormView -&gt; {
+					return ...;
+				}
+				MyFormView -&gt; {
+					return ...;
+				}
+			}
+			contents {
+				MyTreeView -&gt; {
+					return ...;
+				}
+			}
+		}
+	}
+	</pre>
+	<p>
+	</p>
+	<p>
+	The project wizard will generate in the <strong>module.parsley</strong> the
+	required <strong>configurator</strong> sections, depending on the specific template chosen,
+	with some <strong>// TODO</strong> comments to help implementing them, e.g.,
+	</p>
+	<p>
+	</p>
+	<pre class="prettyprint  lang-parsley" skin="desert">
+	module my.project {
+	
+		configurator {
+			contents {
+				MyView -&gt; {
+					// TODO return the contents from the resource
+					// e.g., resource.^contents.get(0)
+				}
+			}
+			eClass {
+				MyView -&gt; {
+					// TODO return the EClass to represent
+				}
+			}
+			resourceURI {
+				MyView -&gt; {
+					// TODO create and return a org.eclipse.emf.common.util.URI
+					return null;
+				}
+			}
+			eStructuralFeature {
+				MyView -&gt; {
+					// TODO return the EStructuralFeature to get the elements to represent
+				}
+			}
+		}
+	}
+	</pre>
+	<p>
+	</p>
+	</div>
+	</br>
+	<div >
+		<h2 id="par" class="featurette-heading text-parsley1">Validation</h2>
+	<p>
+	EMF Parsley supports standard EMF validation automatically, e.g., via the context menu
+	"Validate"; thus, if you already have constraints implemented for your meta-model, the
+	validation action will check them.
+	</p>
+	<p>
+	EMF validation can also be triggered manually using an injected <abbr title="org.eclipse.emf.parsley.validation.ValidationRunner">ValidationRunner</abbr>
+	,
+	which provides methods for validating a single <abbr title="org.eclipse.emf.ecore.EObject">EObject</abbr>
+	 or an entire
+	<abbr title="org.eclipse.emf.ecore.resource.Resource">Resource</abbr>
+	.  These <strong>validate</strong> methods return an EMF
+	<abbr title="org.eclipse.emf.common.util.Diagnostic">Diagnostic</abbr>
+	 that can be used to find out possible errors, warnings
+	and infos collected during the validation.
+	</p>
+	<p>
+	There are overloaded versions of <strong>validate</strong> methods that also take an
+	<abbr title="org.eclipse.emf.parsley.validation.IssueReporter">IssueReporter</abbr>
+	:
+	</p>
+	<p>
+	</p>
+	<pre class="prettyprint" skin="desert">
+	/**
+	 * Validates, reports diagnostics through the passed {@link IssueReporter}
+	 * and returns the list of reported diagnostics.
+	 * 
+	 * @param eObject
+	 * @param reporter
+	 * @return
+	 */
+	public List&lt;Diagnostic&gt; validate(EObject eObject, IssueReporter reporter) {
+		return reporter.report(validate(eObject));
+	}
+	
+	/**
+	 * Validates, reports diagnostics through the passed {@link IssueReporter}
+	 * and returns the list of reported diagnostics.
+	 * 
+	 * @param resource
+	 * @param reporter
+	 * @return
+	 */
+	public List&lt;Diagnostic&gt; validate(Resource resource, IssueReporter reporter) {
+		return reporter.report(validate(resource));
+	}
+	</pre>
+	<p>
+	</p>
+	<p>
+	The reporter is asked to report the collected diagnostic and it is expected to return
+	the list of issues effectively reported.  For example, an issue reporter can
+	report only errors (e.g., diagnostic whose severity is <strong>Diagnostic.ERROR</strong>), while
+	ignoring warnings and other diagnostic information.
+	</p>
+	<p>
+	We provide a utility class that can be injected, <abbr title="org.eclipse.emf.parsley.validation.DiagnosticUtil">DiagnosticUtil</abbr>
+	,
+	with utility methods, like flattening diagnostic into a list (EMF diagnostic are typically nested in
+	a tree form), to quickly select only the errors, and to have a string representation.
+	</p>
+	<p>
+	The default implementation of <abbr title="org.eclipse.emf.parsley.validation.IssueReporter">IssueReporter</abbr>
+	
+	is <abbr title="org.eclipse.emf.parsley.validation.DialogErrorReporter">DialogErrorReporter</abbr>
+	, which uses an EMF
+	dialog to report ONLY errors.  Another implementation that can be used for testing purposes
+	is <abbr title="org.eclipse.emf.parsley.validation.LogIssueReporter">LogIssueReporter</abbr>
+	, which logs diagnostic using
+	the corresponding log4j methods (i.e., <strong>error</strong>, <strong>warn</strong>, <strong>info</strong>).
+	</p>
+	<p>
+	An example of use of the above classes can be found in <abbr title="org.eclipse.emf.parsley.resource.ValidateBeforeSaveStrategy">ValidateBeforeSaveStrategy</abbr>
+	
+	(see section <a href="#ResourceSaveStrategy">Resource Save Strategy</a>):
+	</p>
+	<p>
+	</p>
+	<pre class="prettyprint" skin="desert">
+	public class ValidateBeforeSaveStrategy extends ResourceSaveStrategy {
+	
+		@Inject
+		private ValidationRunner validationRunner;
+		
+		@Inject
+		private IssueReporter issueReporter;
+	
+	    @Override
+		public boolean save(Resource resource) throws IOException {
+			if (!precondition(resource)) {
+				return false;
+			}
+			return super.save(resource);
+		}
+	    
+		protected boolean precondition(Resource resource) {
+			return validationRunner.validate(resource, issueReporter).size() == 0;
+		}
+	}
+	</pre>
+	<p>
+	</p>
+	<p>
+	Thus, if you use a <abbr title="org.eclipse.emf.parsley.resource.ValidateBeforeSaveStrategy">ValidateBeforeSaveStrategy</abbr>
+	,
+	with the default Guice bindings, upon saving, if validation finds errors, it will
+	cancel the saving and it will show a dialog with errors.
+	</p>
+	</div>
+		</div>
+	</div>
+	 <hr style="width:64.6%;margin-bottom:28px;margin-top:30px;" class="col-md-8 col-md-offset-3"> 
+	<div class="row featurette">
+		<div class="col-md-8 col-md-offset-3">
+			<h1 id="par" class="featurette-heading text-parsley">Advanced Features</h1>
+			<p>
+			In this chapter we describe some advanced features.
+			</p>
+	</br>
+	<div >
+		<h2 id="par" class="featurette-heading text-parsley1">Testing Framework</h2>
+	<p>
+	We provide some utility classes for testing <strong>EMF Parsley</strong> components in the feature
+	"Emf Parsley Junit4 Support".  By deriving from one of the abstract classes in our
+	testing bundle, you will be able to write tests that are meant to be run as Junit test,
+	that is to say, NOT as Plug-in Junit tests.  Thus, you will not need a running Eclipse product
+	to execute such tests: they will be much faster.  Indeed, many parts of Parsley can
+	be tested even without a running Eclipse.
+	</p>
+	<p>
+	</p>
+	<ul>
+		<li><abbr title="org.eclipse.emf.parsley.junit4.AbstractEmfParsleyTest">AbstractEmfParsleyTest</abbr>
+		: this provides
+			a few utility methods, e.g., for creating an <abbr title="com.google.inject.Injector">Injector</abbr>
+		.</li>
+		<li><abbr title="org.eclipse.emf.parsley.junit4.AbstractEmfParsleyShellBasedTest">AbstractEmfParsleyShellBasedTest</abbr>
+		: this allows
+			to run Junit tests that require a <abbr title="org.eclipse.swt.widgets.Display">Display</abbr>
+		 and a
+		<abbr title="org.eclipse.swt.widgets.Shell">Shell</abbr>
+		.</li>
+		<li><abbr title="org.eclipse.emf.parsley.junit4.AbstractEmfParsleyControlBasedTest">AbstractEmfParsleyControlBasedTest</abbr>
+		: an extension
+			of the previous class for tests that also require databinding capabilities, e.g.,
+			tests for <abbr title="org.eclipse.swt.widgets.Control">Control</abbr>
+		 elements; this provides many assert
+			methods for several kinds of controls, such as <strong>assertCheckbox</strong>, <strong>assertCombo</strong>, etc.</li>
+	</ul>
+	<p>
+	</p>
+	<p>
+	We use these classes for testing most of our classes; you might want to have a look
+	at the project <strong>org.eclipse.emf.parsley.tests</strong> for some usage examples.
+	</p>
+	</div>
 		</div>
 	</div>
 	 <hr style="width:64.6%;margin-bottom:28px;margin-top:30px;" class="col-md-8 col-md-offset-3"> 
@@ -1323,174 +2323,174 @@
 	</div>
 	</br>
 	<div >
-		<h2 id="par" class="featurette-heading text-parsley1">Installing the RAP Tools</h2>
-	<p>
-	To begin with, you need to install the RAP Tools into the IDE.
-	This can be accomplished with the following steps:
-	</p>
-	<ol>
-		<li>Help -&gt; Install New Software ...</li>
-		<li>select the main Eclipse Update site (e.g. <strong>"http://download.eclipse.org/releases/luna"</strong>)</li>
-		<li>expand category "Web, XML, Java EE and OSGi Enterprise Development"</li>
-		<li>select "RAP Tools" and complete the installation, restarting the IDE at the end</li>
-		<li>after IDE restarts just close the Welcome page</li>
-	</ol>
-	<p>
-	</p>
+		<h2 id="par" class="featurette-heading text-parsley1">Setup</h2>
+		</br>
+		<h3 class="featurette-heading text-parsley2">Installing the RAP Tools<a id="installRapTools"></a></h3>
+		<p>
+		To begin with, you need to install the RAP Tools into the IDE.
+		This can be accomplished with the following steps:
+		</p>
+		<ol>
+			<li>Help -&gt; Install New Software ...</li>
+			<li>select the main Eclipse Update site (e.g. <strong>"http://download.eclipse.org/releases/luna"</strong>)</li>
+			<li>expand category "Web, XML, Java EE and OSGi Enterprise Development"</li>
+			<li>select "RAP Tools" and complete the installation, restarting the IDE at the end</li>
+			<li>after IDE restarts just close the Welcome page</li>
+		</ol>
+		<p>
+		</p>
+		</br>
+		<h3 class="featurette-heading text-parsley2">Setup the EMF Parsley RAP Target Platform<a id="rapSetTargetPlatform"></a></h3>
+		<p>
+		After having installed EMF Parsley as described <a href="https://www.eclipse.org/emf-parsley/download.html">here</a> and
+		created a new workspace, you can setup the EMF Parsley RAP Target Platform in the following way: 
+		</p>
+		<ol>
+			<li>File -&gt; New... -&gt; Example...</li>
+			<li>from Category "Emf Parsley Examples", select "Emf Parsley Rap Target Platform Example"</li>
+			<li>press Next and Finish</li>
+			<li>open the Target Definition file <strong>emf-parsely-rap-2.3.target</strong></li>
+			<li>wait until the "Resolving Target Definition" job is done (check the status bar)</li>
+			<li>when finished, click on hyperlink "Set as Target Platform"</li>
+		</ol>
+		<p>
+		</p>
+		<p>
+		You will end up with a RAP-enabled workspace, enhanced by EMF and Parsley!
+		</p>
 	</div>
 	</br>
 	<div >
-		<h2 id="par" class="featurette-heading text-parsley1">Setup the EMF Parsley RAP Target Platform</h2>
-	<p>
-	After having installed EMF Parsley as described <a href="https://www.eclipse.org/emf-parsley/download.html">here</a> and
-	created a new workspace, you can setup the EMF Parsley RAP Target Platform in the following way: 
-	</p>
-	<ol>
-		<li>File -&gt; New... -&gt; Example...</li>
-		<li>from Category "Emf Parsley Examples", select "Emf Parsley Rap Target Platform Example"</li>
-		<li>press Next and Finish</li>
-		<li>open the Target Definition file <strong>emf-parsely-rap-2.3.target</strong></li>
-		<li>wait until the "Resolving Target Definition" job is done (check the status bar)</li>
-		<li>when finished, click on hyperlink "Set as Target Platform"</li>
-	</ol>
-	<p>
-	</p>
-	<p>
-	You will end up with a RAP-enabled workspace, enhanced by EMF and Parsley!
-	</p>
-	</div>
-	</br>
-	<div >
-		<h2 id="par" class="featurette-heading text-parsley1">Running the Parsley RAP UI Example</h2>
-	<p>
-	Here is the fastest way to get a working web application with all the stuff put togheter:
-	</p>
-	<ol>
-		<li>File -&gt; New... -&gt; Example...</li>
-		<li>from Category "Emf Parsley Examples", select "Emf Parsley Rap Example"</li>
-		<li>press Next and Finish</li>
-		<li>expand plug-in <strong>"org.eclipse.emf.parsley.examples.rap.ui"</strong></li>
-		<li>right-click "Emf_Parsley_RAP_UI_Example.launch" and click "Run as" "Emf_Parsley_RAP_UI_Example"</li>
-	</ol>
-	<p>
-	</p>
-	<p>
-	What you will get is a web application that allows you to interact with the model instance as you would
-	do in a desktop (RCP) environment.
-	</p>
-	<p>
-	</p>
-	<img src="images/08-rap-ui-example-running.png" class="img-responsive centered" style="margin-top:10px;margin-bottom:10px;">
-	<p>
-	</p>
-	<p>
-	In this web application you can see two views: 
-	</p>
-	<ul>
-		<li>the one on the left is a read-only view; it just reflects the model content, but it does not react to changes (the classic Eclipse dirty indicator is not triggered
-		by changes) and you are not able to save. Its model is created in class <strong>org.eclipse.emf.parsley.examples.rap.ui.GuiceModule.CustomEmptyResourceInitializer</strong>
-		and is not persisted</li>
-		<li>the view on the right is instead a Saveable view and therefore it not only triggers the dirty state after
-		a change, but also allows you to save the modifications with the automatic dirty state reset. Its model
-		is persisted in file <strong>System.getProperty("java.io.tmpdir")+"/My.model")</strong></li>
-	</ul>
-	<p>
-	</p>
-	<p>
-	Of course, since this is a web application, you can also open a browser on another pc or device on the same network and type the address,
-	replacing 127.0.0.1 with the IP of the machine where the application was launched.
-	</p>
-	</div>
-	</br>
-	<div >
-		<h2 id="par" class="featurette-heading text-parsley1">Running the Parsley RAP CDO Example</h2>
-	<p>
-	The EMF default XMI persistence is certainly very handy to start with, but as soon as you want a more
-	production-ready EMF persistence architecture, well, <a href="http://wiki.eclipse.org/CDO">CDO</a> is for sure the way to go.
-	In fact with CDO you basically have an EMF model instance shared between clients, that also allows the
-	clients to be synchronized with the model changes.
-	</p>
-	<p>
-	In this example, in order to keep things simple, we will use CDO with an in-memory store (MEMStore) whose contents will be lost once the server is stopped.
-	However CDO can be configured for usage with RDBMS, Object-oriented or NO-SQL databases (see <a href="http://eclipse.org/cdo/documentation/">here</a> for details)
-	</p>
-	<p>
-	To start with we need a CDO Server running and we can obtain it with an example plugin that can be used
-	both in an RCP and in a RAP workspace.
-	</p>
-	<p>
-	</p>
-	<ol>
-		<li>File -&gt; New... -&gt; Example...</li>
-		<li>from Category "Emf Parsley Examples", select "Emf Parsley Cdo Server Example"</li>
-		<li>press Next and Finish</li>
-		<li>expand plug-in <strong>"org.eclipse.emf.parsley.examples.cdo.server"</strong></li>
-		<li>right-click "CDOServerExample.launch" and click "Run as" "CDOServerExample"</li>
-		<li>a message on the Console <strong>"Repository[demo] started!"</strong> informs that the CDO Server instance
-			is started!</li>
-	</ol>
-	<p>
-	</p>
-	<p>
-	Now we can create the web application that will use the CDO server just started.
-	</p>
-	<p>
-	</p>
-	<ol>
-		<li>File -&gt; New... -&gt; Example...</li>
-		<li>from Category "Emf Parsley Examples", select "Emf Parsley Rap Cdo Example"</li>
-		<li>press Next and Finish</li>
-	</ol>
-	<p>
-	</p>
-	<p>
-	The plug-in projects created are:
-	</p>
-	<p>
-	</p>
-	<ul>
-		<li>the Model (org.eclipse.emf.parsley.examples.cdo.model)</li>
-		<li>a Parsley plug-in with a TreeForm (org.eclipse.emf.parsley.examples.cdo.treeform)</li>
-		<li>the webapp (org.eclipse.emf.parsley.examples.cdo.rap)</li>
-	</ul>
-	<p>
-	</p>
-	<p>
-	Then let's start the application
-	</p>
-	<p>
-	</p>
-	<ol>
-		<li>expand plug-in <strong>"org.eclipse.emf.parsley.examples.cdo.rap"</strong></li>
-		<li>right-click "EMF-Parsley_Library_RAP.launch" and click "Run as" "EMF-Parsley_Library_RAP"</li>
-	</ol>
-	<p>
-	</p>
-	<p>
-	If you happen to see this
-	</p>
-	<p>
-	</p>
-	<img src="images/08-rap-refresh.png" class="img-responsive centered" style="margin-top:10px;margin-bottom:10px;">
-	<p>
-	</p>
-	<p>
-	just press the refresh button and should see the following
-	</p>
-	<p>
-	</p>
-	<img src="images/08-rap-cdo-1.png" class="img-responsive centered" style="margin-top:10px;margin-bottom:10px;">
-	<p>
-	</p>
-	<p>
-	Now feel free to open the same address from more browsers window (yes, on different machines or devices, possibly)
-	and see the power of this technology stack at work!
-	</p>
-	<p>
-	</p>
-	<img src="images/08-rap-cdo-2.png" class="img-responsive centered" style="margin-top:10px;margin-bottom:10px;">
-	<p>
-	</p>
+		<h2 id="par" class="featurette-heading text-parsley1">Examples</h2>
+		</br>
+		<h3 class="featurette-heading text-parsley2">Running the Parsley RAP UI Example<a id="rapFirstExample"></a></h3>
+		<p>
+		Here is the fastest way to get a working web application with all the stuff put togheter:
+		</p>
+		<ol>
+			<li>File -&gt; New... -&gt; Example...</li>
+			<li>from Category "Emf Parsley Examples", select "Emf Parsley Rap Example"</li>
+			<li>press Next and Finish</li>
+			<li>expand plug-in <strong>"org.eclipse.emf.parsley.examples.rap.ui"</strong></li>
+			<li>right-click "Emf_Parsley_RAP_UI_Example.launch" and click "Run as" "Emf_Parsley_RAP_UI_Example"</li>
+		</ol>
+		<p>
+		</p>
+		<p>
+		What you will get is a web application that allows you to interact with the model instance as you would
+		do in a desktop (RCP) environment.
+		</p>
+		<p>
+		</p>
+		<img src="images/08-rap-ui-example-running.png" class="img-responsive centered" style="margin-top:10px;margin-bottom:10px;">
+		<p>
+		</p>
+		<p>
+		In this web application you can see two views: 
+		</p>
+		<ul>
+			<li>the one on the left is a read-only view; it just reflects the model content, but it does not react to changes (the classic Eclipse dirty indicator is not triggered
+			by changes) and you are not able to save. Its model is created in class <strong>org.eclipse.emf.parsley.examples.rap.ui.GuiceModule.CustomEmptyResourceInitializer</strong>
+			and is not persisted</li>
+			<li>the view on the right is instead a Saveable view and therefore it not only triggers the dirty state after
+			a change, but also allows you to save the modifications with the automatic dirty state reset. Its model
+			is persisted in file <strong>System.getProperty("java.io.tmpdir")+"/My.model")</strong></li>
+		</ul>
+		<p>
+		</p>
+		<p>
+		Of course, since this is a web application, you can also open a browser on another pc or device on the same network and type the address,
+		replacing 127.0.0.1 with the IP of the machine where the application was launched.
+		</p>
+		</br>
+		<h3 class="featurette-heading text-parsley2">Running the Parsley RAP CDO Example<a id="rapCdoExample"></a></h3>
+		<p>
+		The EMF default XMI persistence is certainly very handy to start with, but as soon as you want a more
+		production-ready EMF persistence architecture, well, <a href="http://wiki.eclipse.org/CDO">CDO</a> is for sure the way to go.
+		In fact with CDO you basically have an EMF model instance shared between clients, that also allows the
+		clients to be synchronized with the model changes.
+		</p>
+		<p>
+		In this example, in order to keep things simple, we will use CDO with an in-memory store (MEMStore) whose contents will be lost once the server is stopped.
+		However CDO can be configured for usage with RDBMS, Object-oriented or NO-SQL databases (see <a href="http://eclipse.org/cdo/documentation/">here</a> for details)
+		</p>
+		<p>
+		To start with we need a CDO Server running and we can obtain it with an example plugin that can be used
+		both in an RCP and in a RAP workspace.
+		</p>
+		<p>
+		</p>
+		<ol>
+			<li>File -&gt; New... -&gt; Example...</li>
+			<li>from Category "Emf Parsley Examples", select "Emf Parsley Cdo Server Example"</li>
+			<li>press Next and Finish</li>
+			<li>expand plug-in <strong>"org.eclipse.emf.parsley.examples.cdo.server"</strong></li>
+			<li>right-click "CDOServerExample.launch" and click "Run as" "CDOServerExample"</li>
+			<li>a message on the Console <strong>"Repository[demo] started!"</strong> informs that the CDO Server instance
+				is started!</li>
+		</ol>
+		<p>
+		</p>
+		<p>
+		Now we can create the web application that will use the CDO server just started.
+		</p>
+		<p>
+		</p>
+		<ol>
+			<li>File -&gt; New... -&gt; Example...</li>
+			<li>from Category "Emf Parsley Examples", select "Emf Parsley Rap Cdo Example"</li>
+			<li>press Next and Finish</li>
+		</ol>
+		<p>
+		</p>
+		<p>
+		The plug-in projects created are:
+		</p>
+		<p>
+		</p>
+		<ul>
+			<li>the Model (org.eclipse.emf.parsley.examples.cdo.model)</li>
+			<li>a Parsley plug-in with a TreeForm (org.eclipse.emf.parsley.examples.cdo.treeform)</li>
+			<li>the webapp (org.eclipse.emf.parsley.examples.cdo.rap)</li>
+		</ul>
+		<p>
+		</p>
+		<p>
+		Then let's start the application
+		</p>
+		<p>
+		</p>
+		<ol>
+			<li>expand plug-in <strong>"org.eclipse.emf.parsley.examples.cdo.rap"</strong></li>
+			<li>right-click "EMF-Parsley_Library_RAP.launch" and click "Run as" "EMF-Parsley_Library_RAP"</li>
+		</ol>
+		<p>
+		</p>
+		<p>
+		If you happen to see this
+		</p>
+		<p>
+		</p>
+		<img src="images/08-rap-refresh.png" class="img-responsive centered" style="margin-top:10px;margin-bottom:10px;">
+		<p>
+		</p>
+		<p>
+		just press the refresh button and should see the following
+		</p>
+		<p>
+		</p>
+		<img src="images/08-rap-cdo-1.png" class="img-responsive centered" style="margin-top:10px;margin-bottom:10px;">
+		<p>
+		</p>
+		<p>
+		Now feel free to open the same address from more browsers window (yes, on different machines or devices, possibly)
+		and see the power of this technology stack at work!
+		</p>
+		<p>
+		</p>
+		<img src="images/08-rap-cdo-2.png" class="img-responsive centered" style="margin-top:10px;margin-bottom:10px;">
+		<p>
+		</p>
 	</div>
 		</div>
 	</div>
@@ -1763,6 +2763,34 @@
 	</div>
 		</div>
 	</div>
+	 <hr style="width:64.6%;margin-bottom:28px;margin-top:30px;" class="col-md-8 col-md-offset-3"> 
+	<div class="row featurette">
+		<div class="col-md-8 col-md-offset-3">
+			<h1 id="par" class="featurette-heading text-parsley">Migration Guide</h1>
+	</br>
+	<div >
+		<h2 id="par" class="featurette-heading text-parsley1">From 0.3 to 0.4</h2>
+	<p>
+	</p>
+	<ul>
+		<li><strong>EmptyResourceInitializer</strong> has been removed: you should now use
+		<abbr title="org.eclipse.emf.parsley.resource.ResourceManager">ResourceManager</abbr>
+		,
+		see section <a href="#ResourceManager">Resource Manager</a></li>
+		<li><strong>ResourceSaveManager</strong> has been removed: you should now use
+		<abbr title="org.eclipse.emf.parsley.resource.ResourceSaveStrategy">ResourceSaveStrategy</abbr>
+		,
+		see section <a href="#ResourceSaveStrategy">Resource Save Strategy</a></li>
+		<li>Project wizards have been redesigned: they generate a <strong>module.parsley</strong>
+		that uses the <strong>configurator</strong> for specifying required information
+		(see section <a href="#addref" rel="Configurator">Configurator</a> and the updated
+		first example, section <a href="#addref" rel="First Example">First Example</a>)</li>
+	</ul>
+	<p>
+	</p>
+	</div>
+		</div>
+	</div>
 	</br></br></br></br></br></br></br>
 	<!-- /END THE FEATURETTES -->
 </div>
@@ -1935,7 +2963,7 @@
 		});
 	</script>
 	<script type="text/javascript" src="google-code-prettify/lang-common.js"></script><script type="text/javascript">
-		registerLanguage('import|module|parts|labelProvider|text|image|elements|propertyDescriptionProvider|featuresProvider|features|formControlFactory|control|target|viewerContentProvider|children|viewpart|viewname|viewclass|viewcategory|for|new|switch|default|boolean|do|if|this|double|throw|byte|else|case|enum|instanceof|return|featureCaptionProvider|catch|extends|int|short|try|char|void|finally|long|float|super|while|proposals|dialogControlFactory|menuBuilder|menus|emfMenus', 'emfparsley');
+		registerLanguage('import|module|parts|labelProvider|text|image|elements|featuresProvider|features|formControlFactory|control|target|viewerContentProvider|children|viewpart|viewname|viewclass|viewcategory|for|new|switch|default|boolean|do|if|this|double|throw|null|true|false|it|as|byte|else|case|enum|instanceof|return|featureCaptionProvider|val|var|catch|extends|int|short|try|char|void|finally|long|float|super|while|proposals|dialogControlFactory|menuBuilder|menus|emfMenus|resourceManager|initializeResource|saveResource|configurator|resourceURI|eClass|eStructuralFeature|contents|bindings|type|provide|value', 'emfparsley');
 	</script>
 </body>
 </html>
