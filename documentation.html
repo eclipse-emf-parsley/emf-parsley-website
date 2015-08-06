@@ -64,7 +64,7 @@
 		<div class="navbar-fixed-top" style="background:url(img/bg-100x100.jpg)">
 			<div class="container" style="width:1150px;">
 				<div class="navbar-header">
-					<a href="Index.htm"><img class="featurette-image img-responsive" alt="" src="img/logo.gif"/></a>
+					<a href="index.html"><img class="img-responsive" alt="" src="img/logo.gif"/></a>
 				</div>
 			</div>
 			<nav class="navbar navbar-default" role="navigation" style="background-color:transparent; border:0 none; margin:-31px 0px 3px 0px;min-height: 36px;">
@@ -132,6 +132,18 @@
 		-o-animation: fadeInDownBig 1.5s;
 		animation: fadeInDownBig 1.5s;
 	}
+	
+	.scrollup {
+		background: url(img/up.png) no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+		bottom: 6%;
+		display: none;
+		opacity: 0.35;  /* modifica anche in mouseout */
+		position: fixed;
+		right: 4%;
+		z-index: 900;
+		width: 45px;
+		height: 45px;
+	}
 </style>
 <div class="containerdoc marketing">
 	<!-- SIDEBAR -->
@@ -174,6 +186,7 @@
 			<li><a class="submenu" tabindex="-1" href="#par">Adding the dirty state</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and Save command</a></li>
 			<li class="divider"></li>
 			<li><a tabindex="-1" href="#par">Migration Guide</a></li>
+			<li><a class="submenu" tabindex="-1" href="#par">From 0.4 to 0.5</a></li>
 			<li><a class="submenu" tabindex="-1" href="#par">From 0.3 to 0.4</a></li>
 			<li class="divider"></li>
 		</ul>
@@ -181,6 +194,9 @@
 			
 	<!-- START THE FEATURETTES -->
 	</br>
+	<!-- scrollup ICON -->
+	<a class="scrollup" href="#top"></a>
+	<!-- scrollup ICON -->
 	<div class="row featurette">
 		<div class="col-md-8 col-md-offset-3">
 			<h1 id="par" class="featurette-heading text-parsley">Overview</h1>
@@ -1057,7 +1073,7 @@
 	<p>
 	</p>
 	<p>
-	The class <abbr title="org.eclipse.emf.parsley.builders.TableViewerColumnBuilder">TableViewerColumnBuilder</abbr>
+	The class <abbr title="org.eclipse.emf.parsley.viewers.TableViewerColumnBuilder">TableViewerColumnBuilder</abbr>
 	 has the responsibility to
 	build the columns of the Table, by using the <a href="#FeaturesProvider">Features Provider</a> to get the list
 	of features and the <a href="#FeatureCaptionProvider">Feature Caption Provider</a> for the column headers.
@@ -1075,6 +1091,22 @@
 		<h3 class="featurette-heading text-parsley2">Caption Customization<a id="Table_captions"></a></h3>
 		<p>
 		The headers of the table can be customizzed via the <a href="#FeatureCaptionProvider">Caption Provider</a>.
+		</p>
+		</br>
+		<h3 class="featurette-heading text-parsley2">Column width Customization<a id="Table_columns_width"></a></h3>
+		<p>
+		All columns have the same size by default, but they can be customizzed via the <a href="#addref" rel="Configurator">Configurator</a>
+		for instance in the DSL, like in the example below.
+		</p>
+		<p>
+		</p>
+		<pre class="prettyprint  lang-parsley" skin="desert">
+		
+		bindings{
+			value List&lt;Integer&gt; TableColumnWeights -&gt; #[10,20,30,40]
+		}
+		</pre>
+		<p>
 		</p>
 		</br>
 		<h3 class="featurette-heading text-parsley2">Adding Menu<a id="Table_MenuBuilder"></a></h3>
@@ -1662,7 +1694,7 @@
 		<p>
 		
 		 
-		This customization can be done also in Java, by extending the class <abbr title="org.eclipse.emf.parsley.binding.ProposalCreator">ProposalCreator</abbr>
+		This customization can be done also in Java, by extending the class <abbr title="org.eclipse.emf.parsley.composite.ProposalCreator">ProposalCreator</abbr>
 		
 		and implementing the method </p>
 		<pre class="prettyprint" skin="desert">public List&lt;?&gt; proposals_Book_author(Book book) {...}</pre>
@@ -1676,7 +1708,7 @@
 	<div >
 		<h2 id="par" class="featurette-heading text-parsley1">Contextual Menu</h2>
 	<p>
-	A context menu can be added to any viewer by using the <abbr title="org.eclipse.emf.parsley.viewers.ViewerInitializer">ViewerInitializer</abbr>
+	A context menu can be added to any viewer by using the <abbr title="org.eclipse.emf.parsley.menus.ViewerContextMenuHelper">ViewerContextMenuHelper</abbr>
 	.
 	</p>
 	<p>
@@ -1809,6 +1841,34 @@
 	<div >
 		<h2 id="par" class="featurette-heading text-parsley1">Factories</h2>
 		</br>
+		<h3 class="featurette-heading text-parsley2">Widget Factory<a id="WidgetFactory"></a></h3>
+		<p>
+		The actual creation of text field, buttons, labels, etc. is delegated to an
+		implementation of <abbr title="org.eclipse.emf.parsley.widgets.IWidgetFactory">IWidgetFactory</abbr>
+		, which has several methods
+		like <strong>createText</strong>, <strong>createLabel</strong>, etc.  We provide two implementations of such interface
+		</p>
+		<p>
+		</p>
+		<ul>
+			<li><abbr title="org.eclipse.emf.parsley.widgets.DialogWidgetFactory">DialogWidgetFactory</abbr></li>
+			<li><abbr title="org.eclipse.emf.parsley.widgets.FormWidgetFactory">FormWidgetFactory</abbr>
+			 which is a specialization of the above,
+			specific for forms.</li>
+		</ul>
+		<p>
+		</p>
+		<p>
+		Usually, you do not need to customize such factories, which are used internally by the framework,
+		like in <a href="#FormControlFactory"></a> and <a href="#DialogControFactory"></a>.
+		</p>
+		<p>
+		You may want to customize such factories in case all your controls must have a specific style;
+		in such case, just inherit from our base classes
+		(there is no DSL section for such customizations, since they can be made in plain Java easily)
+		and bind such custom implementations in the Guice module.
+		</p>
+		</br>
 		<h3 class="featurette-heading text-parsley2">Form Control Factory<a id="FormControlFactory"></a></h3>
 		<p>
 		<strong>EMF Parsley</strong> lets you customize the <strong>form controls</strong> via the DSL as in the following example.
@@ -1839,7 +1899,7 @@
 		For each pair EClass, EStructuralFeature you can either simply return a Control or specify also the target
 		for the databinding (see some examples above).
 		 
-		If you want to customize the controls in Java, you can extend the class <abbr title="org.eclipse.emf.parsley.binding.FormControlFactory">FormControlFactory</abbr>
+		If you want to customize the controls in Java, you can extend the class <abbr title="org.eclipse.emf.parsley.composite.FormControlFactory">FormControlFactory</abbr>
 		.
 		Using the same polimorphic mechanism of the labels, the programmer can write a method with the keyword <strong>'control'</strong>
 		followed by the EClass and EStructuralFeature undescore-character-separated. The method
@@ -2769,6 +2829,24 @@
 			<h1 id="par" class="featurette-heading text-parsley">Migration Guide</h1>
 	</br>
 	<div >
+		<h2 id="par" class="featurette-heading text-parsley1">From 0.4 to 0.5</h2>
+	<p>
+	</p>
+	<ul>
+		<li>the packages <strong>factories</strong> and <strong>builders</strong> have been removed
+		and their classes have been moved to other packages.
+		If you get compiler errors, a simple "Organize Imports" should fix
+		the imports.  If you use the DSL a simple regeneration should fix things.</li>
+		<li><strong>IViewerMouseListener</strong> has been moved from the <strong>listeners</strong>
+		package to the <strong>viewers</strong> package.</li>
+		<li>classes in <strong>editor.outline</strong> have been moved into <strong>editors</strong>
+		package.</li>
+	</ul>
+	<p>
+	</p>
+	</div>
+	</br>
+	<div >
 		<h2 id="par" class="featurette-heading text-parsley1">From 0.3 to 0.4</h2>
 	<p>
 	</p>
@@ -2795,7 +2873,7 @@
 	<!-- /END THE FEATURETTES -->
 </div>
 	<!-- FOOTER -->
-		<footer style="z-index: 1001;position:relative;background-color:#35414C;-webkit-box-shadow: 0px -3px 8px 0px rgba(171,209,173,1);-moz-box-shadow: 0px -3px 8px 0px rgba(171,209,173,1);box-shadow: 0px -3px 8px 0px rgba(30,51,72,1);margin-top:1%;">
+		<footer style="z-index: 1001;position:relative;background-color:#35414C;-webkit-box-shadow: 0px -3px 8px 0px rgba(171,209,173,1);-moz-box-shadow: 0px -3px 8px 0px rgba(171,209,173,1);box-shadow: 0px -3px 8px 0px rgba(30,51,72,1);margin-top:1.3%;">
 			<img width="100%" alt="" src="img/footer.jpg" />
 			<nav class="navbar navbar-default" role="navigation" style="background-color:transparent; border:0 none; margin:-97px 0px 31px 0px;min-height: 36px;">
 				<div class="container" style="width:37.6%;">
@@ -2816,7 +2894,7 @@
 					</div><!-- /.navbar-collapse -->
 				</div>
 			</nav>
-			<p class="terms" style="margin:0px;padding:21px 0px 6px 20px;"><a target="_blank" href="http://www.eclipse.org/legal/privacy.php">Privacy Policy</a>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<a target="_blank" href="http://www.eclipse.org/legal/termsofuse.php">Terms of Use</a>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<a target="_blank" href="http://www.eclipse.org/legal/copyright.php">Copyright Agent</a>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<a target="_blank" href="http://www.eclipse.org/legal/">Legal</a><a class="pull-right" style="z-index: 1001;position:relative;margin:-38px 15px 0px 0px;" href="#top" id="topbutton"><img alt="Back to top" src="img/arrow_up.png"/></a></p>
+			<p class="terms" style="margin:0px;padding:21px 0px 6px 20px;"><a target="_blank" href="http://www.eclipse.org/legal/privacy.php">Privacy Policy</a>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<a target="_blank" href="http://www.eclipse.org/legal/termsofuse.php">Terms of Use</a>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<a target="_blank" href="http://www.eclipse.org/legal/copyright.php">Copyright Agent</a>&nbsp;&nbsp;&middot;&nbsp;&nbsp;<a target="_blank" href="http://www.eclipse.org/legal/">Legal</a><a class="pull-right" style="z-index: 1001;position:relative;margin:-38px 4% 0px 0px;" href="#top" id="topbutton"><img alt="Back to top" src="img/arrow_up.png"/></a></p>
 		</footer>
 		<!-- Bootstrap core JavaScript
 		================================================== -->
@@ -2856,6 +2934,13 @@
 			$('a#topbutton > img').attr('src','img/arrow_up.png');
 		});
 		
+		$('.scrollup').mouseover(function() {
+			$('a.scrollup').css('opacity', '1');
+		});
+		$('.scrollup').mouseout(function() {
+			$('a.scrollup').css('opacity', '0.35');
+		});
+		
 		//gestione scroll verticale
 		$(function() {
 		  $('a[href*=#]').click(function() {
@@ -2873,6 +2958,15 @@
 		  });
 		});
 		
+		$(window).scroll(function() {
+			var y = $(this).scrollTop();
+			if (y < 800)
+				$('a.scrollup').fadeOut();
+			else
+				$('a.scrollup').fadeIn();
+		});
+		//prevscroll
+		var prevscroll = 0;
 		$(window).on("scrollstop", function() {
 			var scrollposition = $('html,body').scrollTop()+210;
 			if(/chrome/.test(navigator.userAgent.toLowerCase()))
@@ -2889,23 +2983,40 @@
 					$("a[href='#par"+parid+"']").parent().addClass("activemenu");
 				}
 			});
-		})
+			//inizio prevscroll
+			//Gestione scroll del menu laterale in base alla posizione della pagina
+			var menuScrollSize = '-250px';
+			var pageScrollThreshold = 16730;
+			if($(window).height()<$(".dropdown-menu").height()+190){
+				if(prevscroll<scrollposition){
+					if(scrollposition>pageScrollThreshold)
+						$(".dropdown-menu").css('top', menuScrollSize);
+				} else	
+					$(".dropdown-menu").css('top', '0px');
+				prevscroll=scrollposition;
+			} else if($(".dropdown-menu").css('top')!=null && $(".dropdown-menu").css('top')==menuScrollSize){
+				$(".dropdown-menu").css('top', '0px');
+			}
+			//fine prevscroll
+		});
 		
 		$(document).ready(function() {
 			//Setto link attivo nel menu
 			var mieili = $('.miomenu li');
 			mieili.each(function(idx) {
 				var indirizzo = $(this).children().attr('href');
-				if(indirizzo.length>0 && window.location.href.indexOf(indirizzo)>0){
+				if(indirizzo!=null && indirizzo.length>0 && (window.location.href.indexOf(indirizzo)>0 || (window.location.href=='http://www.eclipse.org/emf-parsley/' || window.location.href=='https://www.eclipse.org/emf-parsley/' && indirizzo.indexOf('index')>0))){
 					 $(this).addClass('mioactive');
+					 return false;
 				}
 			});
 			//Setto link attivo nel footer
 			mieili = $('.miolifooter li');
 			mieili.each(function(idx) {
 				var indirizzo = $(this).children().attr('href');
-				if(indirizzo.length>0 && window.location.href.indexOf(indirizzo)>0){
+				if(indirizzo!=null && indirizzo.length>0 && (window.location.href.indexOf(indirizzo)>0 || (window.location.href=='http://www.eclipse.org/emf-parsley/' || window.location.href=='https://www.eclipse.org/emf-parsley/' && indirizzo.indexOf('index')>0))){
 					 $(this).children().addClass('mioactivefooter');
+					 return false;
 				}
 			});
 			
