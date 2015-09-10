@@ -137,115 +137,41 @@
 			<p>
 			If you want to get the sources of EMF Parsley,
 			for instance, to contribute new features and patches, you can get them
-			via Git.
+			via Git and setup the workspace manually. However, we strongly reccomend to
+			use the automatic procedure detailed below.
 			</p>
 			<p>
-			Note that you need two different workspaces (and two different target platforms)
-			if you want to materialize also the workspace for developing the <a href="http://eclipse.org/rap/">RAP</a>
-			version of Emf Parsley (see below).
+			If you want to develop also the <a href="http://eclipse.org/rap/">RAP</a>
+			version of Emf Parsley, you will need a different workspace (and a different target platform).
 			</p>
 			<p>
-			In both cases, you need a <a href="http://www.eclipse.org/Xtext/download.html">"Full eclipse"</a> 
-			from Xtext website or use the <a href="http://www.eclipse.org/downloads/">eclipse DSL Package</a>
-			(we use Xtend for many sources files, and we do not put the generated files
-			in the repository).
+			We use <a href="https://wiki.eclipse.org/Eclipse_Oomph_Installer">Oomph</a> for provisioning
+			a full Eclipse IDE and workspace setup for Parsley.
 			</p>
-	</br>
-	<div >
-		<h2 id="par" class="featurette-heading text-parsley1">Materialization</h2>
-	<p>
-	We use <a href="http://www.eclipse.org/buckminster/">Buckminster</a> as the
-	building and materialization infrastructure.
-	We provide an <a href="http://git.eclipse.org/c/emf-parsley/org.eclipse.emf-parsley.git/plain/devtools/org.eclipse.emf.parsley.contributor/workspace.ant">ant script</a> which installs and runs Buckminster. 
-	This will automatically materialize the sources in the workspace and setup
-	the target platform, so that you will have everything that is necessary
-	to have a working workspace with EMF Parsley sources.
-	</p>
-	<p>
-	What this ant script will do in detail:
-	</p>
-	<p>
-	</p>
-	<ul>
-		<li>installs Buckminster headless if not found;
-			default path: <strong>${user.home}/buckminster.parsley</strong>.
-			It can be changed by passing a path for the variable
-		<strong>buckminster.home</strong>.</li>
-		<li>creates an eclipse workspace; 
-			default: <strong>${user.home}/workspaces/emf-parsley-sources</strong>
-			or <strong>${user.home}/workspaces/emf-parsley-rap-sources</strong>
-			for target <strong>materialize.workspace.rap</strong>.
-			It can be changed by passing a path for the 
-			variable <strong>WORKSPACE</strong></li>
-		<li>clones the Emf Parsley git repository;
-			default: <strong>${user.home}/git/org.eclipse.emf-parsley</strong>.
-			It can be changed by passing a full path for the
-			variable <strong>git.clone.dest</strong>.  Note that the repository will
-			be cloned only if it is not found in the given path.</li>
-		<li>creates and sets a target platform</li>
-		<li>imports necessary projects in the created workspace</li>
-		<li>runs the MWE2 workflow for generating Xtext language infrastructure for the DSL</li>
-		<li>sets some important workspace settings</li>
-	</ul>
-	<p>
-	</p>
-	<p>
-	Especially the first time (for cloning and materializing the target platform)
-	the script might take several minutes.  (Target platform materialization
-	might also fail due to network problems; in that case, try and run the
-	script again).
-	</p>
-	<p>
-	Run the ant script located <a href="http://git.eclipse.org/c/emf-parsley/org.eclipse.emf-parsley.git/plain/devtools/org.eclipse.emf.parsley.contributor/workspace.ant">here</a>. 
-	In Linux you can use following command:
-	</p>
-	<p>
-	</p>
-	
-	wget -N http://git.eclipse.org/c/emf-parsley/org.eclipse.emf-parsley.git/plain/devtools/org.eclipse.emf.parsley.contributor/workspace.ant
-	<p>
-	</p>
-	<p>
-	and then run the script:
-	</p>
-	<p>
-	</p>
-	
-	ant -f workspace.ant
-	<p>
-	</p>
-	<p>
-	If you want the workspace for RAP version of Emf Parsley, run the script as
-	follows:
-	</p>
-	<p>
-	</p>
-	
-	ant -f workspace.ant materialize.workspace.rap
-	<p>
-	</p>
-	<p>
-	You can pass custom path using the variables defined above; for instance
-	</p>
-	<p>
-	</p>
-	
-	ant -Dgit.clone.dest=/myrepos/emf-parsley -DWORKSPACE=/myworkspaces/parsley -f workspace.ant
-	<p>
-	</p>
-	<p>
-	After the script terminates successfully, you can open the materialized
-	workspace with Eclipse (an automatic build will also start for compiling
-	Xtend files).  The workspace is already setup with the correct target platform.
-	</p>
-	</div>
-	</br>
-	<div >
-		<h2 id="par" class="featurette-heading text-parsley1">Oomph</h2>
-	<p>
-	Coming soon!
-	</p>
-	</div>
+			<p>
+			</p>
+			<ul>
+				<li>Download and start Oomph: <a href="https://wiki.eclipse.org/Eclipse_Oomph_Installer">https://wiki.eclipse.org/Eclipse_Oomph_Installer</a></li>
+				<li>On the initial page, click on the Switch to advanced mode button in the top right</li>
+				<li>On the Product page, select Eclipse IDE for Eclipse Committers.</li>
+				<li>On the Projects page, example the "EMF Parsley" node.</li>
+				<li>either double-click on "RCP" or "RAP" for setting up the workspace for either the RCP version of
+				Parsley or the RAP version (it is likely that you choose the former).</li>
+				<li>Choose your preferred installation settings on the Variables page:
+				If you plan to contribute patches using Gerrit, check "Show all variables"
+				and make sure you select ("SSH (read-write Gerrit)") in the Git or Gerrit repository</li>
+				<li>Then specify your Bugzilla/Hudson password and Git/Gerrit user ID
+				(you can also specify the password and check that your credential are correct using the "Authenticate..." button).</li>
+			</ul>
+			<p>
+			</p>
+			<p>
+			Press next and finish.
+			This will first create an Eclipse installation with all the needed plug-ins for developing EMF Parsley
+			and then will start the new installed Eclipse (press Finish to close the first installation dialog).
+			The new installed Eclipse will automatically setup the workspace and you will have to wait for this procedure
+			to end (you can click on the animated arrow icon on the status bar to show the progress).
+			</p>
 		</div>
 	</div>
 		</div>

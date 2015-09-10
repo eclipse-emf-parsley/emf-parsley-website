@@ -165,6 +165,7 @@
 			<li><a class="submenu" tabindex="-1" href="#par">Dependency Injection With</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Google Guice</a></li>
 			<li><a class="submenu" tabindex="-1" href="#par">Providers</a></li>
 			<li><a class="submenu" tabindex="-1" href="#par">Contextual Menu</a></li>
+			<li><a class="submenu" tabindex="-1" href="#par">Drag and Drop</a></li>
 			<li><a class="submenu" tabindex="-1" href="#par">Factories</a></li>
 			<li><a class="submenu" tabindex="-1" href="#par">Resources</a></li>
 			<li><a class="submenu" tabindex="-1" href="#par">Configurator</a></li>
@@ -667,20 +668,21 @@
 			</p>
 			<pre class="prettyprint  lang-parsley" skin="desert">
 			...
-			featureCaptionProvider { 
-			    text { 
-			        Book : author -&gt; "Wrote by:"
+			featureCaptionProvider {
+			    text {
+			        Book : author -&gt; "Written by:"
 			        Writer : name -&gt; "Name:"
 			    }
 			}
 			</pre>
 			<p>
-			
-			 
-			Or do you want to change the label shown on the tree nodes on the upper side and as detail title? 
+			</p>
+			<p>
+			Or do you want to change the label shown on the tree nodes on the upper side and as detail title?
 			Maybe want to format the book label like this?
 			(<strong>labelProvider</strong> is detailed in section <a href="#ViewerLabelProvider">Viewer Label Provider</a>):
-			 
+			</p>
+			<p>
 			</p>
 			<pre class="prettyprint  lang-parsley" skin="desert">
 			...
@@ -715,6 +717,8 @@
 			We will now customize the context menu for books and writers, using
 			the <strong>menuBuilder</strong> in the DSL (context menu customization is detailed
 			in section <a href="#addref" rel="Contextual Menu">Contextual Menu</a>).
+			</p>
+			<p>
 			What we want to achieve is to have a context menu for a <strong>Writer</strong>
 			to add a new book in the library, and set its author to the
 			selected writer (similarly, we want a context menu for a <strong>Book</strong>
@@ -730,22 +734,22 @@
 				
 				emfMenus {
 					Writer w -&gt; #[
-						actionAdd(
-							"New book",
-							(w.eContainer as Library).books,
-							factory.createBook,
-							[ book |
-								book.title = "A new book" 
+						actionChange("New book", w.eContainer as Library,
+							[
+								library |
+								val book = factory.createBook
+								library.books += book
+								book.title = "A new book"
 								book.author = w
 							]
-						)
+						),
 					]
 					Book b -&gt; #[
-						actionAdd(
-							"New writer",
-							(b.eContainer as Library).writers,
-							factory.createWriter,
-							[ writer |
+						actionChange("New writer", b.eContainer as Library,
+							[
+								library |
+								val writer = factory.createWriter
+								library.writers += writer
 								writer.name = "A new writer"
 								writer.books += b
 							]
@@ -759,6 +763,13 @@
 			<p>
 			In this code we use Xbase features like list literals (<strong>#[...]</strong>) and
 			lambda expressions.
+			We use <strong>actionChange</strong> that allows to specify a menu performing some actions
+			on the model's elements, keeping track of such changes so that they can be
+			undone -- redo will work as well.  The implementation of the menu is specified
+			in the lambda expression passed as the last argument of actionChange; this lambda
+			will receive as argument the model's element specified as the second argument.
+			Only those modifications performed in the lambda concerning such specified model's element
+			will be recorded for undo/redo.
 			</p>
 			<p>
 			If you now restart the application, you see that the new
@@ -780,6 +791,39 @@
 			</p>
 			<p>
 			You may want to try the new context menu on a book as well.
+			</p>
+			<p>
+			We also add another context menu for books, using <strong>actionAdd</strong>:
+			specifying the label for the menu,
+			the containment list in the model, the object to add in such list
+			and a lambda expression that will be executed ONLY after the menu
+			has been selected.  In this example, this menu available for
+			a book object will add a new book to the library with the same
+			name of the selected book:
+			</p>
+			<p>
+			</p>
+			<pre class="prettyprint  lang-parsley" skin="desert">
+			...
+			menuBuilder {
+				val factory = EXTLibraryFactory.eINSTANCE
+				
+				emfMenus {
+					// ... as above
+					Book b -&gt; #[
+						actionChange(
+							// ... as above
+						),
+						actionAdd("New book (same title)",
+							(b.eContainer as Library).books,
+							factory.createBook,
+							[title = b.title]
+						)
+					]
+				}
+			}
+			</pre>
+			<p>
 			</p>
 			<p>
 			Now, let's customize the contents shown in the tree view: by default,
@@ -899,6 +943,13 @@
 			Afetr a brief description, for each component we present a set of customizations, just to give an idea of how it works. You can refer
 			to <a href="#addref" rel="Customizations">Customizations Section</a> for a complete list.
 			</p>
+			<p>
+			Components and viewers have to be created using the factories we provide
+			(e.g., for viewers we provide <abbr title="org.eclipse.emf.parsley.viewers.ViewerFactory">ViewerFactory</abbr>
+			);
+			such factories provide specific <strong>create</strong> methods that require all the needed parameters.
+			These factories must be injected.
+			</p>
 	</br>
 	<div >
 		<h2 id="par" class="featurette-heading text-parsley1">Form Component</h2>
@@ -975,18 +1026,18 @@
 	<p>
 	</p>
 	<p>
-	<strong>EMF Parsley</strong> provides an initializer that can be used to create such a component, like in the code below.
+	<strong>EMF Parsley</strong> provides a factory that can be used to create such a component, like in the code below.
 	Here you can see that can be configured only in 2 lines, the constructor phase and the build&amp;fill phase.
 	</p>
 	<p>
 	</p>
 	<pre class="prettyprint" skin="desert">
-	@Inject ViewerInitializer viewerInitializer;
+	@Inject ViewerFactory viewerFactory;
 	
 	(...)
 	
 	treeViewer = new TreeViewer(parent);
-	viewerInitializer.initialize(treeViewer, element);
+	viewerFactory.initialize(treeViewer, element);
 	</pre>
 	<p>
 	</p>
@@ -1012,7 +1063,9 @@
 		</br>
 		<h3 class="featurette-heading text-parsley2">Adding Menu<a id="Tree_MenuBuilder"></a></h3>
 		<p>
-		The contextual menu can be added to the viewer via the ViewerInitializer, as explained in the <a href="#addref" rel="Contextual Menu">Menu section</a>.
+		The contextual menu can be added to the viewer via an injected
+		<abbr title="org.eclipse.emf.parsley.menus.ViewerContextMenuHelper">ViewerContextMenuHelper</abbr>
+		, as explained in the <a href="#addref" rel="Contextual Menu">Menu section</a>.
 		The <a href="#MenuBuilder">Menu Builder</a> allows to fully customize the menus.
 		</p>
 	</div>
@@ -1054,7 +1107,10 @@
 		<h2 id="par" class="featurette-heading text-parsley1">Table Component</h2>
 	<p>
 	The <strong>Table Component</strong> can rapresent data in a grid, once you have specified the type of objects to represent. 
-	It uses metamodel information to build columns as needed.
+	It uses metamodel information to build columns as needed, and a
+	<abbr title="org.eclipse.emf.parsley.edit.ui.provider.TableViewerContentProvider">TableViewerContentProvider</abbr>
+	 to retrieve
+	the contents of the specified type (see also <a href="#TableViewerContentProvider"></a>).
 	</p>
 	<p>
 	</p>
@@ -1068,7 +1124,7 @@
 	
 	(...)
 	
-	tableViewer = viewerFactory.createTableViewer(composite,SWT.BORDER | SWT.FULL_SELECTION, object, eClass);
+	tableViewer = viewerFactory.createTableViewer(composite, SWT.BORDER | SWT.FULL_SELECTION, eClass);
 	</pre>
 	<p>
 	</p>
@@ -1111,7 +1167,9 @@
 		</br>
 		<h3 class="featurette-heading text-parsley2">Adding Menu<a id="Table_MenuBuilder"></a></h3>
 		<p>
-		The context menu can be added to the viewer via the ViewerInitializer, as explained in the <a href="#addref" rel="Contextual Menu">Menu section</a>
+		The contextual menu can be added to the viewer via an injected
+		<abbr title="org.eclipse.emf.parsley.menus.ViewerContextMenuHelper">ViewerContextMenuHelper</abbr>
+		, as explained in the <a href="#addref" rel="Contextual Menu">Menu section</a>.
 		The <a href="#MenuBuilder">Menu Builder</a> allows to fully customize the menus.
 		</p>
 	</div>
@@ -1437,7 +1495,9 @@
 		</br>
 		<h3 class="featurette-heading text-parsley2">Viewer Content Provider<a id="ViewerContentProvider"></a></h3>
 		<p>
-		As in Jface, the Content Provider is used to get the elements to represent in a tree and their children.
+		As in Jface, the Content Provider is used to get the elements to represent in a tree and their children
+		(as detailed in <a href="#TableViewerContentProvider">Table Viewer Content Provider</a>, for tables
+		we use a different content provider).
 		<strong>EMF Parsley</strong> provides an implementation that uses the DSL as in the code below.
 		</p>
 		<p>
@@ -1497,6 +1557,72 @@
 		}
 		</pre>
 		<p>
+		</p>
+		</br>
+		<h3 class="featurette-heading text-parsley2">Table Viewer Content Provider<a id="TableViewerContentProvider"></a></h3>
+		<p>
+		For table viewers we use a customized content provider, which inherits from
+		the one described in <a href="#ViewerContentProvider">Viewer Content Provider</a>;
+		for tables we only need to specify how the root <strong>elements</strong> are computed
+		(no children are needed for tables).
+		</p>
+		<p>
+		This content provider, <abbr title="org.eclipse.emf.parsley.edit.ui.provider.TableViewerContentProvider">TableViewerContentProvider</abbr>
+		,
+		must be configured with the <abbr title="org.eclipse.emf.ecore.EClass">EClass</abbr>
+		 of the objects that
+		will be shown in the table, so the <strong>setEClass</strong> must be called before this content provider is
+		used.  This setup is already automatically performed in views that are shipped with Parsley; in
+		case you need to setup a table viewer yourself with this content provider, we strongly suggest
+		you inject a <abbr title="org.eclipse.emf.parsley.edit.ui.provider.TableViewerContentProviderFactory">TableViewerContentProviderFactory</abbr>
+		
+		and use its method <strong>createTableViewerContentProvider(EClass type)</strong>.
+		</p>
+		<p>
+		With the information about the <abbr title="org.eclipse.emf.ecore.EClass">EClass</abbr>
+		 this content provider
+		is able to automatically retrieve all the contents of that type from a <abbr title="org.eclipse.emf.ecore.resource.Resource">Resource</abbr>
+		
+		or any <abbr title="org.eclipse.emf.ecore.EObject">EObject</abbr>
+		, by retrieving inspecting all the containment
+		references of that type, recursively in the model.
+		</p>
+		<p>
+		In case you want to optimize the retrieval of contents, or in case you want to
+		show elements of the specified type which are not contained in an <abbr title="org.eclipse.emf.ecore.EObject">EObject</abbr>
+		
+		(because they are references with containment set to false), you can inject your own
+		custom <abbr title="org.eclipse.emf.parsley.edit.ui.provider.TableViewerContentProvider">TableViewerContentProvider</abbr>
+		
+		and define <strong>elements</strong> methods (again, this uses the polymorphic dispatch idiom).
+		</p>
+		<p>
+		In the DSL this can be done using the specific section.
+		</p>
+		<p>
+		</p>
+		<pre class="prettyprint  lang-parsley" skin="desert">
+		tableViewerContentProvider{
+			elements{
+				Library lib -&gt; {
+					// this is just an optimization: since books are contained in the library
+					// the default content provider will retrieve them automatically
+					lib.books
+				}
+				Writer w {
+					// writers' books would not be retrieved by the default content provider
+					// since they are NOT 'contained' in a writer.
+					w.books
+				}
+			}
+		}</pre>
+		<p>
+		</p>
+		<p>
+		IMPORTANT: customizations specified in a <abbr title="org.eclipse.emf.parsley.edit.ui.provider.ViewerContentProvider">ViewerContentProvider</abbr>
+		
+		will NOT be reused by a <abbr title="org.eclipse.emf.parsley.edit.ui.provider.TableViewerContentProvider">TableViewerContentProvider</abbr>
+		.
 		</p>
 		</br>
 		<h3 class="featurette-heading text-parsley2">Features Provider<a id="FeaturesProvider"></a></h3>
@@ -1599,12 +1725,13 @@
 		 provides captions for
 		the features in <a href="#addref" rel="Table Component">Tables</a> and <a href="#addref" rel="Form Component">Forms</a>.
 		Here you can see an example of the DSL.
-		 
+		</p>
+		<p>
 		</p>
 		<pre class="prettyprint  lang-parsley" skin="desert">
 		featureCaptionProvider{
 			text{
-				Book:author -&gt; "Wrote by:"
+				Book:author -&gt; "Written by:"
 				Writer:name -&gt; "Name:"
 			}
 		}
@@ -1614,9 +1741,9 @@
 		<p>
 		If you want to customize it in Java, you need to derive from
 		<abbr title="org.eclipse.emf.parsley.ui.provider.FeatureCaptionProvider">FeatureCaptionProvider</abbr>
-		. 
-		It can be customized, with injection <strong>TODO (see Injection paragraph)</strong>, to customize the caption label on the
-		left of each control in a form and the headers in a table's column. 
+		.
+		It can be customized, with injection <a href="#addref" rel="Dependency Injection With</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Google Guice"></a>: this
+		way you can customize the caption label for controls in a form, dialog, and the headers in a table's column.
 		The framework uses a polimorphic mechanism to find customizations: it searches for
 		methods with a specific signature: the name is built by the string <strong>'text'</strong> followed by the EClass and the EStructuralFeature.
 		All parts of the name are separated by an underscore character and the method must accept a parameter of type EStructuralFeature.
@@ -1629,7 +1756,7 @@
 		</p>
 		<pre class="prettyprint" skin="desert">
 		public String text_Book_author(final EStructuralFeature feature) {
-			return "Wrote by:";
+			return "Written by:";
 		}
 		
 		public String text_Writer_name(final EStructuralFeature feature) {
@@ -1638,16 +1765,26 @@
 		</pre>
 		<p>
 		</p>
+		<p>
+		If no customization is provided, the text will be computed using the feature's name.
+		This will always be the default for table column headers (since no object is available
+		when building the table); while for form and dialog captions we use a slightly different
+		default strategy, as shown in <a href="#FormFeatureCaptionProvider">Form and Dialog Feature Caption Provider</a>.
+		</p>
 		</br>
-		<h3 class="featurette-heading text-parsley2">Form Feature Caption Provider<a id="FormFeatureCaptionProvider"></a></h3>
+		<h3 class="featurette-heading text-parsley2">Form and Dialog Feature Caption Provider<a id="FormFeatureCaptionProvider"></a></h3>
 		<p>
 		The <abbr title="org.eclipse.emf.parsley.ui.provider.FormFeatureCaptionProvider">FormFeatureCaptionProvider</abbr>
-		 can be used if you want
-		to define the description only for the form. For example using the <a href="#addref" rel="Tree Form Component">Tree
-		Form</a> your definition will not be used in the tree.
+		
+		(<abbr title="org.eclipse.emf.parsley.ui.provider.DialogFeatureCaptionProvider">DialogFeatureCaptionProvider</abbr>
+		, respectively)
+		can be used if you want to define the description only for forms (for dialogs, respectively).
+		For example using the <a href="#addref" rel="Tree Form Component">Tree Form</a> your definition will not be used in the tree.
 		</p>
 		<p>
-		In this case you can also define a method the returns directly the control, like in the example
+		In this case you can also define a method the returns directly the
+		<abbr title="org.eclipse.swt.widgets.Label">Label</abbr>
+		, like in the example
 		below. In such methods there is another parameter that is the parent composite (that is automatically
 		passed by the framework).
 		</p>
@@ -1663,10 +1800,50 @@
 		<p>
 		</p>
 		<p>
+		In the DSL you have the corresponding two sections available:
+		</p>
+		<p>
+		</p>
+		<pre class="prettyprint  lang-parsley" skin="desert">
+		formFeatureCaptionProvider{
+			text{
+				Book:author -&gt; "Written by:"
+			}
+			label{
+				Writer:name -&gt; createLabel(parent, "Name")
+			}
+		}
+		
+		dialogFeatureCaptionProvider{
+			text{
+				Book:author -&gt; "Author:"
+			}
+			label{
+				Writer:name -&gt; createLabel(parent, "Writer's name")
+			}
+		}
+		</pre>
+		<p>
+		</p>
+		<p>
 		If there is no customization in the <abbr title="org.eclipse.emf.parsley.ui.provider.FormFeatureCaptionProvider">FormFeatureCaptionProvider</abbr>
 		
-		we fall back to <abbr title="org.eclipse.emf.parsley.ui.provider.FeatureCaptionProvider">FeatureCaptionProvider</abbr>
-		.
+		(<abbr title="org.eclipse.emf.parsley.ui.provider.DialogFeatureCaptionProvider">DialogFeatureCaptionProvider</abbr>
+		, respectively),
+		the following steps are executed to create the text for the label:
+		</p>
+		<p>
+		</p>
+		<ul>
+			<li>we take possible customizations from <abbr title="org.eclipse.emf.parsley.ui.provider.FeatureCaptionProvider">FeatureCaptionProvider</abbr>
+			
+			if available, otherwise:</li>
+			<li>we take the text from <abbr title="org.eclipse.emf.edit.provider.IItemPropertyDescriptor">IItemPropertyDescriptor</abbr>
+			 if
+			the EObject provides it, otherwise:</li>
+			<li>we take the feature name</li>
+		</ul>
+		<p>
 		</p>
 		</br>
 		<h3 class="featurette-heading text-parsley2">Proposal Provider<a id="ProposalProvider"></a></h3>
@@ -1708,19 +1885,26 @@
 	<div >
 		<h2 id="par" class="featurette-heading text-parsley1">Contextual Menu</h2>
 	<p>
-	A context menu can be added to any viewer by using the <abbr title="org.eclipse.emf.parsley.menus.ViewerContextMenuHelper">ViewerContextMenuHelper</abbr>
-	.
+	A context menu can be added to any <abbr title="org.eclipse.jface.viewers.StructuredViewer">StructuredViewer</abbr>
+	 by using an
+	injected <abbr title="org.eclipse.emf.parsley.menus.ViewerContextMenuHelper">ViewerContextMenuHelper</abbr>
+	. This provides some
+	methods for adding the context menu
 	</p>
 	<p>
 	</p>
 	<pre class="prettyprint" skin="desert">
-	@Inject ViewerInitializer viewerInitializer;
+	@Inject ViewerContextMenuHelper contextMenuHelper;
 	(...)
 	
-	treeActionBarContributor.initialize(editingDomain);
-	viewerInitializer.addContextMenu(treeFormComposite.getViewer(),
-	treeActionBarContributor, editingDomain, this);
-	treeFormComposite.getViewer().addSelectionChangedListener(treeActionBarContributor);
+	// simplest form
+	contextMenuHelper.addViewerContextMenu(viewer);
+	
+	// if you have an AdapterFactoryEditingDomain already
+	contextMenuHelper.addViewerContextMenu(viewer, editingDomain);
+	
+	// if you're inside an IWorkbenchPart
+	contextMenuHelper.addViewerContextMenu(viewer, editingDomain, part);
 	</pre>
 	<p>
 	</p>
@@ -1775,41 +1959,22 @@
 		For each EClass of your meta-model you can specify a list of menu items
 		(the #[] is the Xbase syntax for a list literal)
 		Content assist is available to select the editing actions, the separator and
-		also methods for EMF menu part.  In the <strong>emfMenus</strong> section, you can use
-		the method <strong>actionAdd</strong>, specifying the label for the menu,
+		also methods for EMF menu part.
+		</p>
+		<p>
+		In the <strong>emfMenus</strong> section, you can use some methods of
+		the <abbr title="org.eclipse.emf.parsley.edit.action.EditingMenuBuilder">EditingMenuBuilder</abbr>
+		 class,
+		as detailed in the following.
+		</p>
+		<p>
+		The method <strong>actionAdd</strong>, specifying the label for the menu,
 		the containment list in the model, and the object to add in such list
 		when the menu is selected (Note that it is up to you to specify a
 		containment list); the DSL will issue an error if the object cannot be
 		added to the list (because it is not of the right type).
 		The object should be created using the standard EMF API (i.e., using
 		the EMF factory for your model).
-		</p>
-		<p>
-		IMPORTANT: do not initialize any reference feature of the created EObject
-		upon object creation; i.e., do not do something like the following
-		</p>
-		<p>
-		</p>
-		<pre class="prettyprint  lang-parsley" skin="desert">
-		emfMenus{
-			Writer w -&gt; #[
-				actionAdd("Add a new book for the writer",
-					(w.eContainer as Library).books,
-					// WRONG: don't do that
-					EXTLibraryFactory.eINSTANCE.createBook =&gt; [
-						author = w
-					]
-				)
-			]
-		}
-		</pre>
-		<p>
-		</p>
-		<p>
-		Since the object is created when the contextual menu is created, NOT
-		when the menu is selected; if you do something like in the code above,
-		you will end up with a resource with dangling references (which cannot be
-		saved).
 		</p>
 		<p>
 		If you want to specify further initialization instructions for the
@@ -1826,9 +1991,26 @@
 				actionAdd("Add a new book for the writer",
 					(w.eContainer as Library).books,
 					EXTLibraryFactory.eINSTANCE.createBook,
-					// CORRECT: the lambda will be executed when the menu
-					// is selected and the object has been added to
-					// the resource
+					[ book | book.title = "A new book" ]
+				)
+			]
+		}
+		</pre>
+		<p>
+		</p>
+		<p>
+		IMPORTANT: do not set any reference feature of the created EObject in the lambda,
+		i.e., do not do something like the following
+		</p>
+		<p>
+		</p>
+		<pre class="prettyprint  lang-parsley" skin="desert">
+		emfMenus{
+			Writer w -&gt; #[
+				actionAdd("Add a new book for the writer",
+					(w.eContainer as Library).books,
+					EXTLibraryFactory.eINSTANCE.createBook,
+					// WRONG: don't do that
 					[ book | book.author = w ]
 				)
 			]
@@ -1836,6 +2018,100 @@
 		</pre>
 		<p>
 		</p>
+		<p>
+		This will not work if you undo the command: the writer that has been added
+		to the library will be removed, and the book.author will be a dangling reference!
+		as a consequence the resource cannot be saved.
+		</p>
+		<p>
+		If you want to implement more complex menu commands that do not
+		only add elements to a container, you can use the method
+		<strong>actionChange</strong>, specifying the label for the menu, the model's element
+		that will be affected by the changes specified as a lambda expression
+		(the third argument).  The lambda expression will also get the specified
+		model's element as argument.  The model's element can also be the whole
+		resource itself (formally, it can be any EMF <abbr title="org.eclipse.emf.common.notify.Notifier">Notifier</abbr>
+		).
+		</p>
+		<p>
+		It is crucial to specify the correct model's element to make undo/redo work
+		correctly: all the modifications performed in the lambda expression that concern the
+		specified element will be recorded, in order to implement undo/redo.
+		</p>
+		<p>
+		For example, this command, that will add a new book to the library, and sets
+		its author to the selected writer will work as expected, and selecting
+		undo will effectively remove the book from the writer's list and from the library:
+		</p>
+		<p>
+		</p>
+		<pre class="prettyprint  lang-parsley" skin="desert">
+		emfMenus{
+			Writer w -&gt; #[
+				actionChange("New book", w.eContainer as Library,
+					[
+						library |
+						val book = factory.createBook
+						library.books += book
+						book.title = "A new book"
+						book.author = w
+					]
+				),
+			]
+		}
+		</pre>
+		<p>
+		</p>
+		<p>
+		This works since we specify the containing library as the model's element, thus,
+		all modifications that concern the library will be recorded.
+		</p>
+		<p>
+		On the contrary, this variant, will perform exacty the same actions on the model, but selecting
+		undo will only remove the book from the writer's list, and the book will still
+		be present in the library:
+		</p>
+		<p>
+		</p>
+		<pre class="prettyprint  lang-parsley" skin="desert">
+		emfMenus{
+			Writer w -&gt; #[
+				// in this variant undo will only unset the book's author,
+				// but it will not remove the added code from the library
+				// since we record changes concerning the writer only
+				actionChange("New book (variant)", w,
+					[
+						writer |
+						val library = writer.eContainer as Library
+						val book = factory.createBook
+						library.books += book
+						book.title = "A new book"
+						book.author = w
+					]
+				)
+			]
+		}
+		</pre>
+		<p>
+		</p>
+		<p>
+		This happens since we specified the writer as the model's element, thus only
+		the changes that concern the writer will be undone.
+		</p>
+	</div>
+	</br>
+	<div >
+		<h2 id="par" class="featurette-heading text-parsley1">Drag and Drop</h2>
+	<p>
+	Drag and drop can be added to any <abbr title="org.eclipse.jface.viewers.StructuredViewer">StructuredViewer</abbr>
+	 by using an
+	injected <abbr title="org.eclipse.emf.parsley.edit.ui.dnd.ViewerDragAndDropHelper">ViewerDragAndDropHelper</abbr>
+	,
+	using its methods <strong>addDragAndDrop</strong>.
+	</p>
+	<p>
+	Currently, drag and drop is completely delegated to EMF.Edit.
+	</p>
 	</div>
 	</br>
 	<div >
@@ -2073,31 +2349,12 @@
 	public EClass eClass(Object requestor) {
 		return null;
 	}
-	
-	/**
-	 * Returns the {@link EStructuralFeature} for the requestor
-	 * @param requestor
-	 * @return
-	 */
-	public EStructuralFeature eStructuralFeature(Object requestor) {
-		return null;
-	}
-	
-	/**
-	 * Returns the contents from the resource for the requestor
-	 * @param requestor
-	 * @param resource
-	 * @return
-	 */
-	public Object contents(Object requestor, Resource resource) {
-		return null;
-	}
 	</pre>
 	<p>
 	</p>
 	<p>
 	The idea is that clients that use such an injected instance should call
-	the <strong>get</strong> methods, e.g., <strong>getContents</strong>, while the customization should be defined
+	the <strong>get</strong> methods, e.g., <strong>getEClass</strong>, while the customization should be defined
 	using polymorphic dispatch, e.g.,
 	</p>
 	<p>
@@ -2105,11 +2362,11 @@
 	<pre class="prettyprint" skin="desert">
 	class MyConfigurator extends Configurator {
 	
-		public Object contents(MyView1 view1, Resource resource) {
+		public EClass eClass(MyView1 view1) {
 			return ...;
 		}
 	
-		public Object contents(MyOtherView view, Resource resource) {
+		public EClass eClass(MyOtherView view) {
 			return ...;
 		}
 	}
@@ -2119,10 +2376,7 @@
 	<p>
 	In the DSL, you can specify a <strong>configurator</strong> section, e.g.,
 	(the requestor object can be accessed using the implicit variable
-	<strong>it</strong>, while additional parameters can be accessed through their names,
-	as named in the original <abbr title="org.eclipse.emf.parsley.config.Configurator">Configurator</abbr>
-	
-	class, e.g., <strong>resource</strong> for <strong>contents</strong>):
+	<strong>it</strong>):
 	</p>
 	<p>
 	</p>
@@ -2134,22 +2388,15 @@
 				MyTreeFormView -&gt; {
 					return ...;
 				}
+				MyTableView -&gt; {
+					return ...;
+				}
 			}
 			eClass {
-				MyTreeView -&gt; {
+				MyTableView -&gt; {
 					return ...;
 				}
-			}
-			eStructuralFeature {
-				MyTreeFormView -&gt; {
-					return ...;
-				}
-				MyFormView -&gt; {
-					return ...;
-				}
-			}
-			contents {
-				MyTreeView -&gt; {
+				MyTableFormView -&gt; {
 					return ...;
 				}
 			}
@@ -2169,26 +2416,15 @@
 	module my.project {
 	
 		configurator {
-			contents {
-				MyView -&gt; {
-					// TODO return the contents from the resource
-					// e.g., resource.^contents.get(0)
-				}
-			}
 			eClass {
 				MyView -&gt; {
-					// TODO return the EClass to represent
+					// TODO return the EClass of objects to be shown
 				}
 			}
 			resourceURI {
 				MyView -&gt; {
 					// TODO create and return a org.eclipse.emf.common.util.URI
 					return null;
-				}
-			}
-			eStructuralFeature {
-				MyView -&gt; {
-					// TODO return the EStructuralFeature to get the elements to represent
 				}
 			}
 		}
@@ -2392,7 +2628,7 @@
 		</p>
 		<ol>
 			<li>Help -&gt; Install New Software ...</li>
-			<li>select the main Eclipse Update site (e.g. <strong>"http://download.eclipse.org/releases/luna"</strong>)</li>
+			<li>select the main Eclipse Update site</li>
 			<li>expand category "Web, XML, Java EE and OSGi Enterprise Development"</li>
 			<li>select "RAP Tools" and complete the installation, restarting the IDE at the end</li>
 			<li>after IDE restarts just close the Welcome page</li>
@@ -2409,7 +2645,7 @@
 			<li>File -&gt; New... -&gt; Example...</li>
 			<li>from Category "Emf Parsley Examples", select "Emf Parsley Rap Target Platform Example"</li>
 			<li>press Next and Finish</li>
-			<li>open the Target Definition file <strong>emf-parsely-rap-2.3.target</strong></li>
+			<li>open the Target Definition file <strong>emf-parsely-rap.target</strong></li>
 			<li>wait until the "Resolving Target Definition" job is done (check the status bar)</li>
 			<li>when finished, click on hyperlink "Set as Target Platform"</li>
 		</ol>
@@ -2450,7 +2686,7 @@
 		</p>
 		<ul>
 			<li>the one on the left is a read-only view; it just reflects the model content, but it does not react to changes (the classic Eclipse dirty indicator is not triggered
-			by changes) and you are not able to save. Its model is created in class <strong>org.eclipse.emf.parsley.examples.rap.ui.GuiceModule.CustomEmptyResourceInitializer</strong>
+			by changes) and you are not able to save. Its model is created in class <strong>org.eclipse.emf.parsley.examples.rap.ui.GuiceModule.CustomResourceManager</strong>
 			and is not persisted</li>
 			<li>the view on the right is instead a Saveable view and therefore it not only triggers the dirty state after
 			a change, but also allows you to save the modifications with the automatic dirty state reset. Its model
@@ -2641,43 +2877,18 @@
 	import org.eclipse.swt.widgets.Composite;
 	
 	// The part implements IMenuListener for context menu handling
-	public class MyEclipse4Part implements IMenuListener
+	public class MyEclipse4Part {
 	
-	//the parent composite
-	private Composite parent;
-	//the EMF Parley composite for showing a tree and a detail form
-	private TreeFormComposite treeFormComposite;
-	//the EMF Resource
-	private Resource resource;
-	
-	//Guice injected EMF Parsley component for contributing to the tree context menu
-	private TreeActionBarContributor treeActionBarContributor = FirstexampleActivator.getDefault().getInjector()
-			.getInstance(TreeActionBarContributor.class);
-	
-	
-	//Guice injected EMF Parsley factory for the tree detail form
-	private TreeFormFactory treeFormFactory = FirstexampleActivator.getDefault().getInjector()
-			.getInstance(TreeFormFactory.class);
-	
-	//Guice injected EMF Parsley Resource loader
-	private ResourceLoader resourceLoader = FirstexampleActivator.getDefault().getInjector()
-			.getInstance(ResourceLoader.class);
-	
-	//Guice injected EMF Parsley editing domain
-	private AdapterFactoryEditingDomain editingDomain = FirstexampleActivator.getDefault().getInjector()
-			.getInstance(AdapterFactoryEditingDomain.class);
-	
-	//Guice injected viewer initializer
-	private ViewerInitializer viewerInitializer = (ViewerInitializer) FirstexampleActivator.getDefault().getInjector()
-			.getInstance(ViewerInitializer.class);
-	
-	//Guice injected save manager
-	private ResourceSaveManager resourceSaveManager = FirstexampleActivator.getDefault().getInjector()
-			.getInstance(ResourceSaveManager.class);
-	
-	//URI for EMF Resource
-	private URI uri = URI.createFileURI(System.getProperty("user.home")
+		//the EMF Parley composite for showing a tree and a detail form
+		private TreeFormComposite treeFormComposite;
+		//the EMF Resource
+		private Resource resource;
+		//URI for EMF Resource
+		private URI uri = URI.createFileURI(System.getProperty("user.home")
 			+ "/MyLibrary.library");
+	
+		// Guice injector
+		private Injector injector = FirstexampleActivator.getDefault().getInjector();
 	</pre>
 	<p>
 	</p>
@@ -2689,39 +2900,28 @@
 	<pre class="prettyprint" skin="desert">
 	@PostConstruct
 	public void postConstruct(Composite parent) {
-		this.parent = parent;
 	
-		// Initialize TreeFormFactory &amp; ResourceLoader
-		init(treeFormFactory, resourceLoader);
+		AdapterFactoryEditingDomain editingDomain = injector.getInstance(AdapterFactoryEditingDomain.class);
 	
-		// Prepare the menu action bar contributor upon the selection
-		treeFormComposite.getViewer().addSelectionChangedListener(treeActionBarContributor);
-	}
-	</pre>
-	<p>
-	</p>
-	<p>
-	and add the following methods:
-	</p>
-	<p>
-	</p>
-	<pre class="prettyprint" skin="desert">
-	public void init(TreeFormFactory treeFormFactory, ResourceLoader resourceLoader) {
-		//create the tree-form composite
-		treeFormComposite = treeFormFactory.createTreeFormMasterDetailComposite(parent, SWT.BORDER);
+		ResourceLoader resourceLoader = injector.getInstance(ResourceLoader.class);
 		//load the resource
 		resource = resourceLoader.getResource(editingDomain, uri).getResource();
+	
+		TreeFormFactory treeFormFactory = injector.getInstance(TreeFormFactory.class);
+		//create the tree-form composite
+		treeFormComposite = treeFormFactory.createTreeFormComposite(parent, SWT.BORDER);
+	
+		// Guice injected viewer context menu helper
+		ViewerContextMenuHelper contextMenuHelper = injector.getInstance(ViewerContextMenuHelper.class);
+		// Guice injected viewer drag and drop helper
+		ViewerDragAndDropHelper dragAndDropHelper = injector.getInstance(ViewerDragAndDropHelper.class);
+	
+		// set context menu and drag and drop
+		contextMenuHelper.addViewerContextMenu(treeFormComposite.getViewer(), editingDomain);
+		dragAndDropHelper.addDragAndDrop(treeFormComposite.getViewer(), editingDomain);
+	
 		//update the composite
 		treeFormComposite.update(resource);
-		//initialize and bind the context menu to the tree-form composite
-		treeActionBarContributor.initialize(editingDomain);
-		viewerInitializer.addContextMenu(
-				treeFormComposite.getViewer(), treeActionBarContributor, editingDomain, this);
-	}
-	
-	@Override
-	public void menuAboutToShow(IMenuManager manager) {
-		treeActionBarContributor.menuAboutToShow(manager);
 	}
 	</pre>
 	<p>
@@ -2750,27 +2950,12 @@
 	</p>
 	<pre class="prettyprint" skin="desert">
 	@Inject
-	MDirtyable dirtyable;
+	MDirtyable dirty;
 	</pre>
 	<p>
 	</p>
 	<p>
-	initialize it in the <strong>@PostConstruct</strong> method
-	</p>
-	<p>
-	</p>
-	<pre class="prettyprint" skin="desert">
-	@PostConstruct
-	public void postConstruct(Composite parent, MDirtyable dirtyable) {
-	
-			this.dirtyable = dirtyable;
-	
-			this.dirtyable.setDirty(false);
-	</pre>
-	<p>
-	</p>
-	<p>
-	add to <strong>init</strong> method the following code in order to update the dirty state
+	add to <strong>@PostConstruct</strong> method the following code in order to update the dirty state
 	</p>
 	<p>
 	</p>
@@ -2778,8 +2963,8 @@
 	editingDomain.getCommandStack().addCommandStackListener(
 				new CommandStackListener() {
 					public void commandStackChanged(EventObject event) {
-						if (dirtyable != null)
-							dirtyable.setDirty(true);
+						if (dirty != null)
+							dirty.setDirty(true);
 					}
 				});
 	</pre>
@@ -2793,10 +2978,9 @@
 	<pre class="prettyprint" skin="desert">
 	@Persist
 	public void save(MDirtyable dirty) throws IOException {
-		if (resourceSaveManager.save(resource)) {
-			if (dirty != null) {
-				dirty.setDirty(false);
-			}
+		resource.save(null);
+		if (dirty != null) {
+			dirty.setDirty(false);
 		}
 	}
 	</pre>
@@ -2810,6 +2994,8 @@
 	<p>
 	</p>
 	<pre class="prettyprint" skin="desert">
+	import javax.inject.Named;
+	
 	public class SaveHandler {
 	
 		@Execute
@@ -2833,6 +3019,10 @@
 	<p>
 	</p>
 	<ul>
+		<li><strong>ViewerInitializer</strong> has been removed: all creation and initialization of viewers
+		is performed using <abbr title="org.eclipse.emf.parsley.viewers.ViewerFactory">ViewerFactory</abbr>
+		; its API has been
+		revised and simplified.</li>
 		<li>the packages <strong>factories</strong> and <strong>builders</strong> have been removed
 		and their classes have been moved to other packages.
 		If you get compiler errors, a simple "Organize Imports" should fix
@@ -2841,6 +3031,87 @@
 		package to the <strong>viewers</strong> package.</li>
 		<li>classes in <strong>editor.outline</strong> have been moved into <strong>editors</strong>
 		package.</li>
+		<li>The creation of caption labels for forms and dialogs has slightly
+		changed, concerning the default behavior
+		(<a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=472691">https://bugs.eclipse.org/bugs/show_bug.cgi?id=472691</a>):
+		we take the text from <abbr title="org.eclipse.emf.edit.provider.IItemPropertyDescriptor">IItemPropertyDescriptor</abbr>
+		 if
+		the EObject provides it. (This does not happen for table column headers, since we don't have
+		any EObject when we build the table columns).
+		If you used to call this method on a
+		<abbr title="org.eclipse.emf.parsley.ui.provider.FormFeatureCaptionProvider">FormFeatureCaptionProvider</abbr>
+		 or
+		<abbr title="org.eclipse.emf.parsley.ui.provider.DialogFeatureCaptionProvider">DialogFeatureCaptionProvider</abbr><pre class="prettyprint" skin="desert">
+		public Label getLabel(Composite parent, EClass eClass, EStructuralFeature feature)
+		</pre>be warned that this method has changed its signature into<pre class="prettyprint" skin="desert">
+		public Label getLabel(Composite parent, EObject o, EStructuralFeature feature)
+		</pre>and of course also its semantics, since you need to pass an EObject not its EClass.</li>
+		<li>a new method is available in <abbr title="org.eclipse.emf.parsley.edit.action.EditingMenuBuilder">EditingMenuBuilder</abbr>
+		,
+		<strong>actionChange</strong>: If you want to implement more complex menu commands that do not
+		only add elements to a container, you can use the method
+		<strong>actionChange</strong>, specifying the label for the menu, the model's element
+		that will be affected by the changes specified as a lambda expression
+		(the third argument).  The lambda expression will also get the specified
+		model's element as argument.  (This is related to
+		<a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=475188">https://bugs.eclipse.org/bugs/show_bug.cgi?id=475188</a>).
+		Please also have a look at the updated documentation of section <a href="#addref" rel="Contextual Menu">Contextual Menu</a>:
+		the already existing <strong>actionAdd</strong> should be used with care, since it might leave the model
+		with dangling references -- with that respect we also updated the first example
+		<a href="#addref" rel="First Example">First Example</a>, so that
+		it uses <strong>actionChange</strong> to implement correctly what we used to achieve with <strong>actionAdd</strong>.</li>
+		<li>Adding context menu to a viewer has been extremely simplified
+		(<a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=455727">https://bugs.eclipse.org/bugs/show_bug.cgi?id=455727</a>):
+		A context menu can be added to any <abbr title="org.eclipse.jface.viewers.StructuredViewer">StructuredViewer</abbr>
+		 by using an
+		injected <abbr title="org.eclipse.emf.parsley.menus.ViewerContextMenuHelper">ViewerContextMenuHelper</abbr>
+		. This provides some
+		methods for adding the context menu<pre class="prettyprint" skin="desert">
+		@Inject ViewerContextMenuHelper contextMenuHelper;
+		(...)
+		
+		// simplest form
+		contextMenuHelper.addViewerContextMenu(viewer);
+		
+		// if you have an AdapterFactoryEditingDomain already
+		contextMenuHelper.addViewerContextMenu(viewer, editingDomain);
+		
+		// if you're inside an IWorkbenchPart
+		contextMenuHelper.addViewerContextMenu(viewer, editingDomain, part);
+		</pre></li>
+		<li>Drag and drop support has been separated from context menu support
+		(<a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=475914">https://bugs.eclipse.org/bugs/show_bug.cgi?id=475914</a>):
+		thus, adding context menu does NOT automatically add drag and drop.Drag and drop can be added to any <abbr title="org.eclipse.jface.viewers.StructuredViewer">StructuredViewer</abbr>
+		 by using an
+		injected <abbr title="org.eclipse.emf.parsley.edit.ui.dnd.ViewerDragAndDropHelper">ViewerDragAndDropHelper</abbr>
+		,
+		using its methods <strong>addDragAndDrop</strong>.</li>
+		<li>Saveable table views and table views reacting on selection
+		do not require an implementation of the method
+		<strong>getContents()</strong>, which has also been removed from the API, from the
+		<abbr title="org.eclipse.emf.parsley.config.Configurator">Configurator</abbr>
+		 methods, and from
+		the <strong>configurator</strong> section in the DSL: contents retrieval is completely
+		delegated to the new <abbr title="org.eclipse.emf.parsley.edit.ui.provider.TableViewerContentProvider">TableViewerContentProvider</abbr>
+		,
+		whose default implementation is able to automatically retrieve all the
+		contents of a given type (i.e., EClass) automatically.
+		The DSL provides the new <strong>tableViewerContentProvider</strong> specification,
+		see the new section <a href="#TableViewerContentProvider">Table Viewer Content Provider</a>.</li>
+		<li>Similarly, table views reacting on selection
+		do not require an implementation of the method
+		<strong>getEStructuralFeature()</strong>: they require an implementation of
+		<strong>getEClass()</strong> which specifies the type of the objects to be
+		shown in the table.
+		<strong>getEStructuralFeature()</strong> has also been removed from the API, from the
+		<abbr title="org.eclipse.emf.parsley.config.Configurator">Configurator</abbr>
+		 methods, and from
+		the <strong>configurator</strong> section in the DSL: contents retrieval is not
+		performed using a feature (which is limitative): it is completely
+		delegated to the new <abbr title="org.eclipse.emf.parsley.edit.ui.provider.TableViewerContentProvider">TableViewerContentProvider</abbr>
+		,
+		whose default implementation is able to automatically retrieve all the
+		contents of a given type (i.e., EClass) automatically.</li>
 	</ul>
 	<p>
 	</p>
@@ -3074,7 +3345,7 @@
 		});
 	</script>
 	<script type="text/javascript" src="google-code-prettify/lang-common.js"></script><script type="text/javascript">
-		registerLanguage('import|module|parts|labelProvider|text|image|elements|featuresProvider|features|formControlFactory|control|target|viewerContentProvider|children|viewpart|viewname|viewclass|viewcategory|for|new|switch|default|boolean|do|if|this|double|throw|null|true|false|it|as|byte|else|case|enum|instanceof|return|featureCaptionProvider|val|var|catch|extends|int|short|try|char|void|finally|long|float|super|while|proposals|dialogControlFactory|menuBuilder|menus|emfMenus|resourceManager|initializeResource|saveResource|configurator|resourceURI|eClass|eStructuralFeature|contents|bindings|type|provide|value', 'emfparsley');
+		registerLanguage('import|module|parts|labelProvider|text|image|elements|label|featuresProvider|features|formControlFactory|control|target|viewerContentProvider|tableViewerContentProvider|children|viewpart|viewname|viewclass|viewcategory|for|new|switch|default|boolean|do|if|this|double|throw|null|true|false|it|as|byte|else|case|enum|instanceof|return|featureCaptionProvider|formFeatureCaptionProvider|dialogFeatureCaptionProvider|val|var|catch|extends|int|short|try|char|void|finally|long|float|super|while|proposals|dialogControlFactory|menuBuilder|menus|emfMenus|resourceManager|initializeResource|saveResource|configurator|resourceURI|eClass|bindings|type|provide|value', 'emfparsley');
 	</script>
 </body>
 </html>
