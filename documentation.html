@@ -160,6 +160,7 @@
 			<li><a class="submenu" tabindex="-1" href="#par">Tree Component</a></li>
 			<li><a class="submenu" tabindex="-1" href="#par">Tree Form Component</a></li>
 			<li><a class="submenu" tabindex="-1" href="#par">Table Component</a></li>
+			<li><a class="submenu" tabindex="-1" href="#par">Tree With Columns Component</a></li>
 			<li class="divider"></li>
 			<li><a tabindex="-1" href="#par">Customizations</a></li>
 			<li><a class="submenu" tabindex="-1" href="#par">Dependency Injection With</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Google Guice</a></li>
@@ -167,6 +168,7 @@
 			<li><a class="submenu" tabindex="-1" href="#par">Contextual Menu</a></li>
 			<li><a class="submenu" tabindex="-1" href="#par">Drag and Drop</a></li>
 			<li><a class="submenu" tabindex="-1" href="#par">Factories</a></li>
+			<li><a class="submenu" tabindex="-1" href="#par">Editing Domain</a></li>
 			<li><a class="submenu" tabindex="-1" href="#par">Resources</a></li>
 			<li><a class="submenu" tabindex="-1" href="#par">Configurator</a></li>
 			<li><a class="submenu" tabindex="-1" href="#par">Validation</a></li>
@@ -187,6 +189,7 @@
 			<li><a class="submenu" tabindex="-1" href="#par">Adding the dirty state</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and Save command</a></li>
 			<li class="divider"></li>
 			<li><a tabindex="-1" href="#par">Migration Guide</a></li>
+			<li><a class="submenu" tabindex="-1" href="#par">From 0.5.0 to 0.6.0</a></li>
 			<li><a class="submenu" tabindex="-1" href="#par">From 0.4 to 0.5</a></li>
 			<li><a class="submenu" tabindex="-1" href="#par">From 0.3 to 0.4</a></li>
 			<li class="divider"></li>
@@ -392,9 +395,15 @@
 			<p>
 			The <strong>viewpart</strong> corresponds to the standard Eclipse view part extension point; the Parsley
 			DSL will generate a <strong>plugin.xml_emfparsley_gen</strong>
-			into the root folder of your project. Just copy this file into <strong>"plugin.xml"</strong>. Parsley
-			will never override your <strong>plugin.xml</strong> file; each time you modify the module file, the
-			<strong>plugin.xml_emfparsley_gen</strong> will be generated: it is up to you to keep the generated file
+			into the root folder of your project.
+			The very first time, and only if it does not exist already, the DSL will also
+			generate a <strong>plugin.xml</strong> file.
+			Further generations will NOT overwrite the <strong>plugin.xml</strong>: they will overwrite
+			<strong>plugin.xml_emfparsley_gen</strong>.
+			If you make changes to the <strong>parts</strong> section in the DSL file, you will have
+			to manually merge the two files <strong>plugin.xml</strong> and
+			<strong>plugin.xml_emfparsley_gen</strong>.
+			It is up to you to keep the generated file
 			synchronized with your <strong>"plugin.xml"</strong>.  The easiest way is to select to the files,
 			and use the context menu "Compare With" =&gt; "Each Other".
 			</p>
@@ -1017,7 +1026,7 @@
 	<div >
 		<h2 id="par" class="featurette-heading text-parsley1">Tree Component</h2>
 	<p>
-	The <strong>Tree Component</strong> provides a tree rapresentation of data that can be fed with an EResource, a
+	The <strong>Tree Component</strong> provides a tree representation of data that can be fed with an EResource, a
 	Resource URI, and a simple EObject. This component uses the EMF Meta-Model information to display objects in the tree.
 	</p>
 	<p>
@@ -1026,8 +1035,7 @@
 	<p>
 	</p>
 	<p>
-	<strong>EMF Parsley</strong> provides a factory that can be used to create such a component, like in the code below.
-	Here you can see that can be configured only in 2 lines, the constructor phase and the build&amp;fill phase.
+	<strong>EMF Parsley</strong> provides a factory that can be used to create such a component, like in the code below:
 	</p>
 	<p>
 	</p>
@@ -1058,7 +1066,7 @@
 		<h3 class="featurette-heading text-parsley2">LabelProvider<a id="Tree_LabelProvider"></a></h3>
 		<p>
 		The <a href="#ViewerLabelProvider">Viewer Label Provider</a> is the implementation of an ILabelProvider interface
-		and is responsible to provide the text and image rapresentation for each EObject visualized.
+		and is responsible to provide the text and image representation for each EObject visualized.
 		</p>
 		</br>
 		<h3 class="featurette-heading text-parsley2">Adding Menu<a id="Tree_MenuBuilder"></a></h3>
@@ -1073,7 +1081,7 @@
 	<div >
 		<h2 id="par" class="featurette-heading text-parsley1">Tree Form Component</h2>
 	<p>
-	The <strong>Tree Form Component</strong> contains a <a href="#addref" rel="Tree Component"></a> that provides a tree rapresentation of data that can be fed with
+	The <strong>Tree Form Component</strong> contains a <a href="#addref" rel="Tree Component"></a> that provides a tree representation of data that can be fed with
 	an EResource, a Resource URI, and a simple EObject. This component uses the EMF Meta-Model information to display objects in 
 	the tree. The component also combines a <a href="#addref" rel="Form Component"></a> detail that display the current selected object.
 	</p>
@@ -1172,6 +1180,54 @@
 		, as explained in the <a href="#addref" rel="Contextual Menu">Menu section</a>.
 		The <a href="#MenuBuilder">Menu Builder</a> allows to fully customize the menus.
 		</p>
+	</div>
+	</br>
+	<div >
+		<h2 id="par" class="featurette-heading text-parsley1">Tree With Columns Component</h2>
+	<p>
+	The <strong>Tree With Columns Component</strong> provides a tree representation just like <a href="#addref" rel="Tree Component">Tree Component</a>,
+	but it also shows table columns representing the features of the specified <abbr title="org.eclipse.emf.ecore.EClass">EClass</abbr>
+	.
+	</p>
+	<p>
+	IMPORTANT: the <abbr title="org.eclipse.emf.ecore.EClass">EClass</abbr>
+	 is used to retrieve the features to be shown, and
+	NOT to filter elements to be shown (as opposite to the <a href="#addref" rel="Table Component">Table Component</a>).  If a given
+	row in the tree represents an object whose class does not have the feature for a given column, then the
+	corresponding table cell for that object will be empty.
+	</p>
+	<p>
+	For example, the following screenshot shows a tree with columns representing a library; the specified
+	<abbr title="org.eclipse.emf.ecore.EClass">EClass</abbr>
+	 is the <strong>Writer</strong> so the columns show the features of the
+	<strong>Writer</strong>'s class.  Some of these features, e.g., <strong>address</strong>, <strong>firstName</strong> and <strong>lastName</strong>, are defined
+	in the superclasses of <strong>Writer</strong>.  The objects of class <strong>Employee</strong> have these features as well, while
+	they don't have features that are specific of <strong>Writer</strong>, e.g., <strong>name</strong> and <strong>books</strong>, thus the corresponding
+	cells for employees will be empty.
+	</p>
+	<p>
+	</p>
+	<img src="images/03-components-treecolumns.png" class="img-responsive centered" style="margin-top:10px;margin-bottom:10px;">
+	<p>
+	</p>
+	<p>
+	<strong>EMF Parsley</strong> provides a factory that can be used to create such a component, like in the code below:
+	</p>
+	<p>
+	</p>
+	<pre class="prettyprint" skin="desert">
+	@Inject ViewerFactory viewerFactory;
+	
+	(...)
+	
+	treeViewer = createTreeViewerWithColumns(parent, getEClass(), getContents());
+	</pre>
+	<p>
+	</p>
+	<p>
+	Since this component mixes the features of a tree and a table, the customizations are basically the
+	same shown in the subsections of <a href="#addref" rel="Tree Component"></a> and <a href="#addref" rel="Table Component"></a>.
+	</p>
 	</div>
 		</div>
 	</div>
@@ -1432,20 +1488,29 @@
 		</br>
 		<h3 class="featurette-heading text-parsley2">Viewer Label Provider<a id="ViewerLabelProvider"></a></h3>
 		<p>
-		The Jface Label Prorvider allows to specify the representation of a given Object. <strong>EMF Parsley</strong>
+		The Jface Label Provider allows to specify the representation of a given Object. <strong>EMF Parsley</strong>
 		provides an implementation that uses the information provided via the DSL, as you can see in the snippet
-		below.
+		below. We allow customization for text, image, font, and foreground and background color.
 		</p>
 		<p>
 		</p>
 		<pre class="prettyprint  lang-parsley" skin="desert">
 		labelProvider{
-			text{
+			text {
 				Book -&gt; "Book:"+title
 				Borrower -&gt; "Borrower: "+firstName
 			}
-			image{
+			image {
 				Book -&gt; "book.png"
+			}
+			font {
+				Book -&gt; // must return a org.eclipse.swt.graphics.Font
+			}
+			foreground {
+				Book -&gt; // must return a org.eclipse.swt.graphics.Color
+			}
+			background {
+				Book -&gt; // must return a org.eclipse.swt.graphics.Color
 			}
 		}
 		</pre>
@@ -1454,10 +1519,17 @@
 		<p>
 		However if you want to customize the label provider in Java, you need to provide an implementation of <abbr title="org.eclipse.jface.viewers.ILabelProvider">ILabelProvider</abbr>
 		
-		and injecting it in the spefic module <strong>(TODO)</strong>.
+		and injecting it in the spefic module by overriding <strong>bindILabelProvider</strong>.
+		</p>
+		<p>
 		<strong>EMF Parsley</strong> provides such a base implementation with the class <abbr title="org.eclipse.emf.parsley.ui.provider.ViewerLabelProvider">ViewerLabelProvider</abbr>
 		
 		that is meant to be subclassed by the programmer to provide specific implementations like in the example below.
+		Our label provider also implements <abbr title="org.eclipse.jface.viewers.IFontProvider">IFontProvider</abbr>
+		 and
+		<abbr title="org.eclipse.jface.viewers.IColorProvider">IColorProvider</abbr>
+		, so that you can customize also the font, the foreground
+		and the background color.
 		</p>
 		<p>
 		This class, like many others in our framework, relies on the <strong>polymorphic dispatcher</strong> idiom to declaratively
@@ -1483,6 +1555,18 @@
 		
 			public String image(Book book) {
 				return "book.png";
+			}
+		
+			public Font font(Book book) {
+				return // must return a org.eclipse.swt.graphics.Font
+			}
+		
+			public Color foreground(Book book) {
+				return // must return a org.eclipse.swt.graphics.Color
+			}
+		
+			public Color background(Book book) {
+				return // must return a org.eclipse.swt.graphics.Color
 			}
 		
 			public String text(Borrower b) {
@@ -1537,9 +1621,9 @@
 				super(adapterFactory);
 			}
 		
-		 	public Object elements(Library library) {
-		    	return library.getBooks();
-		  	}
+			public Object elements(Library library) {
+				return library.getBooks();
+			}
 		
 			public Object children(Library library) {
 				return library.getBooks();
@@ -1623,6 +1707,65 @@
 		
 		will NOT be reused by a <abbr title="org.eclipse.emf.parsley.edit.ui.provider.TableViewerContentProvider">TableViewerContentProvider</abbr>
 		.
+		</p>
+		</br>
+		<h3 class="featurette-heading text-parsley2">Table Label Provider<a id="TableLabelProvider"></a></h3>
+		<p>
+		The Jface Table Label Provider allows to specify the representation of a given cell in a table. <strong>EMF Parsley</strong>
+		provides an implementation that uses the information provided via the DSL, as you can see in the snippet
+		below. We allow customization for text, image, font, foreground and background color for a given object's feature
+		(which corresponds to a table cell), and also font, and foreground and background color for the entire row.
+		</p>
+		<p>
+		Concerning fonts and colors, a customization for a single cell has the precedence over the customization of an entire row.
+		</p>
+		<p>
+		Here's an example.
+		</p>
+		<p>
+		</p>
+		<pre class="prettyprint  lang-parsley" skin="desert">
+		tableLabelProvider {
+			text {
+				Library:name -&gt; 'Name' // constant
+				Library:books -&gt; 'Books' // constant
+				Writer:lastName -&gt; name.toFirstUpper // the implicit param is an EStructuralFeature
+			}
+			
+			image {
+				Book: author -&gt; 
+					if (author.name.nullOrEmpty) 
+						"noname.gif"
+					else
+						new ImageData("writer.jpeg")
+			}
+			
+			font {
+				Library : name -&gt; JFaceResources.getFontRegistry().getBold(JFaceResources.DEFAULT_FONT)
+			}
+			
+			foreground {
+				Library : books -&gt; Display.getCurrent().getSystemColor(SWT.COLOR_BLUE)
+			}
+			
+			background {
+				Library : address -&gt; Display.getCurrent().getSystemColor(SWT.COLOR_GREEN)
+			}
+			
+			rowFont {
+				Library -&gt; JFaceResources.getFontRegistry().getBold(JFaceResources.DEFAULT_FONT)
+			}
+			
+			rowForeground {
+				Library -&gt; Display.getCurrent().getSystemColor(SWT.COLOR_BLUE)
+			}
+			
+			rowBackground {
+				Library -&gt; Display.getCurrent().getSystemColor(SWT.COLOR_GREEN)
+			}
+		}
+		</pre>
+		<p>
 		</p>
 		</br>
 		<h3 class="featurette-heading text-parsley2">Features Provider<a id="FeaturesProvider"></a></h3>
@@ -2056,7 +2199,7 @@
 						book.title = "A new book"
 						book.author = w
 					]
-				),
+				)
 			]
 		}
 		</pre>
@@ -2214,6 +2357,131 @@
 		</p>
 		<p>
 		This customization is exactly as in the case of the form of the previous section.
+		</p>
+	</div>
+	</br>
+	<div >
+		<h2 id="par" class="featurette-heading text-parsley1">Editing Domain</h2>
+	<p>
+	The concept of <abbr title="org.eclipse.emf.edit.domain.EditingDomain">EditingDomain</abbr>
+	 is crucial for editing
+	EMF models; we refer to the <strong>EMF.Edit</strong> <a href="http://help.eclipse.org/mars/index.jsp?topic=%2Forg.eclipse.emf.doc%2Freferences%2Foverview%2FEMF.Edit.html">documentation</a> for further details.
+	In particular, the editing domain keeps track of commands executed on an EMF model,
+	thus enabling undo/redo mechanisms and "dirty state" management for saveable parts.
+	</p>
+	<p>
+	EMF Parsley aims at hiding the management of the editing domain, so that
+	everything should work smoothly and as expected, in an automatic way.  In particular,
+	it is rare that you need to perform customizations on this mechanisms.
+	However, there might be cases when you need to be aware of this concept, especially
+	if you need to use one of our customizations.  Moreover, you need to be aware of some
+	of the assumptions that EMF Parsley automatic mechanisms rely on (we inherit these assumptions
+	from EMF.Edit itself).
+	</p>
+	<p>
+	First of all, all the EMF <abbr title="org.eclipse.emf.ecore.resource.Resource">Resource</abbr>
+	s that you want to edit with EMF Parsley must be
+	contained in a <abbr title="org.eclipse.emf.ecore.resource.ResourceSet">ResourceSet</abbr>
+	, which, in turn,
+	must be contained in an <abbr title="org.eclipse.emf.edit.domain.EditingDomain">EditingDomain</abbr>
+	.
+	This is achieved automatically when using our <strong>ResourceLoader</strong>, <a href="#ResourceLoader">Resource Loader</a>.
+	</p>
+	<p>
+	Two resources loaded with different resource loaders will be contained in two
+	different editing domains.  Two resources loaded with the same resource loader will
+	be in the same resource set and use the same editing domain.
+	</p>
+	<p>
+	Our default implementation of editing domain uses the EMF <abbr title="org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain">AdapterFactoryEditingDomain</abbr>
+	,
+	so that all the EMF.Edit default mechanisms will work correctly.  In particular,
+	our customization uses Google Guice mechanisms (see <a href="#addref" rel="Dependency Injection With</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Google Guice">Dependency Injection With Google
+	Guice</a>), thus if you need an editing domain in your own views all you have to do is
+	to inject it, e.g.,
+	</p>
+	<p>
+	</p>
+	<pre class="prettyprint" skin="desert">
+		@Inject
+		private EditingDomain editingDomain;
+	</pre>
+	<p>
+	</p>
+		</br>
+		<h3 class="featurette-heading text-parsley2">Editing Domain Provider<a id="EditingDomainProvider"></a></h3>
+		<p>
+		If you need to provide a custom implementation of the editing domain
+		(for example, because you want to use a transactional editing domain), you need
+		to implement a custom Google Guice <abbr title="com.google.inject.Provider">Provider</abbr>
+		 and
+		in your Guice module override this method:
+		</p>
+		<p>
+		</p>
+		<pre class="prettyprint" skin="desert">
+		public Class&lt;? extends Provider&lt;EditingDomain&gt;&gt; provideEditingDomain() {
+			return DefaultEditingDomainProvider.class;
+		}
+		</pre>
+		<p>
+		</p>
+		<p>
+		Such custom provider will then have to create an editing domain and return it.
+		</p>
+		<p>
+		We have some custom editing domain providers that might be useful in some
+		situations:
+		</p>
+		<p>
+		</p>
+		<ul>
+			<li><strong>GlobalAdapterFactoryEditingDomainProvider</strong>: all the injected
+			editing domains will be the same in the same JVM, thus all your
+			components will share exactly the same editing domain instances, and
+			all the resources will be contained in the same resource set of the same
+			editing domain.</li>
+			<li><strong>SingletonAdapterFactoryEditingDomainModule</strong>: similar to the previous
+			one, but according to the semantics of Google Guice <abbr title="com.google.inject.Singleton">@Singleton</abbr>
+			,
+			i.e., only those components injected with the same injector will share
+			the same editing domain.  This basically means that all the components
+			created with the same Parsley Guice module will share the same editing domain.</li>
+		</ul>
+		<p>
+		</p>
+		</br>
+		<h3 class="featurette-heading text-parsley2">Editing Domain Finder<a id="EditingDomainFinder"></a></h3>
+		<p>
+		All the EMF Parsley saveable views and editors will have their own
+		editing domain (modulo what we explained in <a href="#EditingDomainProvider">Editing Domain Provider</a>).
+		</p>
+		<p>
+		The EMF Parsley views that react on selection do NOT have a preset
+		editing domain, since they will represent (and possibly edit) EMF objects
+		selected in some other views, i.e., such objects can be contained in resources
+		of different resource sets (and different editing domains).
+		Thus, the editing domain of the currently shown object is dynamically
+		retrieved through an injected <strong>EditingDomainFinder</strong>.  This default
+		implementation basically delegates to the standard EMF.Edit mechanisms
+		for retrieving the editing domain.  In cases where the editing domain cannot
+		be found (e.g., because the object is not contained in a resource, or its resource
+		is not contained in a resource set, or its resource set is not contained in an
+		editing domain), then editing will not be possible (i.e., context menus <a href="#addref" rel="Contextual Menu"></a> and drag
+		and drop <a href="#addref" rel="Drag and Drop">Drag and Drop</a> will not work).
+		</p>
+		<p>
+		You can provide and bind a custom implementation of the <strong>EditingDomainFinder</strong>
+		which is particularly useful if you manage a transactional editing domain.
+		</p>
+		<p>
+		This is required only in some specific and advanced scenarios.
+		</p>
+		<p>
+		In standard situations you will not have to worry about that, and
+		editing mechanisms will work out of the box, including dragging an
+		element from one view into another view, provided they are in the
+		same resource set and such drag and drop makes sense.
 		</p>
 	</div>
 	</br>
@@ -3015,6 +3283,87 @@
 			<h1 id="par" class="featurette-heading text-parsley">Migration Guide</h1>
 	</br>
 	<div >
+		<h2 id="par" class="featurette-heading text-parsley1">From 0.5.0 to 0.6.0</h2>
+	<p>
+	</p>
+	<ul>
+		<li>The way we handle the <abbr title="org.eclipse.emf.edit.domain.EditingDomain">EditingDomain</abbr>
+		 is
+		changed and improved to some extent.  In standard scenarios this should not
+		require any modifications.  In advanced scenarios this will provide complete
+		control on the editing domain.  We refer to the new section in the documentation,
+		<a href="#addref" rel="Editing Domain">Editing Domain</a>.</li>
+		<li><strong>Tree With Columns</strong>: a new component has been added:The <strong>Tree With Columns Component</strong> provides a tree representation just like <a href="#addref" rel="Tree Component">Tree Component</a>,
+		but it also shows table columns representing the features of the specified <abbr title="org.eclipse.emf.ecore.EClass">EClass</abbr>
+		.IMPORTANT: the <abbr title="org.eclipse.emf.ecore.EClass">EClass</abbr>
+		 is used to retrieve the features to be shown, and
+		NOT to filter elements to be shown (as opposite to the <a href="#addref" rel="Table Component">Table Component</a>).  If a given
+		row in the tree represents an object whose class does not have the feature for a given column, then the
+		corresponding table cell for that object will be empty.For example, the following screenshot shows a tree with columns representing a library; the specified
+		<abbr title="org.eclipse.emf.ecore.EClass">EClass</abbr>
+		 is the <strong>Writer</strong> so the columns show the features of the
+		<strong>Writer</strong>'s class.  Some of these features, e.g., <strong>address</strong>, <strong>firstName</strong> and <strong>lastName</strong>, are defined
+		in the superclasses of <strong>Writer</strong>.  The objects of class <strong>Employee</strong> have these features as well, while
+		they don't have features that are specific of <strong>Writer</strong>, e.g., <strong>name</strong> and <strong>books</strong>, thus the corresponding
+		cells for employees will be empty.<img src="images/03-components-treecolumns.png" class="img-responsive centered" style="margin-top:10px;margin-bottom:10px;"><strong>EMF Parsley</strong> provides a factory that can be used to create such a component, like in the code below:<pre class="prettyprint" skin="desert">
+		@Inject ViewerFactory viewerFactory;
+		
+		(...)
+		
+		treeViewer = createTreeViewerWithColumns(parent, getEClass(), getContents());
+		</pre>Since this component mixes the features of a tree and a table, the customizations are basically the
+		same shown in the subsections of <a href="#addref" rel="Tree Component"></a> and <a href="#addref" rel="Table Component"></a>.</li>
+		<li><strong>EmfSelectionHelper</strong> only deals with selection element; utility methods for events is now
+		delegated to <strong>EmfEventHelper</strong>.</li>
+		<li>label provider for trees and table label providers for tables can now specify declaratively custom
+		fonts, foreground and background colors.For tables, you can customize the font, foreground and background color for the entire row or for a single
+		cell.Here are some examples:<pre class="prettyprint  lang-parsley" skin="desert">
+		labelProvider{
+		...
+			font {
+				Book -&gt; // must return a org.eclipse.swt.graphics.Font
+			}
+			foreground {
+				Book -&gt; // must return a org.eclipse.swt.graphics.Color
+			}
+			background {
+				Book -&gt; // must return a org.eclipse.swt.graphics.Color
+			}
+		}
+		</pre><pre class="prettyprint  lang-parsley" skin="desert">
+		tableLabelProvider {
+		...	
+			font {
+				Library : name -&gt; JFaceResources.getFontRegistry().getBold(JFaceResources.DEFAULT_FONT)
+			}
+			
+			foreground {
+				Library : books -&gt; Display.getCurrent().getSystemColor(SWT.COLOR_BLUE)
+			}
+			
+			background {
+				Library : address -&gt; Display.getCurrent().getSystemColor(SWT.COLOR_GREEN)
+			}
+			
+			rowFont {
+				Library -&gt; JFaceResources.getFontRegistry().getBold(JFaceResources.DEFAULT_FONT)
+			}
+			
+			rowForeground {
+				Library -&gt; Display.getCurrent().getSystemColor(SWT.COLOR_BLUE)
+			}
+			
+			rowBackground {
+				Library -&gt; Display.getCurrent().getSystemColor(SWT.COLOR_GREEN)
+			}
+		}
+		</pre></li>
+	</ul>
+	<p>
+	</p>
+	</div>
+	</br>
+	<div >
 		<h2 id="par" class="featurette-heading text-parsley1">From 0.4 to 0.5</h2>
 	<p>
 	</p>
@@ -3345,7 +3694,7 @@
 		});
 	</script>
 	<script type="text/javascript" src="google-code-prettify/lang-common.js"></script><script type="text/javascript">
-		registerLanguage('import|module|parts|labelProvider|text|image|elements|label|featuresProvider|features|formControlFactory|control|target|viewerContentProvider|tableViewerContentProvider|children|viewpart|viewname|viewclass|viewcategory|for|new|switch|default|boolean|do|if|this|double|throw|null|true|false|it|as|byte|else|case|enum|instanceof|return|featureCaptionProvider|formFeatureCaptionProvider|dialogFeatureCaptionProvider|val|var|catch|extends|int|short|try|char|void|finally|long|float|super|while|proposals|dialogControlFactory|menuBuilder|menus|emfMenus|resourceManager|initializeResource|saveResource|configurator|resourceURI|eClass|bindings|type|provide|value', 'emfparsley');
+		registerLanguage('import|module|parts|labelProvider|text|image|elements|label|featuresProvider|features|formControlFactory|control|target|viewerContentProvider|tableViewerContentProvider|children|viewpart|viewname|viewclass|viewcategory|for|new|switch|default|boolean|do|if|this|double|throw|null|true|false|it|as|byte|else|case|enum|instanceof|return|featureCaptionProvider|formFeatureCaptionProvider|dialogFeatureCaptionProvider|val|var|catch|extends|int|short|try|char|void|finally|long|float|super|while|proposals|dialogControlFactory|menuBuilder|menus|emfMenus|resourceManager|initializeResource|saveResource|configurator|resourceURI|eClass|bindings|type|provide|value|font|foreground|background|tableLabelProvider|rowFont|rowForeground|rowBackground', 'emfparsley');
 	</script>
 </body>
 </html>
