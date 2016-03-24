@@ -106,6 +106,7 @@
 								<li><a href="documentation.html">Documentation</a></li>
 								<li><a href="sources.html">Sources</a></li>
 								<li><a href="support.html">Support</a></li>
+								<li><a href="userReviews.html">UserReviews</a></li>
 							</ul>
 						</div><!-- /.navbar-collapse -->
 					</div>
@@ -147,11 +148,10 @@
 </style>
 <div class="containerdoc marketing">
 	<!-- SIDEBAR -->
-	<div style="scrollable;" class="col-md-2">
+	<div style="position: fixed;" class="col-md-2">
 		<ul class="dropdown-menu" style="margin: 0px; max-width: 250px; display: block;box-shadow: 0 0px 7px rgba(0,0,0,.175);">
 			<li class="activemenu" ><a tabindex="-1" href="#par">Overview</a></li>
 			<li><a class="submenu" tabindex="-1" href="#par">Parsley Components</a></li>
-			<li><a class="submenu" tabindex="-1" href="#par">Customize</a></li>
 			<li class="divider"></li>
 			<li><a tabindex="-1" href="#par">First Example</a></li>
 			<li class="divider"></li>
@@ -174,21 +174,13 @@
 			<li><a class="submenu" tabindex="-1" href="#par">Validation</a></li>
 			<li class="divider"></li>
 			<li><a tabindex="-1" href="#par">Advanced Features</a></li>
+			<li><a class="submenu" tabindex="-1" href="#par">Building with Maven</a></li>
 			<li><a class="submenu" tabindex="-1" href="#par">Testing Framework</a></li>
-			<li class="divider"></li>
-			<li><a tabindex="-1" href="#par">RAP</a></li>
-			<li><a class="submenu" tabindex="-1" href="#par">Introduction</a></li>
-			<li><a class="submenu" tabindex="-1" href="#par">Setup</a></li>
-			<li><a class="submenu" tabindex="-1" href="#par">Examples</a></li>
-			<li class="divider"></li>
-			<li><a tabindex="-1" href="#par">Eclipse 4.x</a></li>
-			<li><a class="submenu" tabindex="-1" href="#par">First Example Setup</a></li>
-			<li><a class="submenu" tabindex="-1" href="#par">Preparing for a pure e4</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Application</a></li>
-			<li><a class="submenu" tabindex="-1" href="#par">Create an e4 Application</a></li>
-			<li><a class="submenu" tabindex="-1" href="#par">Using a TreeComposite</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;into an e4 Part</a></li>
-			<li><a class="submenu" tabindex="-1" href="#par">Adding the dirty state</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and Save command</a></li>
+			<li><a class="submenu" tabindex="-1" href="#par">Eclipse 4.x</a></li>
+			<li><a class="submenu" tabindex="-1" href="#par">RAP</a></li>
 			<li class="divider"></li>
 			<li><a tabindex="-1" href="#par">Migration Guide</a></li>
+			<li><a class="submenu" tabindex="-1" href="#par">From 0.6.0 to 0.7.0</a></li>
 			<li><a class="submenu" tabindex="-1" href="#par">From 0.5.0 to 0.6.0</a></li>
 			<li><a class="submenu" tabindex="-1" href="#par">From 0.4 to 0.5</a></li>
 			<li><a class="submenu" tabindex="-1" href="#par">From 0.3 to 0.4</a></li>
@@ -230,21 +222,24 @@
 		<li><strong>Forms</strong></li>
 		<li><strong>Tables</strong></li>
 		<li><strong>Editors</strong></li>
-		<li><strong>Search boxes</strong> coming soon</li>
+		<li><strong>Search boxes</strong> (coming soon)</li>
 	</ul>
 	<p>
 	</p>
-	</div>
-	</br>
-	<div >
-		<h2 id="par" class="featurette-heading text-parsley1">Customize</h2>
 	<p>
-	The main feature of <strong>EMF Parsley</strong> is that you can customize all basic UI behaviours of the components with <strong>Dependency Injection</strong>
-	mechanisms (based on <a href="https://github.com/google/guice">Google Guice</a>).
-	You can get more info in the <a href="#addref" rel="Customizations">Customizations Section</a>, but you don't have to know all details
-	about the internal implementation to inject your own customization because
-	<strong>EMF Parsley</strong> provides a DSL to easy customize your UI, as explained in the next section.
 	</p>
+	<img src="images/01-components.png" class="img-responsive centered" style="margin-top:10px;margin-bottom:10px;">
+	<p>
+	</p>
+		</br>
+		<h3 class="featurette-heading text-parsley2">Customize<a id="Customize"></a></h3>
+		<p>
+		The main feature of <strong>EMF Parsley</strong> is that you can customize all basic UI behaviours of the components with <strong>Dependency Injection</strong>
+		mechanisms (based on <a href="https://github.com/google/guice">Google Guice</a>).
+		You can get more info in the <a href="#addref" rel="Customizations">Customizations Section</a>, but you don't have to know all details
+		about the internal implementation to inject your own customization because
+		<strong>EMF Parsley</strong> provides a DSL to easy customize your UI, as explained in the next section.
+		</p>
 		</br>
 		<h3 class="featurette-heading text-parsley2">Customize with the DSL<a id="Customizations_DSL"></a></h3>
 		<p>
@@ -265,13 +260,13 @@
 		<p>
 		</p>
 		<p>
-		The DSL allows to customize the most relevant behaviors, currently the following are permitted:
+		The DSL allows to customize the most relevant behaviors. Here we list only a few of them:
 		</p>
 		<p>
 		</p>
 		<ul>
-			<li><strong>parts</strong> lets you define your View Parts: a file <strong>plugin.xml_emfparsley_gen</strong> will be generated
-				that is meant to be synchronized with your own <strong>plugin.xml</strong></li>
+			<li><strong>parts</strong> lets you define your View Parts: this will correspond to the standard Eclipse extension
+				points for the parts (see <a href="#PluginXml">How the DSL handles the plugin.xml</a>)</li>
 			<li><strong>bindings</strong> section lets you define which implementation will be used with Injection</li>
 			<li><strong>menu</strong> section lets you define the contextual menu for all viewers (<strong>trees</strong> and <strong>tables</strong>)</li>
 			<li><strong>features provider</strong> is used to retrieve the list of feature for a given EClass to build <strong>tables</strong>
@@ -287,6 +282,106 @@
 				Different implementations can be defined forfor <strong>dialogs</strong> and <strong>forms</strong></li>
 		</ul>
 		<p>
+		</p>
+		</br>
+		<h3 class="featurette-heading text-parsley2">The structure of an EMF Parsley project<a id="DslProjectStructure"></a></h3>
+		<p>
+		An EMF Parsley project, as created by the wizard, is an Eclipse plug-in project with a few
+		additional builders.
+		</p>
+		<p>
+		The <strong>emfparsley-gen</strong> source folder will contain all the Java files generated by the DSL
+		compiler.  The contents of this folder should never be modified manually, since their contents
+		will be overwritten by the DSL compiler.
+		</p>
+		<p>
+		The <strong>src</strong> source folder will contain an <abbr title="org.eclipse.ui.plugin.AbstractUIPlugin">AbstractUIPlugin</abbr>
+		 generated
+		by the wizard. This is generated only during the creation of the project and it can be safely modified
+		if you need to put other mechanisms in the activator.
+		</p>
+		<p>
+		IMPORTANT: it is crucial that the activator has the static method <strong>getDefault</strong>, so you must not remove
+		that method.
+		</p>
+		<p>
+		If you choose one of the templates provided by the wizard, the <strong>src</strong> folder will also contain
+		a Java class for the view, which extends the corresponding view of Parsley.  This can be safely modified
+		if you need to add some additional mechanisms or contents to the view.
+		</p>
+		<p>
+		You can then create additional <strong>.parsley</strong> files in the same project.
+		</p>
+		</br>
+		<h3 class="featurette-heading text-parsley2">How the DSL handles the plugin.xml<a id="PluginXml"></a></h3>
+		<p>
+		If you specify any <strong>part</strong> in the DSL file, then
+		the Parsley DSL will generate a <strong>plugin.xml_emfparsley_gen</strong> in the <strong>emfparsley-gen</strong> folder,
+		in a directory named after the containing module.  Then, the <strong>EMF Parsley builder</strong> will take
+		care of merging the generated content with the <strong>plugin.xml</strong> in the root folder of the current project.
+		If the <strong>plugin.xml</strong> does not exist it will create it.  Subsequent changes to the DSL file
+		will regenerate <strong>plugin.xml_emfparsley_gen</strong> and the builder will merge it with <strong>plugin.xml</strong>.
+		The merging will overwrite in the <strong>plugin.xml</strong> only the elements that are specified in the DSL.
+		Any other elements in the <strong>plugin.xml</strong> will not be touched, so you can also add other extension points
+		manually in the <strong>plugin.xml</strong>.
+		</p>
+		<p>
+		This merging takes place ONLY if your project has the <strong>EMF Parsley builder nature</strong>.
+		Since version 0.6.1 this nature is automatically applied to the projects created with our wizard.
+		In existing projects, you have to enable the nature yourself by right-clicking on the project,
+		then "Configure" and then "Enable EMF Parsley builder.
+		</p>
+		<p>
+		Note that this merging will not consider possible removed <strong>part</strong> sections in the DSL file.
+		The merging relies on the <strong>id</strong>, so if you change the <strong>id</strong>, e.g., the <strong>viewid</strong>, in the DSL file, then you will end up
+		with two extension points in the <strong>plugin.xml</strong>.  Thus, in general, if you removed a <strong>part</strong> section from
+		the DSL file, or if you rename an <strong>id</strong> in a <strong>part</strong> section, please make sure you manually modify
+		the <strong>plugin.xml</strong> accordingly.  The easiest way is to select to the files,
+		and use the context menu "Compare With" =&gt; "Each Other".  This way, you will soon detect the
+		changes that have to be manually applied.
+		</p>
+		</br>
+		<h3 class="featurette-heading text-parsley2">Obtaining the Injector<a id="InjectorProvider"></a></h3>
+		<p>
+		Since we also generate the <strong>plugin.xml</strong> starting from the DSL file, we already make sure that the
+		views will be created via Google Guice injection mechanisms, using a generated
+		<strong>executable extension factory</strong>.
+		</p>
+		<p>
+		If you need to obtain an injector corresponding to a specific DSL file, you can use the
+		corresponding generated class <strong>injector provider</strong>.  This is prefixed with the name of the module
+		(first letter capitalized).  For example, given this DSL module
+		</p>
+		<p>
+		</p>
+		<pre class="prettyprint  lang-parsley" skin="desert">
+		module org.eclipse.emf.parsley.examples.firstexample {
+			...
+		}
+		</pre>
+		<p>
+		</p>
+		<p>
+		The Java class for the injector provider will be <strong>org.eclipse.emf.parsley.examples.firstexample.FirstexampleInjectorProvider</strong>.
+		</p>
+		<p>
+		These injector providers have a static method <strong>getInjector()</strong> that will return the <strong>singleton</strong> injector
+		corresponding to that module:
+		</p>
+		<p>
+		</p>
+		<pre class="prettyprint" skin="desert">
+		Injector injector = FirstexampleInjectorProvider.getInjector();
+		</pre>
+		<p>
+		</p>
+		<p>
+		The returned injector is <strong>singleton</strong> in the sense that it is the same injector used
+		to create instances of the view parts specified as extension points in the <strong>plugin.xml</strong>.
+		</p>
+		<p>
+		Obtaining the injector this way is useful, for example, when you develop a pure e4 application,
+		where you do not define views in the <strong>plugin.xml</strong>.  See <a href="#addref" rel="Eclipse 4.x">Eclipse 4.x</a>.
 		</p>
 	</div>
 		</div>
@@ -394,18 +489,9 @@
 			</p>
 			<p>
 			The <strong>viewpart</strong> corresponds to the standard Eclipse view part extension point; the Parsley
-			DSL will generate a <strong>plugin.xml_emfparsley_gen</strong>
-			into the root folder of your project.
-			The very first time, and only if it does not exist already, the DSL will also
-			generate a <strong>plugin.xml</strong> file.
-			Further generations will NOT overwrite the <strong>plugin.xml</strong>: they will overwrite
-			<strong>plugin.xml_emfparsley_gen</strong>.
-			If you make changes to the <strong>parts</strong> section in the DSL file, you will have
-			to manually merge the two files <strong>plugin.xml</strong> and
-			<strong>plugin.xml_emfparsley_gen</strong>.
-			It is up to you to keep the generated file
-			synchronized with your <strong>"plugin.xml"</strong>.  The easiest way is to select to the files,
-			and use the context menu "Compare With" =&gt; "Each Other".
+			DSL will handle the generation and update of the <strong>plugin.xml</strong> file.
+			Please have a look at <a href="#PluginXml">How the DSL handles the plugin.xml</a> for further
+			details.
 			</p>
 			<p>
 			The wizard will also generate a view part class into the project
@@ -1256,7 +1342,7 @@
 			Guice bindings.  The default base class is
 			<abbr title="org.eclipse.emf.parsley.EmfParsleyGuiceModule">EmfParsleyGuiceModule</abbr>
 			 that is suitable to be used
-			in an OSGI environment, like Eclipse itself or RAP (see also <a href="#addref" rel="RAP">EMF Parsley RAP support</a>).
+			in an OSGI environment, like Eclipse itself or RAP (see also <a href="#addref" rel="Advanced Features">Eclipse 4.x &amp; RAP</a>).
 			Our project wizards will automatically use such module as the base class.
 			For CDO we have a specialized base module.
 			</p>
@@ -2825,6 +2911,54 @@
 			</p>
 	</br>
 	<div >
+		<h2 id="par" class="featurette-heading text-parsley1">Building with Maven</h2>
+	<p>
+	We provide Maven artifacts in Maven Central that allows you to compile the Parsley DSL sources
+	with Maven/Tycho, using the <strong>xtext-maven-plugin</strong>.
+	</p>
+	<p>
+	This is a typical configuration (a complete example can be found here:
+	<a href="http://git.eclipse.org/c/emf-parsley/org.eclipse.emf-parsley.git/tree/examples/org.eclipse.emf.parsley.examples.maven">http://git.eclipse.org/c/emf-parsley/org.eclipse.emf-parsley.git/tree/examples/org.eclipse.emf.parsley.examples.maven</a>):
+	</p>
+	<p>
+	</p>
+	
+	&lt;plugin&gt;
+		&lt;groupId&gt;org.eclipse.xtext&lt;/groupId&gt;
+		&lt;artifactId&gt;xtext-maven-plugin&lt;/artifactId&gt;
+		&lt;version&gt;${xtext-version}&lt;/version&gt;
+		&lt;executions&gt;
+			&lt;execution&gt;
+				&lt;goals&gt;
+					&lt;goal&gt;generate&lt;/goal&gt;
+				&lt;/goals&gt;
+			&lt;/execution&gt;
+		&lt;/executions&gt;
+		&lt;configuration&gt;
+			&lt;languages&gt;
+				&lt;language&gt;
+					&lt;setup&gt;org.eclipse.emf.parsley.dsl.EmfParsleyDslStandaloneSetup&lt;/setup&gt;
+					&lt;outputConfigurations&gt;
+						&lt;outputConfiguration&gt;
+							&lt;outputDirectory&gt;${basedir}/emfparsley-gen&lt;/outputDirectory&gt;
+						&lt;/outputConfiguration&gt;
+					&lt;/outputConfigurations&gt;
+				&lt;/language&gt;
+			&lt;/languages&gt;
+		&lt;/configuration&gt;
+		&lt;dependencies&gt;
+			&lt;dependency&gt;
+				&lt;groupId&gt;org.eclipse.emf.parsley&lt;/groupId&gt;
+				&lt;artifactId&gt;org.eclipse.emf.parsley.dsl.standalone&lt;/artifactId&gt;
+				&lt;version&gt;${parsley-version}&lt;/version&gt;
+			&lt;/dependency&gt;
+		&lt;/dependencies&gt;
+	&lt;/plugin&gt;
+	<p>
+	</p>
+	</div>
+	</br>
+	<div >
 		<h2 id="par" class="featurette-heading text-parsley1">Testing Framework</h2>
 	<p>
 	We provide some utility classes for testing <strong>EMF Parsley</strong> components in the feature
@@ -2861,216 +2995,24 @@
 	at the project <strong>org.eclipse.emf.parsley.tests</strong> for some usage examples.
 	</p>
 	</div>
-		</div>
-	</div>
-	 <hr style="width:64.6%;margin-bottom:28px;margin-top:30px;" class="col-md-8 col-md-offset-3"> 
-	<div class="row featurette">
-		<div class="col-md-8 col-md-offset-3">
-			<h1 id="par" class="featurette-heading text-parsley">RAP</h1>
 	</br>
 	<div >
-		<h2 id="par" class="featurette-heading text-parsley1">Introduction</h2>
+		<h2 id="par" class="featurette-heading text-parsley1">Eclipse 4.x</h2>
 	<p>
-	As you may know <a href="http://eclipse.org/rap/">RAP (Remote Application Platform)</a> is a technology that allows you to run an Eclipse RCP application over the web.
+	Instead of using the Extension Point mechanism, EMF Parsley leverages from DSL and Google Guice Injection.
 	</p>
 	<p>
-	In order to obtain this goal you have to setup a specific RAP Target Platform, for instance the one that RAP itself provides once you install it.
+	Because of this, it is very easy to use it with Eclipse 4.x (e4).
 	</p>
 	<p>
-	However when you want to use an Eclipse RCP framework over the RAP Platform, you generally have to deal with
-	dependencies, since not all Eclipse frameworks are ready-to-use with RAP, especially those related with the SWT layer.
+	</p>
+	<ol>
+	</ol>
+	<p>
 	</p>
 	<p>
-	EMF Parsley provides a proper RAP Target Platform that allows you to start leveraging Parsley potentials to the web the same way you have 
-	learned to do with desktop (RCP) development.
+	<strong>First Example Setup</strong>
 	</p>
-	</div>
-	</br>
-	<div >
-		<h2 id="par" class="featurette-heading text-parsley1">Setup</h2>
-		</br>
-		<h3 class="featurette-heading text-parsley2">Installing the RAP Tools<a id="installRapTools"></a></h3>
-		<p>
-		To begin with, you need to install the RAP Tools into the IDE.
-		This can be accomplished with the following steps:
-		</p>
-		<ol>
-			<li>Help -&gt; Install New Software ...</li>
-			<li>select the main Eclipse Update site</li>
-			<li>expand category "Web, XML, Java EE and OSGi Enterprise Development"</li>
-			<li>select "RAP Tools" and complete the installation, restarting the IDE at the end</li>
-			<li>after IDE restarts just close the Welcome page</li>
-		</ol>
-		<p>
-		</p>
-		</br>
-		<h3 class="featurette-heading text-parsley2">Setup the EMF Parsley RAP Target Platform<a id="rapSetTargetPlatform"></a></h3>
-		<p>
-		After having installed EMF Parsley as described <a href="https://www.eclipse.org/emf-parsley/download.html">here</a> and
-		created a new workspace, you can setup the EMF Parsley RAP Target Platform in the following way: 
-		</p>
-		<ol>
-			<li>File -&gt; New... -&gt; Example...</li>
-			<li>from Category "Emf Parsley Examples", select "Emf Parsley Rap Target Platform Example"</li>
-			<li>press Next and Finish</li>
-			<li>open the Target Definition file <strong>emf-parsely-rap.target</strong></li>
-			<li>wait until the "Resolving Target Definition" job is done (check the status bar)</li>
-			<li>when finished, click on hyperlink "Set as Target Platform"</li>
-		</ol>
-		<p>
-		</p>
-		<p>
-		You will end up with a RAP-enabled workspace, enhanced by EMF and Parsley!
-		</p>
-	</div>
-	</br>
-	<div >
-		<h2 id="par" class="featurette-heading text-parsley1">Examples</h2>
-		</br>
-		<h3 class="featurette-heading text-parsley2">Running the Parsley RAP UI Example<a id="rapFirstExample"></a></h3>
-		<p>
-		Here is the fastest way to get a working web application with all the stuff put togheter:
-		</p>
-		<ol>
-			<li>File -&gt; New... -&gt; Example...</li>
-			<li>from Category "Emf Parsley Examples", select "Emf Parsley Rap Example"</li>
-			<li>press Next and Finish</li>
-			<li>expand plug-in <strong>"org.eclipse.emf.parsley.examples.rap.ui"</strong></li>
-			<li>right-click "Emf_Parsley_RAP_UI_Example.launch" and click "Run as" "Emf_Parsley_RAP_UI_Example"</li>
-		</ol>
-		<p>
-		</p>
-		<p>
-		What you will get is a web application that allows you to interact with the model instance as you would
-		do in a desktop (RCP) environment.
-		</p>
-		<p>
-		</p>
-		<img src="images/08-rap-ui-example-running.png" class="img-responsive centered" style="margin-top:10px;margin-bottom:10px;">
-		<p>
-		</p>
-		<p>
-		In this web application you can see two views: 
-		</p>
-		<ul>
-			<li>the one on the left is a read-only view; it just reflects the model content, but it does not react to changes (the classic Eclipse dirty indicator is not triggered
-			by changes) and you are not able to save. Its model is created in class <strong>org.eclipse.emf.parsley.examples.rap.ui.GuiceModule.CustomResourceManager</strong>
-			and is not persisted</li>
-			<li>the view on the right is instead a Saveable view and therefore it not only triggers the dirty state after
-			a change, but also allows you to save the modifications with the automatic dirty state reset. Its model
-			is persisted in file <strong>System.getProperty("java.io.tmpdir")+"/My.model")</strong></li>
-		</ul>
-		<p>
-		</p>
-		<p>
-		Of course, since this is a web application, you can also open a browser on another pc or device on the same network and type the address,
-		replacing 127.0.0.1 with the IP of the machine where the application was launched.
-		</p>
-		</br>
-		<h3 class="featurette-heading text-parsley2">Running the Parsley RAP CDO Example<a id="rapCdoExample"></a></h3>
-		<p>
-		The EMF default XMI persistence is certainly very handy to start with, but as soon as you want a more
-		production-ready EMF persistence architecture, well, <a href="http://wiki.eclipse.org/CDO">CDO</a> is for sure the way to go.
-		In fact with CDO you basically have an EMF model instance shared between clients, that also allows the
-		clients to be synchronized with the model changes.
-		</p>
-		<p>
-		In this example, in order to keep things simple, we will use CDO with an in-memory store (MEMStore) whose contents will be lost once the server is stopped.
-		However CDO can be configured for usage with RDBMS, Object-oriented or NO-SQL databases (see <a href="http://eclipse.org/cdo/documentation/">here</a> for details)
-		</p>
-		<p>
-		To start with we need a CDO Server running and we can obtain it with an example plugin that can be used
-		both in an RCP and in a RAP workspace.
-		</p>
-		<p>
-		</p>
-		<ol>
-			<li>File -&gt; New... -&gt; Example...</li>
-			<li>from Category "Emf Parsley Examples", select "Emf Parsley Cdo Server Example"</li>
-			<li>press Next and Finish</li>
-			<li>expand plug-in <strong>"org.eclipse.emf.parsley.examples.cdo.server"</strong></li>
-			<li>right-click "CDOServerExample.launch" and click "Run as" "CDOServerExample"</li>
-			<li>a message on the Console <strong>"Repository[demo] started!"</strong> informs that the CDO Server instance
-				is started!</li>
-		</ol>
-		<p>
-		</p>
-		<p>
-		Now we can create the web application that will use the CDO server just started.
-		</p>
-		<p>
-		</p>
-		<ol>
-			<li>File -&gt; New... -&gt; Example...</li>
-			<li>from Category "Emf Parsley Examples", select "Emf Parsley Rap Cdo Example"</li>
-			<li>press Next and Finish</li>
-		</ol>
-		<p>
-		</p>
-		<p>
-		The plug-in projects created are:
-		</p>
-		<p>
-		</p>
-		<ul>
-			<li>the Model (org.eclipse.emf.parsley.examples.cdo.model)</li>
-			<li>a Parsley plug-in with a TreeForm (org.eclipse.emf.parsley.examples.cdo.treeform)</li>
-			<li>the webapp (org.eclipse.emf.parsley.examples.cdo.rap)</li>
-		</ul>
-		<p>
-		</p>
-		<p>
-		Then let's start the application
-		</p>
-		<p>
-		</p>
-		<ol>
-			<li>expand plug-in <strong>"org.eclipse.emf.parsley.examples.cdo.rap"</strong></li>
-			<li>right-click "EMF-Parsley_Library_RAP.launch" and click "Run as" "EMF-Parsley_Library_RAP"</li>
-		</ol>
-		<p>
-		</p>
-		<p>
-		If you happen to see this
-		</p>
-		<p>
-		</p>
-		<img src="images/08-rap-refresh.png" class="img-responsive centered" style="margin-top:10px;margin-bottom:10px;">
-		<p>
-		</p>
-		<p>
-		just press the refresh button and should see the following
-		</p>
-		<p>
-		</p>
-		<img src="images/08-rap-cdo-1.png" class="img-responsive centered" style="margin-top:10px;margin-bottom:10px;">
-		<p>
-		</p>
-		<p>
-		Now feel free to open the same address from more browsers window (yes, on different machines or devices, possibly)
-		and see the power of this technology stack at work!
-		</p>
-		<p>
-		</p>
-		<img src="images/08-rap-cdo-2.png" class="img-responsive centered" style="margin-top:10px;margin-bottom:10px;">
-		<p>
-		</p>
-	</div>
-		</div>
-	</div>
-	 <hr style="width:64.6%;margin-bottom:28px;margin-top:30px;" class="col-md-8 col-md-offset-3"> 
-	<div class="row featurette">
-		<div class="col-md-8 col-md-offset-3">
-			<h1 id="par" class="featurette-heading text-parsley">Eclipse 4.x</h1>
-			<p>
-			Instead of using the Extension Point mechanism, EMF Parsley leverages from DSL and Google Guice Injection.
-			</p>
-			<p>
-			Because of this, it is very easy to use it with Eclipse 4.x (e4).
-			</p>
-	</br>
-	<div >
-		<h2 id="par" class="featurette-heading text-parsley1">First Example Setup</h2>
 	<p>
 	If you followed the steps described in section <a href="#addref" rel="First Example">First Example</a> you will have already
 	what we need to begin. Otherwise the following wizard will bring you to that point.
@@ -3101,10 +3043,15 @@
 	instance (but, of course, just defining a product you could have a standalone 3.x application) with a
 	view (called "My Library Tree Form") that allowed to manage the model.
 	</p>
-	</div>
-	</br>
-	<div >
-		<h2 id="par" class="featurette-heading text-parsley1">Preparing for a pure e4 Application</h2>
+	<p>
+	</p>
+	<ol>
+	</ol>
+	<p>
+	</p>
+	<p>
+	<strong>Preparing for a pure e4 Application</strong>
+	</p>
 	<p>
 	What we will do now is starting from the previous step and create an e4 Application (on top of
 	the previous plug-ins) that gets to the same result, but now with a pure e4 Part.
@@ -3112,10 +3059,15 @@
 	<p>
 	In order to do this we need to export the <strong>"org.eclipse.emf.parsley.examples.firstexample"</strong> package from the first plug-in.
 	</p>
-	</div>
-	</br>
-	<div >
-		<h2 id="par" class="featurette-heading text-parsley1">Create an e4 Application</h2>
+	<p>
+	</p>
+	<ol>
+	</ol>
+	<p>
+	</p>
+	<p>
+	<strong>Create an e4 Application</strong>
+	</p>
 	<p>
 	Now let's create a new, empty, e4 application, e.g. <strong>"org.eclipse.emf.parsley.examples.firstexample.application"</strong>
 	(you can find details on how to create e4 applications in <a href="http://www.rcp-vision.com/?p=4694&lang=en">our
@@ -3124,10 +3076,15 @@
 	<p>
 	Create a Part and ensure that the application starts.
 	</p>
-	</div>
-	</br>
-	<div >
-		<h2 id="par" class="featurette-heading text-parsley1">Using a TreeComposite into an e4 Part</h2>
+	<p>
+	</p>
+	<ol>
+	</ol>
+	<p>
+	</p>
+	<p>
+	<strong>Using a TreeComposite into an e4 Part</strong>
+	</p>
 	<p>
 	In the just created plug-in we need dependencies from the previous plug-ins: so open the <strong>org.eclipse.emf.parsley.examples.firstexample.application/MANIFEST.MF</strong> file, go to <strong>Dependencies</strong>
 	tab and add the three previous plug-ins. Add also <strong>"org.eclipse.emf.parsley"</strong> plug-in.
@@ -3155,8 +3112,6 @@
 		private URI uri = URI.createFileURI(System.getProperty("user.home")
 			+ "/MyLibrary.library");
 	
-		// Guice injector
-		private Injector injector = FirstexampleActivator.getDefault().getInjector();
 	</pre>
 	<p>
 	</p>
@@ -3168,8 +3123,11 @@
 	<pre class="prettyprint" skin="desert">
 	@PostConstruct
 	public void postConstruct(Composite parent) {
+		// Guice injector
+		private Injector injector = FirstexampleInjectorProvider.getInjector();
 	
-		AdapterFactoryEditingDomain editingDomain = injector.getInstance(AdapterFactoryEditingDomain.class);
+		// The EditingDomain is needed for context menu and drag and drop
+		EditingDomain editingDomain = injector.getInstance(EditingDomain.class);
 	
 		ResourceLoader resourceLoader = injector.getInstance(ResourceLoader.class);
 		//load the resource
@@ -3195,6 +3153,11 @@
 	<p>
 	</p>
 	<p>
+	The Google Guice Injector (not to be confused with the Eclipse e4 Injector) is retrieved
+	using the injector provider class generated by the DSL compiler
+	(see also <a href="#InjectorProvider">Obtaining the Injector</a>).
+	</p>
+	<p>
 	If you now run the application you will be able to manage the model:
 	</p>
 	<p>
@@ -3205,10 +3168,15 @@
 	<p>
 	but you will notice that it is not possible to persist the changes to the model.
 	</p>
-	</div>
-	</br>
-	<div >
-		<h2 id="par" class="featurette-heading text-parsley1">Adding the dirty state and Save command</h2>
+	<p>
+	</p>
+	<ol>
+	</ol>
+	<p>
+	</p>
+	<p>
+	<strong>Adding the dirty state and Save command</strong>
+	</p>
 	<p>
 	In order to allow persisting the model changes we have to add the dirty state handling to the part and
 	the Save command to the application.
@@ -3275,12 +3243,269 @@
 	<p>
 	</p>
 	</div>
+	</br>
+	<div >
+		<h2 id="par" class="featurette-heading text-parsley1">RAP</h2>
+	<p>
+	As you may know <a href="http://eclipse.org/rap/">RAP (Remote Application Platform)</a> is a technology that allows you to run an Eclipse RCP application over the web.
+	</p>
+	<p>
+	In order to obtain this goal you have to setup a specific RAP Target Platform, for instance the one that RAP itself provides once you install it.
+	</p>
+	<p>
+	However when you want to use an Eclipse RCP framework over the RAP Platform, you generally have to deal with
+	dependencies, since not all Eclipse frameworks are ready-to-use with RAP, especially those related with the SWT layer.
+	</p>
+	<p>
+	EMF Parsley provides a proper RAP Target Platform that allows you to start leveraging Parsley potentials to the web the same way you have 
+	learned to do with desktop (RCP) development.
+	</p>
+	<p>
+	</p>
+	<ol>
+	</ol>
+	<p>
+	</p>
+	<p>
+	<strong>Installing the RAP Tools</strong>
+	</p>
+	<p>
+	To begin with, you need to install the RAP Tools into the IDE.
+	This can be accomplished with the following steps:
+	</p>
+	<ol>
+		<li>Help -&gt; Install New Software ...</li>
+		<li>select the main Eclipse Update site</li>
+		<li>expand category "Web, XML, Java EE and OSGi Enterprise Development"</li>
+		<li>select "RAP Tools" and complete the installation, restarting the IDE at the end</li>
+		<li>after IDE restarts just close the Welcome page</li>
+	</ol>
+	<p>
+	</p>
+	<p>
+	</p>
+	<ol>
+	</ol>
+	<p>
+	</p>
+	<p>
+	<strong>Setup the EMF Parsley RAP Target Platform</strong>
+	</p>
+	<p>
+	After having installed EMF Parsley as described <a href="https://www.eclipse.org/emf-parsley/download.html">here</a> and
+	created a new workspace, you can setup the EMF Parsley RAP Target Platform in the following way: 
+	</p>
+	<ol>
+		<li>File -&gt; New... -&gt; Example...</li>
+		<li>from Category "Emf Parsley Examples", select "Emf Parsley Rap Target Platform Example"</li>
+		<li>press Next and Finish</li>
+		<li>open the Target Definition file <strong>emf-parsely-rap.target</strong></li>
+		<li>wait until the "Resolving Target Definition" job is done (check the status bar)</li>
+		<li>when finished, click on hyperlink "Set as Target Platform"</li>
+	</ol>
+	<p>
+	</p>
+	<p>
+	You will end up with a RAP-enabled workspace, enhanced by EMF and Parsley!
+	</p>
+	<p>
+	</p>
+	<ol>
+	</ol>
+	<p>
+	</p>
+	<p>
+	<strong>Running the Parsley RAP UI Example</strong>
+	</p>
+	<p>
+	Here is the fastest way to get a working web application with all the stuff put togheter:
+	</p>
+	<ol>
+		<li>File -&gt; New... -&gt; Example...</li>
+		<li>from Category "Emf Parsley Examples", select "Emf Parsley Rap Example"</li>
+		<li>press Next and Finish</li>
+		<li>expand plug-in <strong>"org.eclipse.emf.parsley.examples.rap.ui"</strong></li>
+		<li>right-click "Emf_Parsley_RAP_UI_Example.launch" and click "Run as" "Emf_Parsley_RAP_UI_Example"</li>
+	</ol>
+	<p>
+	</p>
+	<p>
+	What you will get is a web application that allows you to interact with the model instance as you would
+	do in a desktop (RCP) environment.
+	</p>
+	<p>
+	</p>
+	<img src="images/08-rap-ui-example-running.png" class="img-responsive centered" style="margin-top:10px;margin-bottom:10px;">
+	<p>
+	</p>
+	<p>
+	In this web application you can see two views: 
+	</p>
+	<ul>
+		<li>the one on the left is a read-only view; it just reflects the model content, but it does not react to changes (the classic Eclipse dirty indicator is not triggered
+		by changes) and you are not able to save. Its model is created in class <strong>org.eclipse.emf.parsley.examples.rap.ui.GuiceModule.CustomResourceManager</strong>
+		and is not persisted</li>
+		<li>the view on the right is instead a Saveable view and therefore it not only triggers the dirty state after
+		a change, but also allows you to save the modifications with the automatic dirty state reset. Its model
+		is persisted in file <strong>System.getProperty("java.io.tmpdir")+"/My.model")</strong></li>
+	</ul>
+	<p>
+	</p>
+	<p>
+	Of course, since this is a web application, you can also open a browser on another pc or device on the same network and type the address,
+	replacing 127.0.0.1 with the IP of the machine where the application was launched.
+	</p>
+	<p>
+	</p>
+	<ol>
+	</ol>
+	<p>
+	</p>
+	<p>
+	<strong>Running the Parsley RAP CDO Example</strong>
+	</p>
+	<p>
+	The EMF default XMI persistence is certainly very handy to start with, but as soon as you want a more
+	production-ready EMF persistence architecture, well, <a href="http://wiki.eclipse.org/CDO">CDO</a> is for sure the way to go.
+	In fact with CDO you basically have an EMF model instance shared between clients, that also allows the
+	clients to be synchronized with the model changes.
+	</p>
+	<p>
+	In this example, in order to keep things simple, we will use CDO with an in-memory store (MEMStore) whose contents will be lost once the server is stopped.
+	However CDO can be configured for usage with RDBMS, Object-oriented or NO-SQL databases (see <a href="http://eclipse.org/cdo/documentation/">here</a> for details)
+	</p>
+	<p>
+	To start with we need a CDO Server running and we can obtain it with an example plugin that can be used
+	both in an RCP and in a RAP workspace.
+	</p>
+	<p>
+	</p>
+	<ol>
+		<li>File -&gt; New... -&gt; Example...</li>
+		<li>from Category "Emf Parsley Examples", select "Emf Parsley Cdo Server Example"</li>
+		<li>press Next and Finish</li>
+		<li>expand plug-in <strong>"org.eclipse.emf.parsley.examples.cdo.server"</strong></li>
+		<li>right-click "CDOServerExample.launch" and click "Run as" "CDOServerExample"</li>
+		<li>a message on the Console <strong>"Repository[demo] started!"</strong> informs that the CDO Server instance
+			is started!</li>
+	</ol>
+	<p>
+	</p>
+	<p>
+	Now we can create the web application that will use the CDO server just started.
+	</p>
+	<p>
+	</p>
+	<ol>
+		<li>File -&gt; New... -&gt; Example...</li>
+		<li>from Category "Emf Parsley Examples", select "Emf Parsley Rap Cdo Example"</li>
+		<li>press Next and Finish</li>
+	</ol>
+	<p>
+	</p>
+	<p>
+	The plug-in projects created are:
+	</p>
+	<p>
+	</p>
+	<ul>
+		<li>the Model (org.eclipse.emf.parsley.examples.cdo.model)</li>
+		<li>a Parsley plug-in with a TreeForm (org.eclipse.emf.parsley.examples.cdo.treeform)</li>
+		<li>the webapp (org.eclipse.emf.parsley.examples.cdo.rap)</li>
+	</ul>
+	<p>
+	</p>
+	<p>
+	Then let's start the application
+	</p>
+	<p>
+	</p>
+	<ol>
+		<li>expand plug-in <strong>"org.eclipse.emf.parsley.examples.cdo.rap"</strong></li>
+		<li>right-click "EMF-Parsley_Library_RAP.launch" and click "Run as" "EMF-Parsley_Library_RAP"</li>
+	</ol>
+	<p>
+	</p>
+	<p>
+	If you happen to see this
+	</p>
+	<p>
+	</p>
+	<img src="images/08-rap-refresh.png" class="img-responsive centered" style="margin-top:10px;margin-bottom:10px;">
+	<p>
+	</p>
+	<p>
+	just press the refresh button and should see the following
+	</p>
+	<p>
+	</p>
+	<img src="images/08-rap-cdo-1.png" class="img-responsive centered" style="margin-top:10px;margin-bottom:10px;">
+	<p>
+	</p>
+	<p>
+	Now feel free to open the same address from more browsers window (yes, on different machines or devices, possibly)
+	and see the power of this technology stack at work!
+	</p>
+	<p>
+	</p>
+	<img src="images/08-rap-cdo-2.png" class="img-responsive centered" style="margin-top:10px;margin-bottom:10px;">
+	<p>
+	</p>
+	</div>
 		</div>
 	</div>
 	 <hr style="width:64.6%;margin-bottom:28px;margin-top:30px;" class="col-md-8 col-md-offset-3"> 
 	<div class="row featurette">
 		<div class="col-md-8 col-md-offset-3">
 			<h1 id="par" class="featurette-heading text-parsley">Migration Guide</h1>
+	</br>
+	<div >
+		<h2 id="par" class="featurette-heading text-parsley1">From 0.6.0 to 0.7.0</h2>
+	<p>
+	</p>
+	<ul>
+		<li><strong>Multiple DSL files in the same project</strong>: thanks to the radical change to the structure
+		of EMF Parsley projects, detailed in the following, it is now possible to define several
+		<strong>.parsley</strong> files in the same project.</li>
+		<li><strong>Structure of projects</strong>: the structure of EMF Parsley projects has radically changed
+		(see <a href="#DslProjectStructure">The structure of an EMF Parsley project</a>).
+		If you have existing projects you need to perform these steps to adjust the compilation errors you will
+		get:<ol>
+			<li>Remove the executable extension factory class from the <strong>src</strong> folder (the DSL will now generate it in the
+			<strong>emfparsley-gen</strong> source folder)
+			<img src="images/project-migration-exec-ext-fact.png" class="img-responsive centered" style="margin-top:10px;margin-bottom:10px;"></li>
+			<li>Remove the guice module from the <strong>src</strong> folder, in the example above, it is <strong>FirstexampleGuiceModule</strong></li>
+			<li>Modify the activator: instead of extending <strong>EmfParsleyAbstractActivator</strong> it must extend the
+			standard <abbr title="org.eclipse.ui.plugin.AbstractUIPlugin">AbstractUIPlugin</abbr>
+			; then remove the method<pre class="prettyprint" skin="desert">
+			public EmfParsleyGuiceModule createModule()
+			</pre></li>
+			<li>Manually remove all the contents of the <strong>emfparsley-gen</strong> folder (the name of the generated
+			classes are now prefixed with the module name, but the previously generated ones might still be there)
+			<img src="images/project-migration-clean-gen.png" class="img-responsive centered" style="margin-top:10px;margin-bottom:10px;"></li>
+			<li>Perform a "clean" on the project (so that the contents of <strong>emfparsley-gen</strong> are generated)</li>
+			<li>Read the next part about <strong>plugin.xml</strong></li>
+		</ol></li>
+		<li><strong>The plugin.xml and the new EMF Parsley builder</strong>: the way we handle the
+		<strong>plugin.xml</strong> has improved, and we also automatically merge subsequent changes in the
+		DSL file <strong>parts</strong> section.  Please have a look at <a href="#PluginXml">How the DSL handles the plugin.xml</a> for
+		the details.IMPORTANT: This merging takes place ONLY if your project has the <strong>EMF Parsley builder nature</strong>.
+		Since version 0.6.1 this nature is automatically applied to the projects created with our wizard.
+		In existing projects, you have to enable the nature yourself by right-clicking on the project,
+		then "Configure" and then "Enable EMF Parsley builder.Once you added this new nature, please remove the <strong>plugin.xml_emfparsley_gen</strong> from the root
+		of your project, and perform a clean of the project.</li>
+		<li><strong>InjectorProvider</strong>: the activator generated by the project wizard does not provide
+		anymore a means to retrieve the injector.  This functionality is now implemented by an <strong>InjectorProvider</strong>
+		class which is automatically generated for each DSL module (see <a href="#InjectorProvider">Obtaining the Injector</a>).For example, in the first example,
+		<a href="#addref" rel="First Example">First Example</a>, instead of doing<pre class="prettyprint" skin="desert">
+		FirstexampleActivator.getDefault().getInjector();
+		</pre>you need to do<pre class="prettyprint" skin="desert">
+		FirstexampleInjectorProvider.getInjector();
+		</pre></li>
+	</ul>
+	<p>
+	</p>
+	</div>
 	</br>
 	<div >
 		<h2 id="par" class="featurette-heading text-parsley1">From 0.5.0 to 0.6.0</h2>
@@ -3509,7 +3734,8 @@
 							<li><a href="download.html">Download</a></li>
 							<li><a href="documentation.html">Documentation</a></li>
 							<li><a href="sources.html">Sources</a></li>
-							<li style="border-right: 0 none;"><a href="support.html">Support</a></li>
+							<li><a href="support.html">Support</a></li>
+							<li style="border-right: 0 none;"><a href="userReviews.html">UserReviews</a></li>
 						</ul>
 					</div><!-- /.navbar-collapse -->
 				</div>
