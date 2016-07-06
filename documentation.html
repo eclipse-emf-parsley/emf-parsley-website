@@ -180,6 +180,7 @@
 			<li><a class="submenu" tabindex="-1" href="#par">RAP</a></li>
 			<li class="divider"></li>
 			<li><a tabindex="-1" href="#par">Migration Guide</a></li>
+			<li><a class="submenu" tabindex="-1" href="#par">From 0.7.0 to 1.0.0</a></li>
 			<li><a class="submenu" tabindex="-1" href="#par">From 0.6.0 to 0.7.0</a></li>
 			<li><a class="submenu" tabindex="-1" href="#par">From 0.5.0 to 0.6.0</a></li>
 			<li><a class="submenu" tabindex="-1" href="#par">From 0.4 to 0.5</a></li>
@@ -3458,6 +3459,19 @@
 	<div class="row featurette">
 		<div class="col-md-8 col-md-offset-3">
 			<h1 id="par" class="featurette-heading text-parsley">Migration Guide</h1>
+	</br>
+	<div >
+		<h2 id="par" class="featurette-heading text-parsley1">From 0.7.0 to 1.0.0</h2>
+	<p>
+	</p>
+	<ul>
+		<li><strong>API changes</strong> If in your custom <strong>ControlFactory</strong> you were using the field
+		<strong>edbc</strong> you should now use the getter <strong>getDatabindingContext()</strong>. Similarly for the field
+		<strong>domain</strong>: use <strong>getEditingDomain()</strong>.</li>
+	</ul>
+	<p>
+	</p>
+	</div>
 	</br>
 	<div >
 		<h2 id="par" class="featurette-heading text-parsley1">From 0.6.0 to 0.7.0</h2>
