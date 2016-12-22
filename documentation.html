@@ -2391,10 +2391,10 @@
 					target { observeText }
 				Writer : firstName -&gt; 
 					toolkit.createLabel(parent, "")
-					target observeText(SWT::Modify)
+					target observeText(SWT.Modify)
 				Borrower : firstName -&gt; {
-					createText(firstName, SWT::MULTI, SWT::BORDER,
-										SWT::WRAP, SWT::V_SCROLL)
+					createText(firstName, SWT.MULTI, SWT.BORDER,
+										SWT.WRAP, SWT.V_SCROLL)
 				}
 			}
 		}
@@ -2407,20 +2407,50 @@
 		 
 		If you want to customize the controls in Java, you can extend the class <abbr title="org.eclipse.emf.parsley.composite.FormControlFactory">FormControlFactory</abbr>
 		.
-		Using the same polimorphic mechanism of the labels, the programmer can write a method with the keyword <strong>'control'</strong>
-		followed by the EClass and EStructuralFeature undescore-character-separated. The method
-		must accept as parameters the <strong>DataBinding Context</strong> and the <strong>Feature Observable</strong> that can be used for databinding.
+		Using the same polimorphic mechanism of the labels, the programmer can write a method
+		with name starting with <strong>'control'</strong>
+		followed by the names of the EClass and of the EStructuralFeature undescore-character-separated.
+		</p>
+		<p>
+		The method must accept as parameters the <strong>Source Observable</strong> and the <strong>feature</strong>;
+		the superclass' method <strong>bindValue</strong> can be used for databinding.
+		The <abbr title="org.eclipse.emf.parsley.util.DatabindingUtil">DatabindingUtil</abbr>
+		 utility class can be used
+		for creating the target observable.
+		Here's an example
 		</p>
 		<p>
 		</p>
 		<pre class="prettyprint" skin="desert">
-		public Control control_Writer_name(DataBindingContext dbc,IObservableValue featureObservable) {
-			//Creating the control
+		public Control control_Writer_name(IObservableValue source, EStructuralFeature f) {
+			// Creating the control
 			Text text = getToolkit().createText(getParent(), "");
 			text.setData(FormToolkit.KEY_DRAW_BORDER, FormToolkit.TREE_BORDER);
 			text.setBackground(getToolkit().getColors().getColor(IFormColors.TITLE));
-			//Binding the control to the feature observable
-			dbc.bindValue(SWTObservables.observeText(text, SWT.Modify),	featureObservable);
+			// Perform databinding; params: feature, target, source
+			bindValue(f, DatabindingUtil.observeText(text), source);
+			return text;
+		}
+		</pre>
+		<p>
+		</p>
+		<p>
+		Another form of the method's parameters is also taken into consideration
+		during the polymorphic dispatch. This is the old form and it will be likely
+		deprecated in the future:
+		the method must accept as parameters the <strong>DataBinding Context</strong> and the <strong>Feature Observable</strong>
+		that can be used for databinding. Here's an example:
+		</p>
+		<p>
+		</p>
+		<pre class="prettyprint" skin="desert">
+		public Control control_Writer_name(DataBindingContext dbc, IObservableValue featureObservable) {
+			// Creating the control
+			Text text = getToolkit().createText(getParent(), "");
+			text.setData(FormToolkit.KEY_DRAW_BORDER, FormToolkit.TREE_BORDER);
+			text.setBackground(getToolkit().getColors().getColor(IFormColors.TITLE));
+			// Binding the control to the feature observable
+			dbc.bindValue(SWTObservables.observeText(text, SWT.Modify), featureObservable);
 			return text;
 		}
 		</pre>
@@ -2900,6 +2930,23 @@
 	with the default Guice bindings, upon saving, if validation finds errors, it will
 	cancel the saving and it will show a dialog with errors.
 	</p>
+	<p>
+	Validation is also automatically triggered when editing object's properties in a form
+	or in a dialog. The editing field will be decorated with an error
+	and a tooltip with the error message. Here's an example based on the Library model.
+	</p>
+	<p>
+	</p>
+	<img src="images/form-validation.png" class="img-responsive centered" style="margin-top:10px;margin-bottom:10px;">
+	<p>
+	</p>
+	<p>
+	Please keep in mind that for forms and dialogs the error decorations are based on
+	specific features of the object being edited and validated.  If you have a custom
+	EMF validator you need to make sure to specify the <abbr title="org.eclipse.emf.ecore.EStructuralFeature">EStructuralFeature</abbr>
+	
+	when creating a diagnostic error.
+	</p>
 	</div>
 		</div>
 	</div>
@@ -2963,7 +3010,7 @@
 		<h2 id="par" class="featurette-heading text-parsley1">Testing Framework</h2>
 	<p>
 	We provide some utility classes for testing <strong>EMF Parsley</strong> components in the feature
-	"Emf Parsley Junit4 Support".  By deriving from one of the abstract classes in our
+	"EMF Parsley Junit4 Support".  By deriving from one of the abstract classes in our
 	testing bundle, you will be able to write tests that are meant to be run as Junit test,
 	that is to say, NOT as Plug-in Junit tests.  Thus, you will not need a running Eclipse product
 	to execute such tests: they will be much faster.  Indeed, many parts of Parsley can
@@ -3022,7 +3069,7 @@
 	</p>
 	<ol>
 		<li>File -&gt; New... -&gt; Example...</li>
-		<li>from Category "Emf Parsley Examples", select "Emf Parsley First Example"</li>
+		<li>from Category "EMF Parsley Examples", select "EMF Parsley First Example"</li>
 		<li>press Next and Finish</li>
 	</ol>
 	<p>
@@ -3298,7 +3345,7 @@
 	</p>
 	<ol>
 		<li>File -&gt; New... -&gt; Example...</li>
-		<li>from Category "Emf Parsley Examples", select "Emf Parsley Rap Target Platform Example"</li>
+		<li>from Category "EMF Parsley Examples", select "EMF Parsley RAP Target Platform Example"</li>
 		<li>press Next and Finish</li>
 		<li>open the Target Definition file <strong>emf-parsely-rap.target</strong></li>
 		<li>wait until the "Resolving Target Definition" job is done (check the status bar)</li>
@@ -3323,7 +3370,7 @@
 	</p>
 	<ol>
 		<li>File -&gt; New... -&gt; Example...</li>
-		<li>from Category "Emf Parsley Examples", select "Emf Parsley Rap Example"</li>
+		<li>from Category "EMF Parsley Examples", select "EMF Parsley RAP Example"</li>
 		<li>press Next and Finish</li>
 		<li>expand plug-in <strong>"org.eclipse.emf.parsley.examples.rap.ui"</strong></li>
 		<li>right-click "Emf_Parsley_RAP_UI_Example.launch" and click "Run as" "Emf_Parsley_RAP_UI_Example"</li>
@@ -3383,7 +3430,7 @@
 	</p>
 	<ol>
 		<li>File -&gt; New... -&gt; Example...</li>
-		<li>from Category "Emf Parsley Examples", select "Emf Parsley Cdo Server Example"</li>
+		<li>from Category "EMF Parsley Examples", select "EMF Parsley CDO Server Example"</li>
 		<li>press Next and Finish</li>
 		<li>expand plug-in <strong>"org.eclipse.emf.parsley.examples.cdo.server"</strong></li>
 		<li>right-click "CDOServerExample.launch" and click "Run as" "CDOServerExample"</li>
@@ -3399,7 +3446,7 @@
 	</p>
 	<ol>
 		<li>File -&gt; New... -&gt; Example...</li>
-		<li>from Category "Emf Parsley Examples", select "Emf Parsley Rap Cdo Example"</li>
+		<li>from Category "EMF Parsley Examples", select "EMF Parsley RAP CDO Example"</li>
 		<li>press Next and Finish</li>
 	</ol>
 	<p>
