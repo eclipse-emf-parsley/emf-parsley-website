@@ -673,7 +673,7 @@
 			<p>
 			if you now perform a <strong>"Save"</strong> action the persistence mechanism will trigger and you will see that file 
 			</p>
-			&lt;user.home&gt;/MyLibrary.library
+			<pre class="prettyprint" skin="desert">&lt;user.home&gt;/MyLibrary.library</pre>
 			<p>
 			
 			is being created on the file system. From now on, this file will keep the state of the model object whenever
@@ -2966,11 +2966,11 @@
 	</p>
 	<p>
 	This is a typical configuration (a complete example can be found here:
-	<a href="http://git.eclipse.org/c/emf-parsley/org.eclipse.emf-parsley.git/tree/examples/org.eclipse.emf.parsley.examples.maven">http://git.eclipse.org/c/emf-parsley/org.eclipse.emf-parsley.git/tree/examples/org.eclipse.emf.parsley.examples.maven</a>):
+	<a href="https://github.com/eclipse-emf-parsley/emf-parsley/blob/master/tests/org.eclipse.emf.parsley.tests.views/pom.xml">https://github.com/eclipse-emf-parsley/emf-parsley/blob/master/tests/org.eclipse.emf.parsley.tests.views/pom.xml</a>):
 	</p>
 	<p>
 	</p>
-	
+	<pre class="prettyprint" skin="desert">
 	&lt;plugin&gt;
 		&lt;groupId&gt;org.eclipse.xtext&lt;/groupId&gt;
 		&lt;artifactId&gt;xtext-maven-plugin&lt;/artifactId&gt;
@@ -2997,11 +2997,12 @@
 		&lt;dependencies&gt;
 			&lt;dependency&gt;
 				&lt;groupId&gt;org.eclipse.emf.parsley&lt;/groupId&gt;
-				&lt;artifactId&gt;org.eclipse.emf.parsley.dsl.standalone&lt;/artifactId&gt;
+				&lt;artifactId&gt;org.eclipse.emf.parsley.dsl&lt;/artifactId&gt;
 				&lt;version&gt;${parsley-version}&lt;/version&gt;
 			&lt;/dependency&gt;
 		&lt;/dependencies&gt;
 	&lt;/plugin&gt;
+	</pre>
 	<p>
 	</p>
 	</div>
